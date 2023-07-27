@@ -3,6 +3,24 @@
 {% load static %}
 
 {% block content %}
+<style>
+    .container div {
+        width: 250px;
+        height: auto;
+        border-radius: 1rem;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+    }
+
+</style>
+
 <div>
     <div style="text-align: center; max-width: 500px; margin: 2rem auto;">
         {% if target_user.profile_image %}
@@ -21,6 +39,33 @@
                 <btn class="btn btn-danger rounded-pill col-6 mt-3">탈퇴</btn>
             </a>
         {% endif %}
+    </div>
+    <div>
+        {% with image_post_list=target_user.image_post.all %}
+        {% comment %} images/list.html {% endcomment %}
+        {% if image_post_list %}
+            <div class="container">
+                {% for image_post in image_post_list %}
+                    <a href="{% url 'images:detail' pk=image_post.pk %}">
+                        {% include 'snippets/card.html' with image_post=image_post %}
+                    </a>
+                {% endfor %}
+            </div>
+            <script src="{% static 'js/magicgrid.js' %}"></script>
+        {% else %}
+            <div style="text-align: center;">
+                <h1>No Image Post Yet.</h1>
+            </div>
+        {% endif %}
+        {% include 'snippets/pagination.html' with page_obj=page_obj %}
+        {% if target_user == user %}
+        <div style="text-align: center;">
+            <a href="{% url 'images:create' %}">
+                <btn class="btn btn-dark rounded-pill col-3 mt-3 mb-3">Create Image Post</btn>
+            </a>
+        </div>
+        {% endif %}
+        {% endwith %}
     </div>
 </div>
 {% endblock %}
