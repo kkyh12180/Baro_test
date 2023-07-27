@@ -22,12 +22,15 @@
                     style="width: 100%; height: 100%"
                 >
                     <img
+                        name="img_box"
                         class="d-block"
                         src="data:image/jpeg;base64,{{ first_image.image_file }}"
                         alt="First slide"
                         style="width: 100%; height: 100%; object-fit: contain"
+                        onclick="showInfo()"
                     />
                     <div
+                        name="exifBox"
                         class="carousel-caption d-none d-md-block align-middle"
                         style="
                             background-color: rgba(0, 0, 0, 0.7);
@@ -39,9 +42,10 @@
                             left: 0%;
                             color: #fff;
                             text-align: center;
-                            padding: 4rem 0;
-                            display: block;
+                            padding: 7rem 4rem 1rem;
+                            display: none !important;
                         "
+                        onclick="hideInfo()"
                     >
                         <div class="align-middle">
                             <p>prompts: {{first_image_pos}}</p>
@@ -62,12 +66,15 @@
                 {% endif %} {% if image_list %} {% for image in image_list %}
                 <div class="carousel-item" style="width: 100%; height: 100%">
                     <img
+                        name="img_box"
                         class="d-block"
                         src="data:image/jpeg;base64,{{ image.0.image_file }}"
                         alt="Second slide"
                         style="width: 100%; height: 100%; object-fit: contain"
+                        onclick="showInfo()"
                     />
                     <div
+                        name="exifBox"
                         class="carousel-caption d-none d-md-block align-middle"
                         style="
                             background-color: rgba(0, 0, 0, 0.7);
@@ -79,9 +86,10 @@
                             left: 0%;
                             color: #fff;
                             text-align: center;
-                            padding: 4rem 0;
-                            display: block;
+                            padding: 7rem 4rem 1rem;
+                            display: none !important;
                         "
+                        onclick="hideInfo()"
                     >
                         <div class="align-middle">
                             <p>prompts: {{image.1}}</p>
@@ -216,12 +224,29 @@
             {% endif %} {% comment %} comment {% endcomment %}
             <div style="height: 55%; overflow-y: scroll">
                 {% include 'comments/create.html' with post=target_post %} 
-                {% for comment in target_post.image_comment.all %} 
-                    {% include 'comments/detail.html' with comment=comment.comment%} 
-                {% endfor %}
+                    {% for comment in target_post.image_comment.all %} 
+                        {% include 'comments/detail.html' with comment=comment.comment%} 
+                    {% endfor %}
             </div>
         </div>
     </div>
 </div>
-<script></script>
+<script>
+    function hideInfo() {
+        const exifDivs = document.getElementsByName('exifBox');
+        
+        for (exifDiv of exifDivs) {
+            if (exifDiv.style.display !== 'none')
+                exifDiv.style.setProperty('display', 'none', 'important')
+        }
+    }
+    function showInfo() {
+        const exifDivs = document.getElementsByName('exifBox');
+        
+        for (exifDiv of exifDivs) {
+            if (exifDiv.style.display == 'none')
+                exifDiv.style.setProperty('display', 'block', 'important')
+        }
+    }
+</script>
 {% endblock %}
