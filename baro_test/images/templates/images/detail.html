@@ -66,6 +66,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+
         {% comment %} else data {% endcomment %}
         <div class="col-2">
             <div class="title" style="text-align: center; margin-top: 1rem">
@@ -107,7 +108,9 @@
                     "
                 />
                 {% endif %} &nbsp;&nbsp;&nbsp;
-                <strong>{{ target_post.user.username }}</strong>
+                <a href = "{% url 'account:detail' pk=target_post.user.pk %}">
+                    <strong>{{ target_post.user.username }}</strong>
+                </a>
             </div>
             <div
                 style="
