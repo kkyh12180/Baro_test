@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .container{
+        padding: 0;
+        margin: 0, auto;
+    }
+    .container a{
+        witdh: 45%;
+        max-width: 250px;
+    }
+    .container div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+      }
+      .container img{
+        width: 100%;
+        border-radius: 1rem;
+      }
+</style>
+{% if post_list %}
+<div class="container">
+    {% for post in post_list %}
+    <a href = "{% url 'post:detail' pk=post.pk %}">
+        {{post.title}}
+        {{post.pk}}
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div style="text-align:center;">
+    <h1> no post yet!</h1>
+</div>
+{% endif %}
+{% include 'snippets/pagination.html' with page_obj=page_obj %}
+<div style="text-align:center;">
+    <a href="{% url 'post:create' %}" class="btn btn-outline-info rounded-pill mt-3 mb-3 px-2">
+        create post
+    </a>
+</div>
+<script src ="{% static 'js/magicgrid.js' %}"></script>
+{% endblock %}
+

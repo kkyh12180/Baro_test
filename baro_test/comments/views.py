@@ -29,7 +29,7 @@ class CommentCreateView(CreateView):
         cid = ""
         while (True) :
             letters_set = string.ascii_letters
-            num = random.randrange(1, 15) # 1부터 9 사이의 난수 생성
+            num = random.randrange(1, 15) # 1부터 14 사이의 난수 생성
             random_list = random.sample(letters_set, num)
             random_str = f"C{''.join(random_list)}"
 

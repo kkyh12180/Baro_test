@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block content %}
+    <style>
+        .testing{
+            background-color: white;
+            height: 3rem;
+            width: 3rem;
+            margin: 1rem;
+        }
+    </style>
+    <div style="text-align: center;max-width: 500px; margin: 4rem auto;">
+        <h1 class="pragmatic_logo">
+            Delete Post : {{target_post.title}}
+        </h1>
+        <form action="{% url 'post:delete' pk=target_post.pk %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger rounded-pill col-6 mt-3">
+        </form>
+    </div>
+{% endblock  %}

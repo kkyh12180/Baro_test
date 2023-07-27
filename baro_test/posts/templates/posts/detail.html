@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% load static%}
+{% block content %}
+    <div class="title" style="text-align: center; margin-top: 1rem">
+        <h4 style="font-family: 'GmarketSansMedium'">
+            {{ target_post.title }}
+        </h4>
+        <a href ="{% url 'account:detail' pk=target_post.user.pk %}">
+            <h5> {{target_post.user.username}}</h5>
+        </a>
+    </div>
+    <div
+        class="user-info-container"
+        style="
+            display: flex;
+            align-items: flex-end;
+            margin-top: 2rem;
+        "
+    >
+        {% if target_post.user.profile_image %}
+        <img
+            src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
+            alt=""
+            style="
+                border: 1px solid black;
+                height: 5rem;
+                width: 5rem;
+                border-radius: 20rem;
+                object-fit: cover;
+            "
+        />
+        {% else %}
+        <img
+            src="{% static 'images/no_profile.png'%}"
+            alt=""
+            style="
+                border: 1px solid black;
+                height: 5rem;
+                width: 5rem;
+                border-radius: 20rem;
+                object-fit: cover;
+            "
+        />
+        {% endif %} &nbsp;&nbsp;&nbsp;
+        <a href = "{% url 'account:detail' pk=target_post.user.pk %}">
+            <strong>{{ target_post.user.username }}</strong>
+        </a>
+    </div>
+    <div
+        style="
+            border: 1px solid black;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            padding: 1rem 1rem;
+        "
+    >
+        <p>{{ target_post.content }}</p>
+        <strong>{{ target_post.post_time }}</strong>
+    </div>
+    {% if target_post.user == user %}
+    <div
+        class="user-info-container"
+        style="
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            margin-top: 1.2rem;
+            justify-content: flex-end;
+        "
+    >
+        <div style="text-align: center">
+            <a href="{% url 'post:update' pk=target_post.pk %}">
+                <btn
+                    class="btn btn-dark rounded-pill"
+                    style="font-family: 'GmarketSansMedium'"
+                    >수정</btn
+                >
+            </a>
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        <div style="text-align: center">
+            <a href="{% url 'post:delete' pk=target_post.pk %}">
+                <btn
+                    class="btn btn-danger rounded-pill"
+                    style="font-family: 'GmarketSansMedium'"
+                    >삭제</btn
+                >
+            </a>
+        </div>
+    </div>
+    {% endif %} {% comment %} comment {% endcomment %}
+    <div style="height: 55%; overflow-y: scroll">
+        {% include 'comments/create.html' with post=target_post %} 
+            {% for comment in target_post.image_comment.all %} 
+                {% include 'comments/detail.html' with comment=comment.comment%} 
+            {% endfor %}
+    </div>
+{% endblock  %}
