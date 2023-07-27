@@ -8,6 +8,7 @@
         class="row"
         style="width: 100%; height: 100%; margin-left: 0; margin-right: 0"
     >
+        {% comment %} image {% endcomment %}
         <div
             id="carouselExample"
             class="carousel slide col-10"
@@ -65,6 +66,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        {% comment %} else data {% endcomment %}
         <div class="col-2">
             <div class="title" style="text-align: center; margin-top: 1rem">
                 <h4 style="font-family: 'GmarketSansMedium'">
@@ -150,6 +152,14 @@
                 </div>
             </div>
             {% endif %}
+
+            {% comment %} comment {% endcomment %}
+            <div style="height: 55%; overflow-y: scroll;">
+                {% include 'comments/create.html' with post=target_post %}
+                {% for comment in target_post.image_comment.all %}
+                    {% include 'comments/detail.html' with comment=comment.comment%}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
