@@ -29,7 +29,7 @@ class CommentCreateView(CreateView):
         cid = ""
         while (True) :
             letters_set = string.ascii_letters
-            num = random.randrange(1, 15) # 1부터 9 사이의 난수 생성
+            num = random.randrange(1, 15) # 1부터 14 사이의 난수 생성
             random_list = random.sample(letters_set, num)
             random_str = f"C{''.join(random_list)}"
 
@@ -40,19 +40,32 @@ class CommentCreateView(CreateView):
                 break
         temp_comment.comment_id = cid
         temp_comment.save()
-        
-        #Image_comment 생성
-        temp_image_comment = ImageComment()
-        temp_image_comment.comment=temp_comment
-        temp_image_comment.image_post=ImagePost.objects.get(pk=self.request.POST['post_pk'])
-        temp_image_comment.save()
+        temp_pk=self.request.POST['post_pk']
 
+        #pk_id 파악
+        if temp_pk[0]=="I":
+            #Image_comment 생성
+            temp_image_comment = ImageComment()
+            temp_image_comment.comment=temp_comment
+            temp_image_comment.image_post=ImagePost.objects.get(pk=temp_pk)
+            temp_image_comment.save()
+        else :
+            #Post_comment 생성
+            temp_post_comment = PostComment()
+            temp_post_comment.comment=temp_comment
+            temp_post_comment.post=Post.objects.get(pk=temp_pk)
+            temp_post_comment.save()
         return super().form_valid(form)
     
     def get_success_url(self):
         image_coms = self.object.image_comment.all()
-        image_com=image_coms[0]
-        return reverse('images:detail',kwargs={'pk':image_com.image_post.pk})
+        if image_coms:
+            image_com=image_coms[0]
+            return reverse('images:detail',kwargs={'pk':image_com.image_post.pk})
+        post_coms = self.object.post_comment.all()
+        print(post_coms)
+        post_com=post_coms[0]
+        return reverse('post:detail',kwargs={'pk':post_com.post.pk})
 
 @method_decorator(comment_ownership_required,'get')
 @method_decorator(comment_ownership_required,'post')
@@ -60,8 +73,12 @@ class CommentDeleteView(DeleteView):
     model = Comment
     context_object_name = 'target_comment'
     template_name = 'comments/delete.html'
-
     def get_success_url(self):
         image_coms = self.object.image_comment.all()
-        image_com=image_coms[0]
-        return reverse('images:detail',kwargs={'pk':image_com.image_post.pk})
+        if image_coms:
+            image_com=image_coms[0]
+            return reverse('images:detail',kwargs={'pk':image_com.image_post.pk})
+        post_coms = self.object.post_comment.all()
+        print(post_coms)
+        post_com=post_coms[0]
+        return reverse('post:detail',kwargs={'pk':post_com.post.pk})
