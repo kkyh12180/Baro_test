@@ -1,0 +1,22 @@
+{% load bootstrap5 %}
+<style>
+    .form-group textarea.form-control{
+        height: 100px;
+    }
+</style>
+<div style="text-align: center;max-width: 500px; margin: 4rem auto;">
+    <form action="{% url 'comment:create' %}" method="POST">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+        <div class="form-group">
+        {% bootstrap_form form %}
+        </div>
+        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+        {% else %}
+        <a href="{% url 'account:signin' %}?next={{reqeust.path}}" class="btn btn-dark rounded-pill col-6 mt3">
+            login
+        </a>
+        {% endif %}
+        <input type="hidden" name="post_pk" value="{{post.pk}}">
+    </form>
+</div>

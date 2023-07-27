@@ -13,6 +13,8 @@ from images.models import ImagePost, ImageTable, ImageInPost, ImagePrompt
 from images.forms import ImagePostCreationForm
 from images.Clear_EXIF import get_exif
 from images.decorators import image_post_ownership_required
+from comments.forms import CommentCreationForm
+
 import string
 import random
 # Create your views here.
@@ -160,9 +162,9 @@ class ImagePostListView(ListView) :
     ordering = ['-post_time']
     paginate_by = 20
 
-class ImagePostDetailView(DetailView) :
+class ImagePostDetailView(DetailView, FormMixin) :
     model = ImagePost
-    # form_class = CommentCreationForm
+    form_class = CommentCreationForm
     context_object_name = 'target_post'
     template_name = 'images/detail.html'
 
