@@ -50,12 +50,3 @@ class ImageInPost(models.Model):
 
     class Meta:
         db_table = 'image_in_post'
-
-class ImagePostLike(models.Model):
-    image_post = models.ForeignKey(ImagePost, on_delete=models.CASCADE, related_name='image_post_like')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='image_post_like')
-    image_post_like_time = models.DateTimeField(default=timezone.now)
-    is_good = models.BooleanField(default=True)
-
-    class Meta:
-        db_table = 'image_post_like'

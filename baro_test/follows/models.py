@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import User
 from images.models import ImagePost
+from django.utils import timezone
 
 # Create your models here.
 class BookmarkImagePost(models.Model):
@@ -15,6 +16,7 @@ class LikeImagePost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image_post = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
     likes = models.BooleanField(default=True)
+    like_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'like_image_post'
