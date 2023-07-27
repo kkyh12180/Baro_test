@@ -215,16 +215,13 @@
             </div>
             {% endif %} {% comment %} comment {% endcomment %}
             <div style="height: 55%; overflow-y: scroll">
-                {% include 'comments/create.html' with post=target_post %} {%
-                for comment in target_post.image_comment.all %} {% include
-                'comments/detail.html' with comment=comment.comment%} {% endfor
-                %}
+                {% include 'comments/create.html' with post=target_post %} 
+                {% for comment in target_post.image_comment.all %} 
+                    {% include 'comments/detail.html' with comment=comment.comment%} 
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
-<script>
-
-
-</script>
+<script></script>
 {% endblock %}
