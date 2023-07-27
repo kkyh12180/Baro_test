@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import User
 from images.models import ImagePost
+from posts.models import Post
 
 # Create your models here.
 
@@ -30,4 +31,9 @@ class ImageComment(models.Model):
     class Meta:
         db_table = 'image_comment'
 
-# TODO post comment 추가 예정
+class PostComment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='post_comment')
+
+    class Meta:
+        db_table = 'post_comment'
