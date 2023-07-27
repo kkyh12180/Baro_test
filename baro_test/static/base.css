@@ -1,0 +1,26 @@
+.baro_practice_footer_div {
+    text-align:center;
+    margin-top: 2rem;
+}
+
+.baro_practice_footer_span_div {
+    font-size: 1rem;
+}
+
+.baro_practice_footer_logo_div {
+    margin-top: 1rem;
+}
+
+.baro_practice_footer_logo {
+    margin-top: 1rem;
+    font-family: 'Cherry Bomb One', cursive;
+}
+
+.baro_practice_header_div {
+    text-align:center;
+    margin: 2rem 0;
+}
+
+.baro_practice_header_logo {
+    font-family: 'Cherry Bomb One', cursive;
+}

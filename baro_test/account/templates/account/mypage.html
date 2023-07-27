@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% load static %}
+
+{% block content %}
+<div>
+    <div style="text-align: center; max-width: 500px; margin: 2rem auto;">
+        {% if target_user.profile_image %}
+            <img src="data:image/jpeg;base64,{{ target_user.profile_image }}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem; object-fit: cover;">
+        {% else %}
+            <img src="{% static 'images/no_profile.png'%}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem; object-fit: cover;">
+        {% endif %}
+
+        <h2 style="font-family: 'GmarketSansBold';">{{ target_user.username }}</h2>
+
+        {% if target_user == user %}
+            <a href="{% url 'account:edit' pk=user.user_id %}" style="text-decoration-line: none;">
+                <btn class="btn btn-dark rounded-pill col-6 mt-3">개인정보 변경</btn>
+            </a>
+            <a href="{% url 'account:quit' pk=user.user_id %}" style="text-decoration-line: none;">
+                <btn class="btn btn-danger rounded-pill col-6 mt-3">탈퇴</btn>
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
