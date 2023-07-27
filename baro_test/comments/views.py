@@ -26,19 +26,19 @@ class CommentCreateView(CreateView):
         temp_comment.user = self.request.user
         
         # CID PK 처리
-        ipid = ""
+        cid = ""
         while (True) :
             letters_set = string.ascii_letters
-            num = random.randrange(1, 10) # 1부터 9 사이의 난수 생성
+            num = random.randrange(1, 15) # 1부터 9 사이의 난수 생성
             random_list = random.sample(letters_set, num)
-            random_str = f"IP{''.join(random_list)}"
+            random_str = f"C{''.join(random_list)}"
 
             try :
                 Comment.objects.get(comment_id=random_str)
             except :
-                ipid = random_str
+                cid = random_str
                 break
-        temp_comment.comment_id = ipid
+        temp_comment.comment_id = cid
         temp_comment.save()
         
         #Image_comment 생성

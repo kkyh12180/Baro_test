@@ -28,7 +28,7 @@
                         style="width: 100%; height: 100%; object-fit: contain"
                     />
                     <div
-                        class="carousel-caption d-none d-md-block"
+                        class="carousel-caption d-none d-md-block align-middle"
                         style="
                             background-color: rgba(0, 0, 0, 0.7);
                             width: 100%;
@@ -37,28 +37,26 @@
                             right: 0;
                             bottom: 1px;
                             left: 0%;
-                            padding-top: 1px;
-                            padding-bottom: 0;
                             color: #fff;
                             text-align: center;
-                            display: flex;
-                            align-items: center;
+                            padding: 4rem 0;
+                            display: block;
                         "
                     >
-                    <div>
-                        <p>prompts: {{first_image_pos}}</p>
-                        <p>negative prompts: {{first_image_neg}}</p>
-                        <p>seed: {{first_image.seed}}</p>
-                        <p>steps: {{first_image.steps}}</p>
-                        <p>sampler: {{first_image.sampler}}</p>
-                        <p>cfg scale: {{first_image.cfg_scale}}</p>
-                        <p>model hash: {{first_image.model_hash}}</p>
-                        <p>clip skip: {{first_image.clip_skip}}</p>
-                        <p>
-                            denoising strength:
-                            {{first_image.denoising_strength}}
-                        </p>
-                    </div>
+                        <div class="align-middle">
+                            <p>prompts: {{first_image_pos}}</p>
+                            <p>negative prompts: {{first_image_neg}}</p>
+                            <p>seed: {{first_image.seed}}</p>
+                            <p>steps: {{first_image.steps}}</p>
+                            <p>sampler: {{first_image.sampler}}</p>
+                            <p>cfg scale: {{first_image.cfg_scale}}</p>
+                            <p>model hash: {{first_image.model_hash}}</p>
+                            <p>clip skip: {{first_image.clip_skip}}</p>
+                            <p>
+                                denoising strength:
+                                {{first_image.denoising_strength}}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 {% endif %} {% if image_list %} {% for image in image_list %}
@@ -69,18 +67,36 @@
                         alt="Second slide"
                         style="width: 100%; height: 100%; object-fit: contain"
                     />
-                    <div class="carousel-caption d-none d-md-block" style="">
-                        <p>prompts: {{image.1}}</p>
-                        <p>negative prompts: {{image.2}}</p>
-                        <p>seed: {{image.0.seed}}</p>
-                        <p>steps: {{image.0.steps}}</p>
-                        <p>sampler: {{image.0.sampler}}</p>
-                        <p>cfg scale: {{image.0.cfg_scale}}</p>
-                        <p>model hash: {{image.0.model_hash}}</p>
-                        <p>clip skip: {{image.0.clip_skip}}</p>
-                        <p>
-                            denoising strength: {{image.0.denoising_strength}}
-                        </p>
+                    <div
+                        class="carousel-caption d-none d-md-block align-middle"
+                        style="
+                            background-color: rgba(0, 0, 0, 0.7);
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            right: 0;
+                            bottom: 1px;
+                            left: 0%;
+                            color: #fff;
+                            text-align: center;
+                            padding: 4rem 0;
+                            display: block;
+                        "
+                    >
+                        <div class="align-middle">
+                            <p>prompts: {{image.1}}</p>
+                            <p>negative prompts: {{image.2}}</p>
+                            <p>seed: {{image.0.seed}}</p>
+                            <p>steps: {{image.0.steps}}</p>
+                            <p>sampler: {{image.0.sampler}}</p>
+                            <p>cfg scale: {{image.0.cfg_scale}}</p>
+                            <p>model hash: {{image.0.model_hash}}</p>
+                            <p>clip skip: {{image.0.clip_skip}}</p>
+                            <p>
+                                denoising strength:
+                                {{image.0.denoising_strength}}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 {% endfor %} {% endif %}
@@ -197,17 +213,18 @@
                     </a>
                 </div>
             </div>
-            {% endif %}
-
-            {% comment %} comment {% endcomment %}
-            <div style="height: 55%; overflow-y: scroll;">
-                {% include 'comments/create.html' with post=target_post %}
-                {% for comment in target_post.image_comment.all %}
-                    {% include 'comments/detail.html' with comment=comment.comment%}
-                {% endfor %}
+            {% endif %} {% comment %} comment {% endcomment %}
+            <div style="height: 55%; overflow-y: scroll">
+                {% include 'comments/create.html' with post=target_post %} {%
+                for comment in target_post.image_comment.all %} {% include
+                'comments/detail.html' with comment=comment.comment%} {% endfor
+                %}
             </div>
         </div>
     </div>
 </div>
+<script>
 
+
+</script>
 {% endblock %}
