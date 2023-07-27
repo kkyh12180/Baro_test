@@ -34,3 +34,9 @@ function closeLoadingWithMask() {
     $('#mask, #loadingImg').hide();
     $('#mask, #loadingImg').empty();  
 }
+
+function nowLoading() {
+    LoadingWithMask();
+    setTimeout("closeLoadingWithMask()", 10000);
+    return true;
+}

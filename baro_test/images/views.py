@@ -181,13 +181,35 @@ class ImagePostDetailView(DetailView) :
 
         first_img = 0
         for img_id in img_id_tuple :
+            info_list = []
             if (first_img == 0) :
-                context['first_image'] = ImageTable.objects.get(image_id=img_id[0])
+                first_image_obj = ImageTable.objects.get(image_id=img_id[0])
+                context['first_image'] = first_image_obj
                 first_img = first_img + 1
+
+                prompts = ImagePrompt.objects.filter(image=first_image_obj)
+                for prompt in prompts :
+                    if (prompt.is_positive) :
+                        context['first_image_pos'] = prompt.prompt
+                    else :
+                        context['first_image_neg'] = prompt.prompt
+
                 continue
-            img_list.append(ImageTable.objects.get(image_id=img_id[0]))
+            img_obj = ImageTable.objects.get(image_id=img_id[0])
+            info_list.append(img_obj)
+
+            prompts = ImagePrompt.objects.filter(image=img_obj)
+            
+            for prompt in prompts :
+                if (prompt.is_positive) :
+                    info_list.append(prompt.prompt)
+            for prompt in prompts :
+                if (not prompt.is_positive) :
+                    info_list.append(prompt.prompt)
+
+            img_list.append(info_list)
+
         context['image_list'] = img_list
-        context['image_nums'] = list(range(0, len(img_list)))
 
         return context
 
@@ -223,7 +245,7 @@ class ImagePostUpdateView(UpdateView) :
 
         for connected_image in connected_images :
             image = ImageTable.objects.get(image_id=connected_image.image.image_id)
-            print(image)
+            # print(image)
             image.delete()
         
         # 이미지 처리
