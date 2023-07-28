@@ -24,19 +24,19 @@ class SubscriptionView(RedirectView):
         return super(SubscriptionView,self).get(request,*args, **kwargs)
 
 class SubscriptionListView(ListView):
-    model=User
-    context_object_name='user_list'
+    model = ImagePost
+    context_object_name = "image_post_list"
     template_name="follows/list.html"
-    paginate_by=5
+    paginate_by = 5
 
     def get_queryset(self):
         writes=SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
-        return writes
+        return ImagePost.objects.filter(user__in=writes).order_by('-post_time')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        uploader_ids=self.get_queryset()
+        uploader_ids=self.get_queryset().values_list('user',flat=True).distinct()
         context["user_list"] = User.objects.filter(pk__in=uploader_ids)
-        context["image_post_list"] = ImagePost.objects.filter(user__in=uploader_ids)
         return context
     
 @method_decorator(login_required,'get')
@@ -55,17 +55,16 @@ class FollowView(RedirectView):
         return super(FollowView,self).get(request,*args, **kwargs)
 
 class FollowingListView(ListView):
-    model=User
-    context_object_name='user_list'
+    model=ImagePost
+    context_object_name='image_post_list'
     template_name="follows/list.html"
     paginate_by=5
 
     def get_queryset(self):
         writes=FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
-        return writes
+        return ImagePost.objects.filter(user__in=writes).order_by('-post_time')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        uploader_ids=self.get_queryset()
+        uploader_ids=self.get_queryset().values_list('user',flat=True).distinct()
         context["user_list"] = User.objects.filter(pk__in=uploader_ids)
-        context["image_post_list"] = ImagePost.objects.filter(user__in=uploader_ids)
         return context
