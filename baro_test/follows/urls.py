@@ -6,7 +6,6 @@ from follows.views import *
 app_name ="follows"
 
 urlpatterns = [
-    
     path('subscribe/',SubscriptionView.as_view(), name='subscribe'),
     path('subscribed/',SubscriptionListView.as_view(), name='subscribed'),
     #path('bookmark/',BookmarkView.as_view(), name='bookmark'),
@@ -15,5 +14,4 @@ urlpatterns = [
     #path('follow',FollowListView.as_view(), name='follow'),
     #path('liked/',LikedListView.as_view(), name='liked'),
     #path('like/',LikeListView.as_view(), name='like'),
-    
 ]
