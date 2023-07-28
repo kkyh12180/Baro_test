@@ -6,4 +6,4 @@ from posts.models import Post
 class PostCreationForm(ModelForm): 
     class Meta:
         model = Post
-        fields = ['title','content','subscribe_only']
+        fields = ['title','content','subscribe_only','project']
