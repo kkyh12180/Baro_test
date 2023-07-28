@@ -7,7 +7,6 @@ from django.utils import timezone
 class BookmarkImagePost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image_post = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
-    bookmark = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'bookmark_image_post'
@@ -15,7 +14,6 @@ class BookmarkImagePost(models.Model):
 class LikeImagePost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image_post = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
-    likes = models.BooleanField(default=True)
     like_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
