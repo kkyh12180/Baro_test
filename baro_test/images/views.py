@@ -217,7 +217,7 @@ class ImagePostDetailView(DetailView, FormMixin) :
 
         if user.is_authenticated :
             likes = LikeImagePost.objects.filter(user=user, image_post=image_post)
-        context['likes'] = likes
+            context['likes'] = likes
 
         return context
 
@@ -361,7 +361,7 @@ class ImagePostUpdateView(UpdateView) :
     
 class ImagePostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
-        return reverse('images:detail', kwargs={'pk': self.object.pk})
+        return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
     
     def get(self, request, *args, **kwargs) :
         image_post = get_object_or_404(ImagePost, pk=self.request.GET.get('image_post_pk'))
@@ -371,4 +371,6 @@ class ImagePostLikeView(RedirectView) :
         if like.exists() :
             like.delete()
         else :
-            LikeImagePost(user=user, image_post=image_post)
+            LikeImagePost(user=user, image_post=image_post).save()
+
+        return super(ImagePostLikeView, self).get(request, *args, **kwargs)

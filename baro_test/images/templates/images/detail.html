@@ -243,26 +243,28 @@
                         </a>
                     </div>
                 {% else %}
-                    {% if not likes %}
-                    <div style="text-align: center">
-                        <a href="{% url 'images:like' %}?project_pk={{ target_project.pk }}">
-                            <btn
-                                class="btn btn-outline-success rounded-pill"
-                                style="font-family: 'GmarketSansMedium'"
-                                >좋아요</btn
-                            >
-                        </a>
-                    </div>
-                    {% else %}
-                    <div style="text-align: center">
-                        <a href="{% url 'images:like' %}?project_pk={{ target_project.pk }}}">
-                            <btn
-                                class="btn btn-outline-danger rounded-pill"
-                                style="font-family: 'GmarketSansMedium'"
-                                >좋아요 해제</btn
-                            >
-                        </a>
-                    </div>
+                    {% if user.is_authenticated %}
+                        {% if not likes %}
+                        <div style="text-align: center">
+                            <a href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}">
+                                <btn
+                                    class="btn btn-outline-success rounded-pill"
+                                    style="font-family: 'GmarketSansMedium'"
+                                    >좋아요</btn
+                                >
+                            </a>
+                        </div>
+                        {% else %}
+                        <div style="text-align: center">
+                            <a href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}">
+                                <btn
+                                    class="btn btn-outline-danger rounded-pill"
+                                    style="font-family: 'GmarketSansMedium'"
+                                    >좋아요 해제</btn
+                                >
+                            </a>
+                        </div>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
                 </div>
