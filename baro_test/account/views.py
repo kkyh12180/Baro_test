@@ -1,9 +1,8 @@
 from typing import Any, Dict
 from django.shortcuts import redirect, render
-from account.forms import RegisterForm, AccountUpdateForm, AccountPasswordUpdateForm
-from account.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -12,6 +11,10 @@ from account.decorators import account_ownership_required
 from django.db import connection
 import string
 import random
+
+from account.forms import RegisterForm, AccountUpdateForm, AccountPasswordUpdateForm
+from account.models import User
+from follows.models import *
 
 has_ownership = [account_ownership_required, login_required]
 
@@ -46,10 +49,21 @@ class AccountCreateView(CreateView) :
     success_url = reverse_lazy('account:signin')
     template_name = 'account/signup.html'
 
-class AccountDetailView(DetailView) :
+class AccountDetailView(DetailView, MultipleObjectMixin) :
     model = User
     context_object_name = 'target_user'
     template_name = 'account/mypage.html'
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        uploader=self.object
+        user=self.request.user
+        if user.is_authenticated:
+            subscription=SubscribeUploader.objects.filter(user=user,uploader=uploader)
+        else:
+            subscription=None
+        object_list=ImagePost.objects.filter(user=self.get_object())
+        return super(AccountDetailView,self).get_context_data(object_list=object_list,subscription=subscription,**kwargs)
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')

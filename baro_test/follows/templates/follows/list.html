@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    .container{
+        padding: 0;
+        margin: 0, auto;
+    }
+    .container a{
+        witdh: 45%;
+        max-width: 250px;
+    }
+    .container div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+      }
+      .container img{
+        width: 100%;
+        border-radius: 1rem;
+      }
+</style>
+
+<div class="container">
+    {% for user in user_list %}
+    <a href = "{% url 'account:detail' pk=user.pk %}">
+        {% if user.profile_image %}
+            <img src="data:image/jpeg;base64,{{ user.profile_image }}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem;">
+        {% else %}
+            <img src="{% static 'images/no_profile.png'%}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem;">
+        {% endif %}
+        <div style="text-align:center;">{{user.username}}</div>
+    </a>
+    
+    {% endfor %}
+</div>
+
+{% comment %} {% else %}
+<div style="text-align:center;">
+    <h1> no article yet!</h1>
+</div>
+{% endif %} {% endcomment %}
+{% include 'snippets/pagination.html' with page_obj=page_obj %}
+<script src ="{% static 'js/magicgrid.js' %}"></script>
+
+
+
+{% endblock  %}
