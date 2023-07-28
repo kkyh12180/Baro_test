@@ -1,19 +1,17 @@
-from typing import Any, Dict
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormMixin
 from django.db import connection
+from django.shortcuts import get_object_or_404
 
 from images.models import ImagePost, ImageTable, ImageInPost, ImagePrompt
 from images.forms import ImagePostCreationForm
 from images.Clear_EXIF import get_exif
 from images.decorators import image_post_ownership_required
 from comments.forms import CommentCreationForm
+from follows.models import LikeImagePost
 
 import string
 import random
@@ -213,6 +211,14 @@ class ImagePostDetailView(DetailView, FormMixin) :
 
         context['image_list'] = img_list
 
+        # 좋아요 정보 보내기
+        image_post = self.object
+        user = self.request.user
+
+        if user.is_authenticated :
+            likes = LikeImagePost.objects.filter(user=user, image_post=image_post)
+        context['likes'] = likes
+
         return context
 
 @method_decorator(image_post_ownership_required, 'get')
@@ -233,10 +239,6 @@ class ImagePostUpdateView(UpdateView) :
     context_object_name = 'target_post'
     template_name = 'images/update.html'
 
-    # TODO 수정 구현 필요
-    '''
-        기존 이미지 파일을 날리고, 새롭게 생성하는 로직으로 구성
-    '''
     def form_valid(self, form) :
         temp_post = form.save(commit=False)
         ipid = temp_post.image_post_id
@@ -356,3 +358,17 @@ class ImagePostUpdateView(UpdateView) :
 
     def get_success_url(self) :
         return reverse('images:detail', kwargs={'pk': self.object.pk})
+    
+class ImagePostLikeView(RedirectView) :
+    def get_redirect_url(self, *args, **kwargs) :
+        return reverse('images:detail', kwargs={'pk': self.object.pk})
+    
+    def get(self, request, *args, **kwargs) :
+        image_post = get_object_or_404(ImagePost, pk=self.request.GET.get('image_post_pk'))
+        user = self.request.user
+        like = LikeImagePost.objects.filter(user=user, image_post=image_post)
+
+        if like.exists() :
+            like.delete()
+        else :
+            LikeImagePost(user=user, image_post=image_post)

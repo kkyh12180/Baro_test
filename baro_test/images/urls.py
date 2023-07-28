@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from images.views import ImagePostCreateView, ImagePostListView, ImagePostDetailView, ImagePostDeleteView, ImagePostUpdateView
+from images.views import ImagePostCreateView, ImagePostListView, ImagePostDetailView, ImagePostDeleteView, ImagePostUpdateView, ImagePostLikeView
 
 # app_name 명시
 # 추후 accountapp:hello_world 로 접근이 가능해지기 때문
@@ -14,4 +14,5 @@ urlpatterns = [
     path('detail/<str:pk>', ImagePostDetailView.as_view(), name='detail'),
     path('delete/<str:pk>', ImagePostDeleteView.as_view(), name='delete'),
     path('update/<str:pk>', ImagePostUpdateView.as_view(), name='update'),
+    path('like/', ImagePostLikeView.as_view(), name='like'),
 ]

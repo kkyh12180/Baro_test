@@ -1,8 +1,26 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
+<style>
+    .comment_container::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    .comment_container::-webkit-scrollbar-thumb {
+        height: 5%;
+        background: rgba(255, 255, 255)
+        
+        border-radius: 1rem;
+        background-clip: padding-box;
+    }
+    
+    .comment_container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255); 
+    }
+</style>
+
 <div
     class="container-fluid"
-    style="width: 100%; height: 81vh; padding-left: 0; padding-right: 0"
+    style="width: 100%; height: 80vh; padding-left: 0; padding-right: 0"
 >
     <div
         class="row"
@@ -138,98 +156,134 @@
         </div>
 
         {% comment %} else data {% endcomment %}
-        <div class="col-2">
-            <div class="title" style="text-align: center; margin-top: 1rem">
-                <h4 style="font-family: 'GmarketSansMedium'">
-                    {{ target_post.title }}
-                </h4>
-            </div>
-            <div
-                class="user-info-container"
-                style="
-                    display: flex;
-                    flex-direction: row;
-                    align-items: flex-end;
-                    margin-top: 2rem;
-                "
-            >
-                {% if target_post.user.profile_image %}
-                <img
-                    src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
-                    alt=""
+        <div class="col-2" style="position: relative; height: 80vh;">
+            <div style="height: 50%; max-height: 50%">
+                <div class="title" style="text-align: center; margin-top: 1rem">
+                    <h4 style="font-family: 'GmarketSansMedium'">
+                        {{ target_post.title }}
+                    </h4>
+                </div>
+                <div
+                    class="user-info-container"
+                    style="
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-end;
+                        margin-top: 2rem;
+                    "
+                >
+                    {% if target_post.user.profile_image %}
+                    <img
+                        src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
+                        alt=""
+                        style="
+                            border: 1px solid black;
+                            height: 5rem;
+                            width: 5rem;
+                            border-radius: 20rem;
+                            object-fit: cover;
+                        "
+                    />
+                    {% else %}
+                    <img
+                        src="{% static 'images/no_profile.png'%}"
+                        alt=""
+                        style="
+                            border: 1px solid black;
+                            height: 5rem;
+                            width: 5rem;
+                            border-radius: 20rem;
+                            object-fit: cover;
+                        "
+                    />
+                    {% endif %} &nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'account:detail' pk=target_post.user.pk %}">
+                        <strong>{{ target_post.user.username }}</strong>
+                    </a>
+                </div>
+                <div
                     style="
                         border: 1px solid black;
-                        height: 5rem;
-                        width: 5rem;
-                        border-radius: 20rem;
-                        object-fit: cover;
+                        border-radius: 1rem;
+                        margin-top: 2rem;
+                        padding: 1rem 1rem;
                     "
-                />
+                >
+                    <p>{{ target_post.content }}</p>
+                    <strong>{{ target_post.post_time }}</strong>
+                </div>
+                <div
+                    class="user-info-container"
+                    style="
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-end;
+                        margin-top: 1.2rem;
+                        justify-content: flex-end;
+                    "
+                >
+                {% if target_post.user == user %}
+                    <div style="text-align: center">
+                        <a href="{% url 'images:update' pk=target_post.pk %}">
+                            <btn
+                                class="btn btn-dark rounded-pill"
+                                style="font-family: 'GmarketSansMedium'"
+                                >수정</btn
+                            >
+                        </a>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;
+                    <div style="text-align: center">
+                        <a href="{% url 'images:delete' pk=target_post.pk %}">
+                            <btn
+                                class="btn btn-danger rounded-pill"
+                                style="font-family: 'GmarketSansMedium'"
+                                >삭제</btn
+                            >
+                        </a>
+                    </div>
                 {% else %}
-                <img
-                    src="{% static 'images/no_profile.png'%}"
-                    alt=""
-                    style="
-                        border: 1px solid black;
-                        height: 5rem;
-                        width: 5rem;
-                        border-radius: 20rem;
-                        object-fit: cover;
-                    "
-                />
-                {% endif %} &nbsp;&nbsp;&nbsp;
-                <a href = "{% url 'account:detail' pk=target_post.user.pk %}">
-                    <strong>{{ target_post.user.username }}</strong>
-                </a>
+                    {% if not likes %}
+                    <div style="text-align: center">
+                        <a href="{% url 'images:like' %}?project_pk={{ target_project.pk }}">
+                            <btn
+                                class="btn btn-outline-success rounded-pill"
+                                style="font-family: 'GmarketSansMedium'"
+                                >좋아요</btn
+                            >
+                        </a>
+                    </div>
+                    {% else %}
+                    <div style="text-align: center">
+                        <a href="{% url 'images:like' %}?project_pk={{ target_project.pk }}}">
+                            <btn
+                                class="btn btn-outline-danger rounded-pill"
+                                style="font-family: 'GmarketSansMedium'"
+                                >좋아요 해제</btn
+                            >
+                        </a>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                </div>
             </div>
             <div
+                class="comment_container"
                 style="
+                    width: 100%;
+                    height: 50%;
+                    max-height: 35vh;
+                    overflow-y: auto;
+                    margin-top: 1rem;
                     border: 1px solid black;
                     border-radius: 1rem;
-                    margin-top: 2rem;
                     padding: 1rem 1rem;
+                    
                 "
             >
-                <p>{{ target_post.content }}</p>
-                <strong>{{ target_post.post_time }}</strong>
-            </div>
-            {% if target_post.user == user %}
-            <div
-                class="user-info-container"
-                style="
-                    display: flex;
-                    flex-direction: row;
-                    align-items: flex-end;
-                    margin-top: 1.2rem;
-                    justify-content: flex-end;
-                "
-            >
-                <div style="text-align: center">
-                    <a href="{% url 'images:update' pk=target_post.pk %}">
-                        <btn
-                            class="btn btn-dark rounded-pill"
-                            style="font-family: 'GmarketSansMedium'"
-                            >수정</btn
-                        >
-                    </a>
-                </div>
-                &nbsp;&nbsp;&nbsp;
-                <div style="text-align: center">
-                    <a href="{% url 'images:delete' pk=target_post.pk %}">
-                        <btn
-                            class="btn btn-danger rounded-pill"
-                            style="font-family: 'GmarketSansMedium'"
-                            >삭제</btn
-                        >
-                    </a>
-                </div>
-            </div>
-            {% endif %} 
-            {% comment %} comment {% endcomment %}
-            <div style="height: 55%; overflow-y: scroll">
-                {% include 'comments/create.html' with post=target_post %} 
-                {% for comment in target_post.image_comment.all %} 
-                    {% include 'comments/detail.html' with comment=comment.comment%} 
+                {% include 'comments/create.html' with post=target_post %}
+                {% for comment in target_post.image_comment.all %}
+                    {% include 'comments/detail.html' with comment=comment.comment%}
                 {% endfor %}
             </div>
         </div>
@@ -237,19 +291,19 @@
 </div>
 <script>
     function hideInfo() {
-        const exifDivs = document.getElementsByName('exifBox');
-        
+        const exifDivs = document.getElementsByName("exifBox");
+
         for (exifDiv of exifDivs) {
-            if (exifDiv.style.display !== 'none')
-                exifDiv.style.setProperty('display', 'none', 'important')
+            if (exifDiv.style.display !== "none")
+                exifDiv.style.setProperty("display", "none", "important");
         }
     }
     function showInfo() {
-        const exifDivs = document.getElementsByName('exifBox');
-        
+        const exifDivs = document.getElementsByName("exifBox");
+
         for (exifDiv of exifDivs) {
-            if (exifDiv.style.display == 'none')
-                exifDiv.style.setProperty('display', 'block', 'important')
+            if (exifDiv.style.display == "none")
+                exifDiv.style.setProperty("display", "block", "important");
         }
     }
 </script>
