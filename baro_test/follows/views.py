@@ -31,11 +31,12 @@ class SubscriptionListView(ListView):
 
     def get_queryset(self):
         writes=SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
-        return ImagePost.objects.filter(user__in=writes).order_by('-post_time')
+        subscribed_posts = ImagePost.objects.filter(user__in=writes)
+        return subscribed_posts.filter(subscribe_only=True).order_by('-post_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        uploader_ids=self.get_queryset().values_list('user',flat=True).distinct()
+        uploader_ids = SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
         context["user_list"] = User.objects.filter(pk__in=uploader_ids)
         return context
     
@@ -61,10 +62,11 @@ class FollowingListView(ListView):
     paginate_by=5
 
     def get_queryset(self):
-        writes=FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
-        return ImagePost.objects.filter(user__in=writes).order_by('-post_time')
+        writes = FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
+        subscribed_posts = ImagePost.objects.filter(user__in=writes)
+        return subscribed_posts.filter(subscribe_only=False).order_by('-post_time')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        uploader_ids=self.get_queryset().values_list('user',flat=True).distinct()
+        uploader_ids = FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
         context["user_list"] = User.objects.filter(pk__in=uploader_ids)
         return context
