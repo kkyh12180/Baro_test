@@ -24,7 +24,7 @@ class LikeImagePost(models.Model):
 class FollowUploader(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_uploader')
     uploader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
-    follow = models.BooleanField(default=True)
+    follow_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'follow_uploader'
@@ -32,7 +32,7 @@ class FollowUploader(models.Model):
 class SubscribeUploader(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscribed_uploader')
     uploader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriber')
-    subscribe = models.BooleanField(default=True)
+    subscribe_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'subscribe_uploader'
