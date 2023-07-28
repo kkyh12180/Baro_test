@@ -2,48 +2,53 @@
 {% block content %}
 {% load static %}
 <style>
-    .container{
-        padding: 0;
-        margin: 0, auto;
-    }
-    .container a{
-        witdh: 45%;
-        max-width: 250px;
-    }
     .container div {
-        display: flex;
+        width: 250px;
+        height: 250px;
+        border-radius: 1rem;
         justify-content: center;
+        display: inline-block;
         align-items: center;
-        border-radius: 8px;
-      }
-      .container img{
+    }
+
+    .container img {
         width: 100%;
         border-radius: 1rem;
-      }
+    }
+
+    .container .wrap-vertical{
+        width: 80%;
+        height: 8rem;
+        margin: 0;
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+    .wrap-vertical::-webkit-scrollbar{
+        display: none;
+    }
+
 </style>
 
 <div class="container">
-    {% for user in user_list %}
-    <a href = "{% url 'account:detail' pk=user.pk %}">
-        {% if user.profile_image %}
-            <img src="data:image/jpeg;base64,{{ user.profile_image }}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem;">
-        {% else %}
-            <img src="{% static 'images/no_profile.png'%}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem;">
-        {% endif %}
-        <div style="text-align:center;">{{user.username}}</div>
-    </a>
-    
-    {% endfor %}
+    <div class="wrap-vertical">
+        {% for user in user_list %}
+        <a href = "{% url 'account:detail' pk=user.pk %}">
+            {% if user.profile_image %}
+                <img src="data:image/jpeg;base64,{{ user.profile_image }}" alt="" style="height: 6rem; width: 6rem; border-radius: 20rem; margin-bottom: 2rem;">
+            {% else %}
+                <img src="{% static 'images/no_profile.png'%}" alt="" style="height: 6rem; width: 6rem; border-radius: 20rem; margin-bottom: 2rem;">
+            {% endif %}
+            <div style="width: 50px; height: 50px;">{{user.username}}</div>
+        </a>
+        {% endfor %}
+    </div>
 </div>
 
-{% comment %} {% else %}
-<div style="text-align:center;">
-    <h1> no article yet!</h1>
+<div>
+    {% include 'snippets/images_fragment.html' with image_post_list=image_post_list%}
 </div>
-{% endif %} {% endcomment %}
-{% include 'snippets/pagination.html' with page_obj=page_obj %}
+
 <script src ="{% static 'js/magicgrid.js' %}"></script>
-
-
 
 {% endblock  %}

@@ -2,8 +2,23 @@
 {% load bootstrap5 %}
 {% load static %}
 {% block content %}
+<style>
+    .container div {
+        width: 250px;
+        height: auto;
+        border-radius: 1rem;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+    }
 
+</style>
 <div>
     <div style="text-align: center; max-width: 500px; margin: 2rem auto;">
         {% if target_user.profile_image %}
@@ -22,20 +37,29 @@
                 <btn class="btn btn-danger rounded-pill col-6 mt-3">탈퇴</btn>
             </a>
         {% else %}
-        {% if user.is_authenticated %}
-            {% comment %} follows {% endcomment %}
-            {% if not subscription %}
-            <a href="{% url 'follows:subscribe' %}?account_pk={{target_user.pk}}" class="btn btn-primary rounded-pill px-4">
-                subscribe
-            </a>
-            {% else %}
-            <a href="{% url 'follows:subscribe' %}?account_pk={{target_user.pk}}" class="btn btn-danger rounded-pill px-4">
-                unsubscribe
-            </a>
+            {% if user.is_authenticated %}
+                {% comment %} follows {% endcomment %}
+                {% if not subscription %}
+                <a href="{% url 'follows:subscribe' %}?account_pk={{target_user.pk}}" class="btn btn-primary rounded-pill px-4">
+                    subscribe
+                </a>
+                {% else %}
+                <a href="{% url 'follows:subscribe' %}?account_pk={{target_user.pk}}" class="btn btn-danger rounded-pill px-4">
+                    unsubscribe
+                </a>
+                {% endif %}
+                {% if not following %}
+                <a href="{% url 'follows:follow' %}?account_pk={{target_user.pk}}" class="btn btn-primary rounded-pill px-4">
+                    follow
+                </a>
+                {% else %}
+                <a href="{% url 'follows:follow' %}?account_pk={{target_user.pk}}" class="btn btn-danger rounded-pill px-4">
+                    unfollow
+                </a>
+                {% endif %}
             {% endif %}
         {% endif %}
-        {% endif %}
     </div>
-    {% include 'snippets/images_fragment.html' with  image_post_list=target_user.image_post.all%}
+    {% include 'snippets/images_fragment.html' with  image_post_list=object_list%}
 </div>
 {% endblock %}
