@@ -1,22 +1,4 @@
 {% load static %}
-<style>
-    .container div {
-        width: 250px;
-        height: auto;
-        border-radius: 1rem;
-        background-color: antiquewhite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container img {
-        width: 100%;
-        border-radius: 1rem;
-    }
-
-</style>
-
 {% if image_post_list %}
     <div class="container">
         {% for image_post in image_post_list %}
@@ -26,12 +8,13 @@
         {% endfor %}
     </div>
     <script src="{% static 'js/magicgrid.js' %}"></script>
+    {% include 'snippets/pagination.html' with page_obj=page_obj %}
 {% else %}
     <div style="text-align: center;">
         <h1>No Image Post Yet.</h1>
     </div>
 {% endif %}
-{% include 'snippets/pagination.html' with page_obj=page_obj %}
+
 {% if target_user == user %}
 <div style="text-align: center;">
     <a href="{% url 'images:create' %}">

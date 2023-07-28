@@ -24,16 +24,47 @@ class SubscriptionView(RedirectView):
         return super(SubscriptionView,self).get(request,*args, **kwargs)
 
 class SubscriptionListView(ListView):
-    model=User
-    context_object_name='user_list'
+    model = ImagePost
+    context_object_name = "image_post_list"
+    template_name="follows/list.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        writes=SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
+        return ImagePost.objects.filter(user__in=writes).order_by('-post_time')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        uploader_ids=self.get_queryset().values_list('user',flat=True).distinct()
+        context["user_list"] = User.objects.filter(pk__in=uploader_ids)
+        return context
+    
+@method_decorator(login_required,'get')
+class FollowView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('account:detail',kwargs={'pk':self.request.GET.get('account_pk')})
+    def get(self,request,*args,**kwargs):
+        uploader=get_object_or_404(User,pk=self.request.GET.get('account_pk'))
+        user=self.request.user
+
+        subscription = FollowUploader.objects.filter(user=user,uploader=uploader)
+        if subscription.exists():
+            subscription.delete()
+        else:
+            FollowUploader(user=user,uploader=uploader).save()
+        return super(FollowView,self).get(request,*args, **kwargs)
+
+class FollowingListView(ListView):
+    model=ImagePost
+    context_object_name='image_post_list'
     template_name="follows/list.html"
     paginate_by=5
 
     def get_queryset(self):
-        writes=SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
-        return writes
+        writes=FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
+        return ImagePost.objects.filter(user__in=writes).order_by('-post_time')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        uploader_ids=self.get_queryset()
+        uploader_ids=self.get_queryset().values_list('user',flat=True).distinct()
         context["user_list"] = User.objects.filter(pk__in=uploader_ids)
         return context

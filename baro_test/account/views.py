@@ -60,10 +60,12 @@ class AccountDetailView(DetailView, MultipleObjectMixin) :
         user=self.request.user
         if user.is_authenticated:
             subscription=SubscribeUploader.objects.filter(user=user,uploader=uploader)
+            following=FollowUploader.objects.filter(user=user,uploader=uploader)
         else:
             subscription=None
+            following=None
         object_list=ImagePost.objects.filter(user=self.get_object())
-        return super(AccountDetailView,self).get_context_data(object_list=object_list,subscription=subscription,**kwargs)
+        return super(AccountDetailView,self).get_context_data(object_list=object_list,subscription=subscription,following=following,**kwargs)
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')
