@@ -1,5 +1,9 @@
+from typing import Any, Optional
+from django.db import models
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, DetailView, RedirectView, DeleteView, ListView
 from django.views.generic.list import MultipleObjectMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -23,7 +27,6 @@ class ProjectCrateView(CreateView):
     def form_valid(self, form):
         temp_post=form.save(commit=False)
         temp_post.user = self.request.user
-
         gid = ""
         while (True) :
             letters_set = string.ascii_letters
@@ -38,19 +41,43 @@ class ProjectCrateView(CreateView):
                 break
         temp_post.project_id = gid
         temp_post.save()
-
+        
         return super().form_valid(form)
     
     def get_success_url(self):
         return reverse('projects:detail',kwargs={'pk':self.object.pk})
-    
+
+
+class ProjectSetView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        temp = Project()
+        temp.project_id="Atemp"
+        temp.user = self.request.user
+        temp.title = "Temp"
+        temp.save()
+        Announce = Project()
+        Announce.project_id="Announce"
+        Announce.user = self.request.user
+        Announce.title = "공지사항"
+        Announce.save()
+        voc = Project()
+        voc.project_id="Avoc"
+        voc.user = self.request.user
+        voc.title = "VOC"
+        voc.save()
+        return reverse('projects:list')
+
 class ProjectDetailView(DetailView, MultipleObjectMixin):
     model = Project
     context_object_name = 'target_project'
     template_name = 'projects/detail.html'
-    paginate_by = 25
+    paginate_by = 25 
+
     def get_context_data(self, **kwargs):
-        object_list=Post.objects.filter(project=self.get_object())
+        if self.object.pk == "Atemp":
+            object_list=Post.objects.filter(project=None)
+        else:
+            object_list=Post.objects.filter(project=self.get_object())
         return super(ProjectDetailView,self).get_context_data(object_list=object_list,**kwargs)
 
 class ProjectListView(ListView):
@@ -65,6 +92,7 @@ class ProjectDeleteView(DeleteView):
     template_name = 'projects/delete.html'
     def get_success_url(self):
         return reverse('projects:list')
+
 def clear(request):
     projects=Project.objects.all()
     for project in projects:

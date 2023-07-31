@@ -12,8 +12,16 @@
         <h2>
             {{target_project.title}}
         </h2>
-        <h5> {{target_project.description}}</h5>
-        {% if target_project.user == user %}
+        {% if target_project.description %}
+            <h5> {{target_project.description}}</h5>
+        {% endif %}
+        {% if target_project.pk|slice:"1" != "A" %}
+            {% if target_project.user == user %}
+                <a href="{% url 'projects:delete' pk=target_project.pk %}" class="btn btn-danger rounded-pill">
+                    delete
+                </a>
+            {% endif %}
+        {% elif user.is_admin %}
             <a href="{% url 'projects:delete' pk=target_project.pk %}" class="btn btn-danger rounded-pill">
                 delete
             </a>

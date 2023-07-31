@@ -60,13 +60,12 @@
             {% endif %}
         {% endif %}
     </div>
-    {% if user.is_authenticated %}
-        {% if subscription %}
-            {% include 'snippets/images_fragment.html' with  image_post_list=object_list%}
-        {% else %}
-            {% include 'snippets/images_fragment.html' with  image_post_list=not_subscribe_list%}
-        {% endif %}
+    {% if subscription %}
+        {% include 'snippets/images_fragment.html' with  image_post_list=object_list%}
+    {% else %}
+        {% include 'snippets/images_fragment.html' with  image_post_list=not_subscribe_list%}
     {% endif %}
+
     
 </div>
 {% endblock %}
