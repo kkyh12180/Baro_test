@@ -40,21 +40,21 @@
             {% if user.is_authenticated %}
                 {% comment %} follows {% endcomment %}
                 {% if not subscription %}
-                <a href="{% url 'follows:subscribe' %}?account_pk={{target_user.pk}}" class="btn btn-primary rounded-pill px-4">
-                    subscribe
+                <a href="{% url 'follows:subscribe' %}?account_pk={{target_user.pk}}" class="btn btn-light rounded-pill px-4">
+                    구독
                 </a>
                 {% else %}
                 <a href="{% url 'follows:subscribe' %}?account_pk={{target_user.pk}}" class="btn btn-danger rounded-pill px-4">
-                    unsubscribe
+                    구독 해제
                 </a>
                 {% endif %}
                 {% if not following %}
-                <a href="{% url 'follows:follow' %}?account_pk={{target_user.pk}}" class="btn btn-primary rounded-pill px-4">
-                    follow
+                <a href="{% url 'follows:follow' %}?account_pk={{target_user.pk}}" class="btn btn-light rounded-pill px-4">
+                    팔로우
                 </a>
                 {% else %}
                 <a href="{% url 'follows:follow' %}?account_pk={{target_user.pk}}" class="btn btn-danger rounded-pill px-4">
-                    unfollow
+                    팔로우 해제
                 </a>
                 {% endif %}
             {% endif %}
