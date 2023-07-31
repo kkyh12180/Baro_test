@@ -15,6 +15,7 @@ import random
 from account.forms import RegisterForm, AccountUpdateForm, AccountPasswordUpdateForm
 from account.models import User
 from follows.models import *
+from posts.models import Post
 
 has_ownership = [account_ownership_required, login_required]
 
@@ -64,9 +65,11 @@ class AccountDetailView(DetailView, MultipleObjectMixin) :
         else:
             subscription=None
             following=None
-        object_list=ImagePost.objects.filter(user=self.get_object())
-        not_subscribe_list = object_list.filter(subscribe_only=False)
-        return super(AccountDetailView,self).get_context_data(not_subscribe_list=not_subscribe_list,object_list=object_list,subscription=subscription,following=following,**kwargs)
+        image_post_list=ImagePost.objects.filter(user=self.get_object())
+        not_subscribe_image_list = image_post_list.filter(subscribe_only=False)
+        post_list=Post.objects.filter(user=self.get_object())
+        not_subscribe_post_list = post_list.filter(subscribe_only=False)
+        return super(AccountDetailView,self).get_context_data(not_subscribe_image_list=not_subscribe_image_list,object_list=image_post_list,not_subscribe_post_list=not_subscribe_post_list,post_list=post_list,subscription=subscription,following=following,**kwargs)
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')
