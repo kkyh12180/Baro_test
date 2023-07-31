@@ -79,6 +79,7 @@ class BookmarkedListView(ListView):
 
     def get_queryset(self):
         bookmarked_posts = BookmarkImagePost.objects.filter(user=self.request.user).values_list('image_post').order_by('-bookmark_time')
-        bookmarked_post_ids = [post[0] for post in bookmarked_posts]
-
-        return ImagePost.objects.filter(pk__in=bookmarked_post_ids)
+        bookmark_list=[]
+        for bookmarked_post in bookmarked_posts:
+            bookmark_list.append(ImagePost.objects.get(pk=bookmarked_post[0]))
+        return bookmark_list
