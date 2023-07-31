@@ -244,6 +244,27 @@
                     </div>
                 {% else %}
                     {% if user.is_authenticated %}
+                        {% if not bookmarks %}
+                        <div style="text-align: center">
+                            <a href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}">
+                                <btn
+                                    class="btn btn-outline-success rounded-pill"
+                                    style="font-family: 'GmarketSansMedium'"
+                                    >bookmark</btn
+                                >
+                            </a>
+                        </div>
+                        {% else %}
+                        <div style="text-align: center">
+                            <a href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}">
+                                <btn
+                                    class="btn btn-outline-danger rounded-pill"
+                                    style="font-family: 'GmarketSansMedium'"
+                                    >not bookmark</btn
+                                >
+                            </a>
+                        </div>
+                        {% endif %}
                         {% if not likes %}
                         <div style="text-align: center">
                             <a href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}">

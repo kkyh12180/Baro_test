@@ -7,6 +7,7 @@ from django.utils import timezone
 class BookmarkImagePost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image_post = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
+    bookmark_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'bookmark_image_post'
