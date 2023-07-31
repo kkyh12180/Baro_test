@@ -65,7 +65,8 @@ class AccountDetailView(DetailView, MultipleObjectMixin) :
             subscription=None
             following=None
         object_list=ImagePost.objects.filter(user=self.get_object())
-        return super(AccountDetailView,self).get_context_data(object_list=object_list,subscription=subscription,following=following,**kwargs)
+        not_subscribe_list = object_list.filter(subscribe_only=False)
+        return super(AccountDetailView,self).get_context_data(not_subscribe_list=not_subscribe_list,object_list=object_list,subscription=subscription,following=following,**kwargs)
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')

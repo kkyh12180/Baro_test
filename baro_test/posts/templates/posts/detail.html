@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load bootstrap5 %}
 {% load static%}
 {% block content %}
     <div class="title" style="text-align: center; margin-top: 1rem">
@@ -10,14 +9,7 @@
             <h5> {{target_post.user.username}}</h5>
         </a>
     </div>
-    <div
-        class="user-info-container"
-        style="
-            display: flex;
-            align-items: flex-end;
-            margin-top: 2rem;
-        "
-    >
+    <div class="user-info-container" >
         {% if target_post.user.profile_image %}
         <img
             src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
@@ -96,5 +88,16 @@
         {% for comment in target_post.post_comment.all %} 
             {% include 'comments/detail.html' with comment=comment.comment%} 
         {% endfor %}
+    </div>
+    <div>
+        {% if target_post.project.pk %}
+        <a href = "{% url 'projects:detail' pk=target_post.project.pk %}">
+            {{target_post.project.title}}  
+        </a>
+        {% else %}
+        <a href = "{% url 'projects:detail' pk="Atemp" %}">
+            Temp
+        </a>
+        {% endif %}
     </div>
 {% endblock  %}
