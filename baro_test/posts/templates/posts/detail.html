@@ -35,6 +35,16 @@
         <a href="{% url 'account:detail' pk=target_post.user.pk %}">
             <strong>{{ target_post.user.username }}</strong>
         </a>
+        <div>{% if target_post.subscribe_only %}subscribe_only{% endif %}</div>
+        <div style="text-align:right;">
+            {% if target_post.project.pk %}
+            <a href="{% url 'projects:detail' pk=target_post.project.pk %}">
+                {{target_post.project.title}}
+            </a>
+            {% else %}
+            <a href="{% url 'projects:detail' pk='Atemp' %}"> Temp </a>
+            {% endif %}
+        </div>
     </div>
     <div
         style="
@@ -109,15 +119,6 @@
         {% for comment in target_post.post_comment.all %}
             {% include 'comments/detail.html' with comment=comment.comment%}
         {% endfor %}
-    </div>
-    <div>
-        {% if target_post.project.pk %}
-        <a href="{% url 'projects:detail' pk=target_post.project.pk %}">
-            {{target_post.project.title}}
-        </a>
-        {% else %}
-        <a href="{% url 'projects:detail' pk='Atemp' %}"> Temp </a>
-        {% endif %}
     </div>
 </div>
 {% endblock %}

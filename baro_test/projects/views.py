@@ -8,6 +8,7 @@ from posts.models import Post
 from projects.decorators import *
 from projects.forms import *
 from projects.models import *
+from follows.models import SubscribeUploader
 
 import string
 import random
@@ -78,7 +79,16 @@ class ProjectDetailView(DetailView, MultipleObjectMixin):
             object_list=Post.objects.filter(project=None)
         else:
             object_list=Post.objects.filter(project=self.get_object())
-        return super(ProjectDetailView,self).get_context_data(object_list=object_list,**kwargs)
+        not_subscribe_list=object_list.filter(subscribe_only=False)
+        subscribe_list=object_list.filter(subscribe_only=True)
+
+        self_list=[post for post in subscribe_list if self.request.user == post.user]
+
+        set_list = [post for post in subscribe_list if SubscribeUploader.objects.filter(user=self.request.user,uploader=post.user)]
+
+        object_list=list(not_subscribe_list)+set_list+self_list
+        sorted_object_list = sorted(object_list, key=lambda post: post.post_time, reverse=True)
+        return super(ProjectDetailView,self).get_context_data(object_list=sorted_object_list,**kwargs)
 
 class ProjectListView(ListView):
     model = Project
