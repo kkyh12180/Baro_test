@@ -1,18 +1,65 @@
-
-<div style = "border: 1px solid; text-align: left; padding: 2rem; margin: 1rem 0; border-radius: 1rem; border-color: #bbb;">
+<div
+    style="
+        border: 1px solid;
+        text-align: left;
+        padding: 2rem;
+        margin: 1rem 0;
+        border-radius: 1rem;
+        border-color: #bbb;
+    "
+>
     <div>
         <strong> {{comment.user.username}}</strong>
-        &nbsp&nbsp&nbsp
-        {{comment.comment_time}}
+        &nbsp;&nbsp;&nbsp; <p>{{comment.comment_time}}<p>   
     </div>
-    <div>
-        {{comment.content}}
-    </div>
+    <div>{{comment.content}}</div>
     {% if comment.user == user %}
     <div style="text-align: right">
-        <a href="{% url 'comment:delete' pk=comment.pk %}" class="btn btn-danger rounded-pill">
-            delete
+        <a
+            href="{% url 'comment:delete' pk=comment.pk %}"
+            class="btn btn-danger rounded-pill"
+        >
+            삭제
         </a>
     </div>
+    {% else %}
+        {% if user.is_authenticated %} 
+            {% for comment_like in comment.comment_like.all %}
+                {% if user == comment_like.user %}
+                    <div style="text-align: right;">
+                        <a
+                            id="not-like-{{ comment.pk }}"
+                            href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }} "
+                            class="btn btn-outline-danger rounded-pill"
+                            style="font-family: 'GmarketSansMedium';"
+                        >
+                            좋아요 해제   
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+                <div style="text-align: right;">
+                    <a
+                        id="like-{{ comment.pk }}"
+                        href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }}"
+                        class="btn btn-outline-success rounded-pill"
+                        style="font-family: 'GmarketSansMedium'"
+                    >
+                        좋아요
+                    </a>
+                </div>
+        {% endif %}
     {% endif %}
 </div>
+<script>
+    $(document).ready(function() {
+        var notLikeButton{{ comment.pk }} = $("#not-like-{{ comment.pk }}");
+        var likeButton{{ comment.pk }} = $("#like-{{ comment.pk }}");
+    
+        if (notLikeButton{{ comment.pk }}.is(":visible")) {
+            likeButton{{ comment.pk }}.hide();
+        } else {
+            likeButton{{ comment.pk }}.show();
+        }
+    });
+</script>
