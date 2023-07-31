@@ -27,7 +27,7 @@ class SubscriptionListView(ListView):
     model = ImagePost
     context_object_name = "image_post_list"
     template_name="follows/list.html"
-    paginate_by = 5
+    paginate_by = 20
 
     def get_queryset(self):
         writes=SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
@@ -59,7 +59,7 @@ class FollowingListView(ListView):
     model=ImagePost
     context_object_name='image_post_list'
     template_name="follows/list.html"
-    paginate_by=5
+    paginate_by = 20
 
     def get_queryset(self):
         writes = FollowUploader.objects.filter(user=self.request.user).values_list('uploader')

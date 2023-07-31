@@ -4,10 +4,11 @@
 <style>
     .container div {
         width: 250px;
-        height: 250px;
+        height: auto;
         border-radius: 1rem;
+        background-color: antiquewhite;
+        display: flex;
         justify-content: center;
-        display: inline-block;
         align-items: center;
     }
 
@@ -16,7 +17,20 @@
         border-radius: 1rem;
     }
 
-    .container .wrap-vertical{
+    .user-list-container {
+        text-align: center;
+    }
+
+    .user-list-container div {
+        width: 250px;   
+        height: 250px;
+        border-radius: 1rem;
+        justify-content: center;
+        display: inline-block;
+        align-items: center;
+    }
+
+    .user-list-container .wrap-vertical{
         width: 80%;
         height: 8rem;
         margin: 0;
@@ -30,7 +44,7 @@
 
 </style>
 
-<div class="container">
+<div class="user-list-container">
     <div class="wrap-vertical">
         {% for user in user_list %}
         <a href = "{% url 'account:detail' pk=user.pk %}">
@@ -45,10 +59,6 @@
     </div>
 </div>
 
-<div>
-    {% include 'snippets/images_fragment.html' with image_post_list=image_post_list%}
-</div>
-
-<script src ="{% static 'js/magicgrid.js' %}"></script>
+{% include 'snippets/images_fragment.html' with image_post_list=image_post_list%}
 
 {% endblock  %}
