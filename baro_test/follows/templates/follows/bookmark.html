@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    .container div {
+        width: 250px;
+        height: 250px;
+        border-radius: 1rem;
+        justify-content: center;
+        display: inline-block;
+        align-items: center;
+    }
+
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+    }
+
+    .container .wrap-vertical{
+        width: 80%;
+        height: 8rem;
+        margin: 0;
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+    .wrap-vertical::-webkit-scrollbar{
+        display: none;
+    }
+
+</style>
+
+<div>
+    {% include 'snippets/images_fragment.html' with image_post_list=bookmark_list%}
+</div>
+
+<script src ="{% static 'js/magicgrid.js' %}"></script>
+
+{% endblock  %}

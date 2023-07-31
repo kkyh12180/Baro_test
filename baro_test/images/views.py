@@ -11,7 +11,7 @@ from images.forms import ImagePostCreationForm
 from images.Clear_EXIF import get_exif
 from images.decorators import image_post_ownership_required
 from comments.forms import CommentCreationForm
-from follows.models import LikeImagePost
+from follows.models import LikeImagePost, BookmarkImagePost
 
 import string
 import random
@@ -221,6 +221,8 @@ class ImagePostDetailView(DetailView, FormMixin) :
         if user.is_authenticated :
             likes = LikeImagePost.objects.filter(user=user, image_post=image_post)
             context['likes'] = likes
+            bookmarks = BookmarkImagePost.objects.filter(user=user,image_post=image_post)
+            context['bookmarks'] = bookmarks
 
         return context
 
@@ -377,3 +379,19 @@ class ImagePostLikeView(RedirectView) :
             LikeImagePost(user=user, image_post=image_post).save()
 
         return super(ImagePostLikeView, self).get(request, *args, **kwargs)
+
+class ImagePostBookmarkView(RedirectView) :
+    def get_redirect_url(self, *args, **kwargs) :
+        return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
+    
+    def get(self, request, *args, **kwargs) :
+        image_post = get_object_or_404(ImagePost, pk=self.request.GET.get('image_post_pk'))
+        user = self.request.user
+        like = BookmarkImagePost.objects.filter(user=user, image_post=image_post)
+
+        if like.exists() :
+            like.delete()
+        else :
+            BookmarkImagePost(user=user, image_post=image_post).save()
+
+        return super(ImagePostBookmarkView, self).get(request, *args, **kwargs)
