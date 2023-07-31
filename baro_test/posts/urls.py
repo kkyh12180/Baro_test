@@ -13,5 +13,6 @@ urlpatterns = [
     path('detail/<str:pk>',PostDetailView.as_view(), name='detail'),
     path('update/<str:pk>',PostUpdateView.as_view(), name='update'),
     path('delete/<str:pk>',PostDeleteView.as_view(), name='delete'),
-    path('clear',clear)
+    path('clear',clear),
+    path('like', PostLikeView.as_view(), name='like'),
 ]

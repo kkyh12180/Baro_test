@@ -22,7 +22,6 @@ class PostLike(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_like')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_like')
     post_like_time = models.DateTimeField(default=timezone.now)
-    is_good = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'post_like'
