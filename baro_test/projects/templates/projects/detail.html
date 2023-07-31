@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <div style="text-align: center;max-width: 500px; margin: 4rem auto 1.5rem auto;">
+        <div style="">
+        {% if target_project.profile_image %}
+            <img src="data:image/jpeg;base64,{{ target_project.profile_image }}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem; object-fit: cover;">
+        {% else %}
+            <img src="{% static 'images/no_profile.png'%}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem; object-fit: cover;">
+        {% endif %}
+        </div>
         <h2>
             {{target_project.title}}
         </h2>
