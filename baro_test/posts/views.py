@@ -1,18 +1,14 @@
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView
 from django.views.generic.edit import FormMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import get_object_or_404
 
 from posts.forms import *
 from posts.models import *
 from posts.decorators import *
 from comments.forms import CommentCreationForm
-# Create your views here.
 
 import string
 import random
@@ -54,6 +50,17 @@ class PostDetailView(DetailView, FormMixin):
     context_object_name = 'target_post'
     template_name = 'posts/detail.html'
 
+    def get_context_data(self, **kwargs) :
+        context = super().get_context_data(**kwargs)
+        post = self.object
+        user = self.request.user
+
+        if user.is_authenticated :
+            likes = PostLike.objects.filter(user=user, post=post)
+            context['likes'] = likes
+            print(likes)
+        return context
+
 @method_decorator(post_ownership_required,'get')
 @method_decorator(post_ownership_required,'post')
 class PostUpdateView(UpdateView):
@@ -64,7 +71,6 @@ class PostUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('post:detail',kwargs={'pk':self.object.pk})
-
 
 @method_decorator(post_ownership_required,'get')
 @method_decorator(post_ownership_required,'post')
@@ -86,4 +92,19 @@ def clear(request):
     for post in posts:
         post.delete()
     return reverse('post:list')
+
+class PostLikeView(RedirectView) :
+    def get_redirect_url(self, *args, **kwargs) :
+        return reverse('post:detail', kwargs={'pk': self.request.GET.get('post_pk')})
     
+    def get(self, request, *args, **kwargs) :
+        post = get_object_or_404(Post, pk=self.request.GET.get('post_pk'))
+        user = self.request.user
+        like = PostLike.objects.filter(user=user, post=post)
+
+        if like.exists() :
+            like.delete()
+        else :
+            PostLike(user=user, post=post).save()
+
+        return super(PostLikeView, self).get(request, *args, **kwargs)
