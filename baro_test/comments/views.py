@@ -1,8 +1,9 @@
 from django.forms.models import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, DeleteView, RedirectView
+from django.shortcuts import get_object_or_404
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -82,3 +83,23 @@ class CommentDeleteView(DeleteView):
         print(post_coms)
         post_com=post_coms[0]
         return reverse('post:detail',kwargs={'pk':post_com.post.pk})
+    
+class CommentImagePostLikeView(RedirectView) :
+    def get_redirect_url(self, *args, **kwargs) :
+        comment = get_object_or_404(Comment, pk=self.request.GET.get('comment_pk'))
+        image_post = ImageComment.objects.get(comment=comment).image_post
+        image_post_pk = image_post.image_post_id
+        
+        return reverse('images:detail', kwargs={'pk': image_post_pk})
+    
+    def get(self, request, *args, **kwargs) :
+        comment = get_object_or_404(Comment, pk=self.request.GET.get('comment_pk'))
+        user = self.request.user
+        like = CommentLike.objects.filter(user=user, comment=comment)
+
+        if like.exists() :
+            like.delete()
+        else :
+            CommentLike(user=user, comment=comment).save()
+
+        return super(CommentImagePostLikeView, self).get(request, *args, **kwargs)

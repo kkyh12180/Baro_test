@@ -19,7 +19,6 @@ class CommentLike(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_like')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_like')
     comment_like_time = models.DateTimeField(auto_now_add=True)
-    is_good = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'comment_like'
