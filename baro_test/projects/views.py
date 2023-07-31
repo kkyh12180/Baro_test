@@ -1,7 +1,3 @@
-from typing import Any, Optional
-from django.db import models
-from django.forms.models import BaseModelForm
-from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, RedirectView, DeleteView, ListView
 from django.views.generic.list import MultipleObjectMixin
@@ -57,7 +53,7 @@ class ProjectSetView(RedirectView):
         temp = Project()
         temp.project_id="Atemp"
         temp.user = self.request.user
-        temp.title = "Temp"
+        temp.title = "미분류"
         temp.save()
         Announce = Project()
         Announce.project_id="Announce"
@@ -89,6 +85,21 @@ class ProjectListView(ListView):
     context_object_name = 'project_list'
     template_name = 'projects/list.html'
     paginate_by = 25
+    
+    def get_queryset(self):
+        # project.pk가 "A"로 시작하는 프로젝트를 가져오기
+        a_projects = Project.objects.filter(pk__startswith='A').order_by('project_time')
+
+        # 만약 project.pk가 "A"로 시작하는 프로젝트가 있다면, 나머지 프로젝트들은 만들어진 시간 순으로 정렬하여 합치기
+        if a_projects:
+            other_projects = Project.objects.exclude(pk__startswith='A').order_by('project_time')
+            queryset = list(a_projects) + list(other_projects)
+        else:
+            # project.pk가 "A"로 시작하는 프로젝트가 없다면 모든 프로젝트들을 만들어진 시간 순으로 정렬
+            queryset = Project.objects.all().order_by('project_time')
+
+        return queryset
+    
 
 class ProjectDeleteView(DeleteView):
     model = Project
