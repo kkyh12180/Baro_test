@@ -70,3 +70,15 @@ class FollowingListView(ListView):
         uploader_ids = FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
         context["user_list"] = User.objects.filter(pk__in=uploader_ids)
         return context
+
+class BookmarkedListView(ListView):
+    model=ImagePost
+    context_object_name = "bookmark_list"
+    template_name="follows/bookmark.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        bookmarked_posts = BookmarkImagePost.objects.filter(user=self.request.user).values_list('image_post').order_by('-bookmark_time')
+        bookmarked_post_ids = [post[0] for post in bookmarked_posts]
+
+        return ImagePost.objects.filter(pk__in=bookmarked_post_ids)
