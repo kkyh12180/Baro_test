@@ -27,6 +27,11 @@ class ProjectCrateView(CreateView):
     def form_valid(self, form):
         temp_post=form.save(commit=False)
         temp_post.user = self.request.user
+        while True:
+            temp_project=Project.objects.filter(title=temp_post.title)
+            if not temp_project.exists():
+                break
+            temp_post.title=temp_post.title+"l"
         gid = ""
         while (True) :
             letters_set = string.ascii_letters
@@ -38,10 +43,9 @@ class ProjectCrateView(CreateView):
                 Project.objects.get(project_id=random_str)
             except :
                 gid = random_str
+                temp_post.project_id = gid
+                temp_post.save()
                 break
-        temp_post.project_id = gid
-        temp_post.save()
-        
         return super().form_valid(form)
     
     def get_success_url(self):
