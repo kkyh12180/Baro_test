@@ -58,7 +58,7 @@ class PostDetailView(DetailView, FormMixin):
         if user.is_authenticated :
             likes = PostLike.objects.filter(user=user, post=post)
             context['likes'] = likes
-            print(likes)
+            # print(likes)
         return context
 
 @method_decorator(post_ownership_required,'get')

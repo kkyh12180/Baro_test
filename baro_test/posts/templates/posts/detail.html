@@ -104,7 +104,7 @@
         {% endif %} 
     </div>
     {% comment %} comment {% endcomment %}
-    <div style="margin-top: 1rem; height: 55%; overflow-y: scroll">
+    <div style="margin-top: 1rem; height: 40vh; overflow-y: scroll">
         {% include 'comments/create.html' with post=target_post %}
         {% for comment in target_post.post_comment.all %}
             {% include 'comments/detail.html' with comment=comment.comment%}
