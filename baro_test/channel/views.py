@@ -91,7 +91,7 @@ class ChannelListView(ListView, FormMixin):
 
 class ChannelLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
-        return reverse('Channel:detail', kwargs={'pk': self.request.GET.get('post_pk')})
+        return reverse('channel:detail', kwargs={'pk': self.request.GET.get('post_pk')})
     
     def get(self, request, *args, **kwargs) :
         post = get_object_or_404(ChannelPost, pk=self.request.GET.get('post_pk'))
