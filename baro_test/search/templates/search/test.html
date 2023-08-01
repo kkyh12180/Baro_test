@@ -3,10 +3,8 @@
 {% block content %}
     {% if data_list %}
     <ul>
-        {% for item in data_list %}
-            <li>{{ item }}</li>
-            <img src = {{item.name}}>
-            <li>{{ item.name }}</li>
+        {% for id in data_list %}
+            <img src = {{id}}>
         {% endfor %}
     </ul>
     {% else %}
