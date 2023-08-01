@@ -1,100 +1,91 @@
 from elasticsearch import Elasticsearch
-import ssl
 from elasticsearch.helpers import bulk
-from pocket import pocket
-#정보저장
-info = pocket()
+from search.pocket import pocket
 
-# Elasticsearch 연결 정보
-es_host = info.es_host
-es_port = info.es_port
-es_username = info.es_username
-es_password = info.es_password
+class QueryMake():
+    def __init__(self):
+        #정보저장
+        info = pocket()
 
- # Elasticsearch 클라이언트 생성
-es = Elasticsearch(
-    [f"{es_host}:{es_port}"],
-    http_auth=(es_username, es_password),
-    scheme="http"    
-)
+        # Elasticsearch 연결 정보
+        es_host = info.es_host
+        es_port = info.es_port
+        es_username = info.es_username
+        es_password = info.es_password
 
+        # Elasticsearch 클라이언트 생성
+        self.es = Elasticsearch(
+            [f"{es_host}:{es_port}"],
+            http_auth=(es_username, es_password),
+        )
 
-query = "red hair, upper body, eye, black"
-
-
-def tokenizequery(query):
-    query = query.replace(', ', ',')
-    tok = query.split(',')
-    phrase_list =[]
-    words = ""
-    for tk in tok:
-        if " " in tk:
-            phrase = match_phrase(tk)
-            phrase_list.append(phrase)
-        else:
-            words = words + " " + tk
-
-    match_action = match(words)
-    return phrase_list, match_action
-
-
-def match_phrase(phrase):
-    actions = {
-        "match_phrase": {
-            "prompt": {
-                "query": phrase,
-                "slop": 1
+    def match_phrase(self,positive,phrase):
+        actions = {
+            "match_phrase": {
+                positive: {
+                    "query": phrase,
+                    "slop": 1
+                }
             }
         }
-    }
+        return actions
 
-    return actions
-
-def match(words):    
-    actions = {
-        "match": {
-            "prompt": {
-                "query": words                
+    def match(self,positive,words):    
+        actions = {
+            "match": {
+                positive: {
+                    "query": words                
+                }
             }
         }
-    }
 
-    return actions
+        return actions
 
-def make_query(match_action,match):
-    query = {
-        "query": {
-            "bool": {
-                "should": [
-                    
-                ]                
-            }
-        }
-    }
-    ln = len(match_action)
-    for i in range(ln):
-        query["query"]["bool"]["should"].append(match_action[i])
+    def make_query(self,match_action,match):
+        query = {"query": {"bool": {"should": []}}}
+        ln = len(match_action)
+        for i in range(ln):
+            query["query"]["bool"]["should"].append(match_action[i])
 
-    query["query"]["bool"]["should"].append(match)
+        query["query"]["bool"]["should"].append(match)
 
-    return query
+        return query
 
-# query = {"query":{"match_phrase":{"prompt":{"query": "black eyes", "slop":1}}}}
+    def tokenizequery(self,prompt,negative_prompt):
+        phrase_list =[]
+        words = ""
+        #positive
+        prompt = prompt.replace(', ', ',')
+        tok = prompt.split(',')
+        for tk in tok:
+            if " " in tk:
+                phrase = self.match_phrase("prompt",tk)
+                phrase_list.append(phrase)
+            else:
+                words = words + " " + tk
+        match_action = self.match("prompt",words)
 
+        #negative
+        negative_prompt = negative_prompt.replace(', ', ',')
+        tok = negative_prompt.split(',')
+        for tk in tok:
+            if " " in tk:
+                phrase = self.match_phrase("negative_prompt",tk)
+                phrase_list.append(phrase)
+            else:
+                words = words + " " + tk
+        match_action = self.match("negative_prompt",words)
 
- 
-def query_to_elastic(query):
-    phrase_list, match_action = tokenizequery(query)
-    # print(phrase_list)
-    # print(match_action)
+        return self.make_query(phrase_list,match_action)
 
-    fin_query=make_query(phrase_list, match_action)
-    print(fin_query)
+    def query_to_elastic(self,prompt,negative_prompt):
+        fin_query=self.tokenizequery(prompt,negative_prompt)
 
-    result = es.search(index="test_image", body= fin_query, size = 3)
-    for hit in result["hits"]["hits"]:
-        print(hit["_id"])
+        result = self.es.search(index="test_image", body= fin_query, size = 3)
+        id_list=[]
+        for hit in result["hits"]["hits"]:
+            print(hit)
+            id_list.append(hit["_id"])
+        return id_list
+        
 
-
-if __name__ == "__main__":
-    query_to_elastic(query)
