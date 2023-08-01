@@ -1,4 +1,5 @@
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView
+from typing import Any, Dict
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView, FormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse, reverse_lazy
@@ -7,7 +8,7 @@ from django.db import connection
 from django.shortcuts import get_object_or_404
 
 from images.models import ImagePost, ImageTable, ImageInPost, ImagePrompt
-from images.forms import ImagePostCreationForm
+from images.forms import ImagePostCreationForm, ExifForm
 from images.Clear_EXIF import get_exif
 from images.decorators import image_post_ownership_required
 from comments.forms import CommentCreationForm
@@ -395,3 +396,54 @@ class ImagePostBookmarkView(RedirectView) :
             BookmarkImagePost(user=user, image_post=image_post).save()
 
         return super(ImagePostBookmarkView, self).get(request, *args, **kwargs)
+
+class InputExifInfo(FormView) :
+    template_name = 'images/exif_info.html'
+    form_class = ExifForm
+
+    def get_context_data(self, **kwargs) :
+        context = super().get_context_data(**kwargs)
+        pid = self.kwargs.get('pk')
+        context['pid'] = pid
+
+        return context
+    
+    def form_valid(self, form) :
+        prompt = form.cleaned_data['prompt']
+        negative_prompt = form.cleaned_data['negative_prompt']
+        seed = form.cleaned_data['seed']
+        steps = form.cleaned_data['steps']
+        sampler = form.cleaned_data['sampler']
+        cfg_scale = form.cleaned_data['cfg_scale']
+        model_hash = form.cleaned_data['model_hash']
+        clip_skip = form.cleaned_data['clip_skip']
+        denoising_strength = form.cleaned_data['denoising_strength']
+
+        image_id = self.kwargs.get('pk')
+
+        # image 수정 저장
+        image = ImageTable.objects.get(image_id=image_id)
+        image.seed = seed
+        image.steps = steps
+        image.sampler = sampler
+        image.cfg_scale = cfg_scale
+        image.model_hash = model_hash
+        image.clip_skip = clip_skip
+        image.denoising_strength = denoising_strength
+        image.save()
+
+        # prompt 수정 저장
+        pos_prom = ImagePrompt.objects.get(image=image, is_positive=True)
+        pos_prom.prompt=prompt
+        pos_prom.save()
+
+        neg_prom = ImagePrompt.objects.get(image=image, is_positive=False)
+        neg_prom.prompt=negative_prompt
+        neg_prom.save()
+
+        return super().form_valid(form)
+    
+    def get_success_url(self) :
+        image = ImageTable.objects.get(image_id = self.kwargs.get('pk'))
+        ipid = ImageInPost.objects.get(image=image).image_post
+        return reverse('images:detail', kwargs={'pk': ipid.pk})
