@@ -77,11 +77,12 @@
             {% endif %}
         </div>
         <div class="tab-pane fade" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
-            {% if subscription or target_user == user%}
+            {% comment %} {% if subscription or target_user == user%}
                 {% include 'posts/list.html' with post_list=post_list %}
             {% else %}
                 {% include 'posts/list.html' with post_list=not_subscribe_post_list %}
-            {% endif %}
+            {% endif %} {% endcomment %}
+            {% include 'posts/list.html' with post_list=post_list %}
         </div>
     </div>
     

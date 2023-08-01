@@ -79,15 +79,6 @@ class ProjectDetailView(DetailView, MultipleObjectMixin):
             object_list=Post.objects.filter(project=None)
         else:
             object_list=Post.objects.filter(project=self.get_object())
-        '''not_subscribe_list=object_list.filter(subscribe_only=False)
-        subscribe_list=object_list.filter(subscribe_only=True)
-
-        self_list=[post for post in subscribe_list if self.request.user == post.user]
-
-        set_list = [post for post in subscribe_list if SubscribeUploader.objects.filter(user=self.request.user,uploader=post.user)]
-
-        object_list=list(not_subscribe_list)+set_list+self_list
-        sorted_object_list = sorted(object_list, key=lambda post: post.post_time, reverse=True)'''
         return super(ProjectDetailView,self).get_context_data(object_list=object_list,**kwargs)
 
 class ProjectListView(ListView, MultipleObjectMixin):
@@ -96,18 +87,23 @@ class ProjectListView(ListView, MultipleObjectMixin):
     template_name = 'projects/list.html'
     paginate_by = 25
     
-    '''def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["announce_list"] = 
+
+        project_list = Project.objects.all().order_by('pk')
+        context["project_list"] = project_list
+
+         # Get the active project's project_id from the URL (e.g., "G001", "G002", ...)
+        active_project_id = self.request.GET.get('project_id')
+
+        # Retrieve posts for each project and add them to the context
+        for project in project_list:
+            if project.project_id == active_project_id:
+                posts = Post.objects.filter(project=project)
+                context[f"{project.project_id}_list"] = posts
+            else:
+                context[f"{project.project_id}_list"] = []
         return context
-    
-    def get(self, request, *args, **kwargs):
-        announce_project=Project.objects.get(pk="Announce")
-        temp_project=Project.objects.get(pk="Atemp")
-        voc_project=Project.objects.get(pk="Avoc")
-        object_list=Post.objects.get(project=announce_project)
-        return super().get(request, *args, **kwargs)'''
-    
 
 class ProjectDeleteView(DeleteView):
     model = Project

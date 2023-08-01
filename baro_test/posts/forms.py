@@ -9,3 +9,8 @@ class PostCreationForm(ModelForm):
     class Meta:
         model = Post
         fields = ['title','content', 'project']
+
+class AnnounceCreationForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title','content']
