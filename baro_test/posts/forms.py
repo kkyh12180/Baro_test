@@ -4,7 +4,7 @@ from django import forms
 from posts.models import Post, Project
 
 class PostCreationForm(ModelForm):
-    project = forms.ModelChoiceField(queryset=Project.objects.exclude(project_id__in=['Announce', 'Atemp']))
+    project = forms.ModelChoiceField(queryset=Project.objects.exclude(project_id__in=['Announce']))
 
     class Meta:
         model = Post
