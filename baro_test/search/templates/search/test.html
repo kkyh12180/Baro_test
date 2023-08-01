@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block content %}
+    {% if data_list %}
+    <ul>
+        {% for item in data_list %}
+            <li>{{ item }}</li>
+            <img src = {{item.name}}>
+            <li>{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>No data found.</p>
+    {% endif %}
+{% endblock  %}
