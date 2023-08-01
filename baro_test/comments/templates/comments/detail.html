@@ -1,13 +1,19 @@
-<div
-    style="
+<style>
+    .comment-detail-container {
         border: 1px solid;
         text-align: left;
         padding: 2rem;
-        margin: 1rem 0;
+        margin: 2rem 0;
         border-radius: 1rem;
-        border-color: #bbb;
-    "
->
+        border-color: #000000;
+    }
+    
+    .btn {
+        font-family: 'GmarketSansMedium';
+    }
+</style>
+
+<div class="comment-detail-container">
     <div>
         <strong> {{comment.user.username}}</strong>
         &nbsp;&nbsp;&nbsp; <p>{{comment.comment_time}}<p>   
@@ -31,7 +37,6 @@
                             id="not-like-{{ comment.pk }}"
                             href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }} "
                             class="btn btn-outline-danger rounded-pill"
-                            style="font-family: 'GmarketSansMedium';"
                         >
                             좋아요 해제   
                         </a>
@@ -43,7 +48,6 @@
                         id="like-{{ comment.pk }}"
                         href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }}"
                         class="btn btn-outline-success rounded-pill"
-                        style="font-family: 'GmarketSansMedium'"
                     >
                         좋아요
                     </a>
