@@ -8,4 +8,4 @@ class PostCreationForm(ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title','content','subscribe_only','project']
+        fields = ['title','content', 'project']

@@ -5,7 +5,6 @@ from projects.models import Project
 
 # Create your models here.
 class Post(models.Model):
-    # TODO post_id는 P로 시작해야함! 로직 수정 때 확인
     post_id = models.CharField(primary_key=True, max_length=10)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='post')
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, related_name='post')
@@ -13,7 +12,6 @@ class Post(models.Model):
     content = models.TextField(blank=True, null=True)
     post_time = models.DateTimeField(auto_now_add=True)
     like_number = models.IntegerField(blank=True, null=True)
-    subscribe_only = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'post'
