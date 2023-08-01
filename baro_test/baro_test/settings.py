@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'follows',
     'projects',
     'channel',
-    
+    'search',
 ]
 
 MIDDLEWARE = [
