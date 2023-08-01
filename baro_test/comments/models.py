@@ -2,6 +2,7 @@ from django.db import models
 from account.models import User
 from images.models import ImagePost
 from posts.models import Post
+from channel.models import ChannelPost
 
 # Create your models here.
 
@@ -36,3 +37,10 @@ class PostComment(models.Model):
 
     class Meta:
         db_table = 'post_comment'
+
+class ChannelPostComment(models.Model) :
+    channel_post = models.ForeignKey(ChannelPost, on_delete=models.CASCADE, related_name='post_comment')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='post_comment')
+
+    class Meta:
+        db_table = 'channel_post_comment'
