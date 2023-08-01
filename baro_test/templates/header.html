@@ -4,7 +4,7 @@
     data-bs-theme="light"
 >
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Baro</a>
+        <a class="navbar-brand" href="{% url 'search:home' %}">Baro</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="navbarColor03">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"
+                    <a class="nav-link active" aria-current="page" href="{% url 'search:home' %}"
                         >Home</a
                     >
                 </li>
