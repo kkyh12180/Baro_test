@@ -6,5 +6,6 @@ from search.views import *
 app_name ="search"
 
 urlpatterns = [
-    path('',hello_world, name="home"),
+    path('',main, name="home"),
+    path('test/',test,name='test'),
 ]
