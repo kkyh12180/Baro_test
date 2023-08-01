@@ -103,9 +103,6 @@ class CommentDeleteView(DeleteView):
         if post_coms:
             post_com=post_coms[0]
             return reverse('post:detail',kwargs={'pk':post_com.post.pk})
-        
-        
-
     
 class CommentImagePostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
