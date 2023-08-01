@@ -44,6 +44,39 @@ class PostCrateView(CreateView):
     def get_success_url(self):
         return reverse('post:detail',kwargs={'pk':self.object.pk})
     
+
+@method_decorator(login_required,'get')
+@method_decorator(login_required,'post')
+class AnnounceCreateView(CreateView):
+    model = Post
+    form_class = AnnounceCreationForm
+    template_name = 'posts/announce.html'
+
+    def form_valid(self, form):
+        temp_post=form.save(commit=False)
+        temp_post.user = self.request.user
+        temp_post.project = Project.objects.get(project_id="Announce")
+
+        pid = ""
+        while (True) :
+            letters_set = string.ascii_letters
+            num = random.randrange(1, 10) # 1부터 9 사이의 난수 생성
+            random_list = random.sample(letters_set, num)
+            random_str = f"P{''.join(random_list)}"
+
+            try :
+                Post.objects.get(post_id=random_str)
+            except :
+                pid = random_str
+                break
+        temp_post.post_id = pid
+        temp_post.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('post:detail',kwargs={'pk':self.object.pk})
+
 class PostDetailView(DetailView, FormMixin):
     model = Post
     form_class = CommentCreationForm

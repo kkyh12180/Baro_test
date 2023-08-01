@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load project_filters %}
 {% load static %}
 {% block content %}
 <style>
@@ -20,25 +21,34 @@
         border-radius: 1rem;
     }
 </style>
-{% if project_list %}
-<div class="container">
-    {% for project in project_list %}
-    <a href = "{% url 'projects:detail' pk=project.pk %}">
-        {% include 'snippets/card_project.html' with project=project %}
-    </a>
-    {% endfor %}
-</div>
-{% else %}
+{% if user.is_admin %}
 <div style="text-align:center;">
-    <h1> no project yet!</h1>
-</div>
-{% endif %}
-{% include 'snippets/pagination.html' with page_obj=page_obj %}
-<div style="text-align:center;">
-    <a href="{% url 'projects:create' %}" class="btn btn-dark rounded-pill mt-3 mb-3 px-2">
+    <a href="{% url 'projects:create' %}">
         create project
     </a>
+    <a href="{% url 'post:announce' %}">
+        공지사항 작성
+    </a>
 </div>
+{% endif %}
+<div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            {% for project in project_list %}
+            <button class="nav-link {% if forloop.first %}active{% endif %}" id="nav-{{ project.project_id }}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ project.project_id }}" type="button" role="tab" aria-controls="nav-{{ project.project_id }}" aria-selected="{{ forloop.first|yesno:'true,false' }}">{{ project.title }}</button>
+            {% endfor %}
+        </div>
+    </nav>
+</div>
+
+<div class="tab-content" id="nav-tabContent">
+    {% for project in project_list %}
+    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="nav-{{ project.project_id }}" role="tabpanel" aria-labelledby="nav-{{ project.project_id }}-tab">
+        {% include 'posts/list.html' with post_list=context|get_project_posts:project.project_id %}
+    </div>
+    {% endfor %}
+</div>
+
 <script src ="{% static 'js/magicgrid.js' %}"></script>
 {% endblock %}
 
