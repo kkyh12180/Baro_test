@@ -2,14 +2,21 @@
 {% load bootstrap5 %}
 {% block content %}
 <div class="input-group">
-    <div class="form-outline">
-      <input type="search" id="form1" class="form-control" />
-      <label class="form-label" for="form1">promt</label>
-      <input type="search" id="form1" class="form-control" />
-      <label class="form-label" for="form1">negativeprompt</label>
-    </div>
-    <button type="button" class="btn btn-primary">
-      search
-    </button>
-  </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="text" name="prompt" class="form-control" />
+                <label class="form-label" for="prompt">Prompt</label>
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="text" name="negative_prompt" class="form-control" />
+                <label class="form-label" for="negative_prompt">Negative Prompt</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
 {% endblock  %}
