@@ -16,4 +16,5 @@ urlpatterns = [
     path('update/<str:pk>', ImagePostUpdateView.as_view(), name='update'),
     path('like/', ImagePostLikeView.as_view(), name='like'),
     path('bookmark/', ImagePostBookmarkView.as_view(), name='bookmark'),
+    path('exif_input/<str:pk>', InputExifInfo.as_view(), name='input_exif'),
 ]
