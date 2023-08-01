@@ -50,6 +50,14 @@ class CommentCreateView(CreateView):
             temp_image_comment.comment=temp_comment
             temp_image_comment.image_post=ImagePost.objects.get(pk=temp_pk)
             temp_image_comment.save()
+            return super().form_valid(form)
+        
+        if temp_pk[0]=="C":
+            temp_channel_comment = ChannelPostComment()
+            temp_channel_comment.comment=temp_comment
+            temp_channel_comment.channel_post=ChannelPost.objects.get(pk=temp_pk)
+            temp_channel_comment.save()
+            return super().form_valid(form)
         else :
             #Post_comment 생성
             temp_post_comment = PostComment()
@@ -63,10 +71,16 @@ class CommentCreateView(CreateView):
         if image_coms:
             image_com=image_coms[0]
             return reverse('images:detail',kwargs={'pk':image_com.image_post.pk})
+        
+        channel_coms = self.object.channel_comment.all()
+        if channel_coms:
+            channel_com = channel_coms[0]
+            return reverse('channel:detail',kwargs={'pk':channel_com.channel_post.pk})
+        
         post_coms = self.object.post_comment.all()
-        print(post_coms)
-        post_com=post_coms[0]
-        return reverse('post:detail',kwargs={'pk':post_com.post.pk})
+        if post_coms:
+            post_com=post_coms[0]
+            return reverse('post:detail',kwargs={'pk':post_com.post.pk})
 
 @method_decorator(comment_ownership_required,'get')
 @method_decorator(comment_ownership_required,'post')
@@ -79,10 +93,19 @@ class CommentDeleteView(DeleteView):
         if image_coms:
             image_com=image_coms[0]
             return reverse('images:detail',kwargs={'pk':image_com.image_post.pk})
+        
+        channel_coms = self.object.channel_comment.all()
+        if channel_coms:
+            channel_com = channel_coms[0]
+            return reverse('channel:detail',kwargs={'pk':channel_com.channel_post.pk})
+        
         post_coms = self.object.post_comment.all()
-        print(post_coms)
-        post_com=post_coms[0]
-        return reverse('post:detail',kwargs={'pk':post_com.post.pk})
+        if post_coms:
+            post_com=post_coms[0]
+            return reverse('post:detail',kwargs={'pk':post_com.post.pk})
+        
+        
+
     
 class CommentImagePostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
