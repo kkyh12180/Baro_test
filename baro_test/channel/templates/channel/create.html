@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block content %}
+<script src="//cdn.jsdelivr.net/npm/medium-editor@5.23.2/dist/js/medium-editor.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@5.23.2/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+    <style>
+        .testing{
+            background-color: white;
+            height: 3rem;
+            width: 3rem;
+            margin: 1rem;
+        }
+    </style>
+    <div style="text-align: center;max-width: 500px; margin: 4rem auto;">
+        <h1 class="pragmatic_logo">
+            Post create!
+        </h1>
+        <form action="{% url 'channel:create' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form%}
+            <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+        </form>
+    </div>
+<script>var editor = new MediumEditor('.editable');</script>
+{% endblock  %}

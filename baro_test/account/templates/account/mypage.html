@@ -36,6 +36,9 @@
             <a href="{% url 'account:quit' pk=user.user_id %}" style="text-decoration-line: none;">
                 <btn class="btn btn-danger rounded-pill col-6 mt-3">탈퇴</btn>
             </a>
+            <a href="{% url 'channel:create'%}" style="text-decoration-line: none;">
+                <btn class="btn btn-dark rounded-pill col-6 mt-3">글 작성 </btn>
+            </a>
         {% else %}
             {% if user.is_authenticated %}
                 {% comment %} follows {% endcomment %}
@@ -77,12 +80,11 @@
             {% endif %}
         </div>
         <div class="tab-pane fade" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
-            {% comment %} {% if subscription or target_user == user%}
-                {% include 'posts/list.html' with post_list=post_list %}
+            {% if subscription or target_user == user%}
+                {% include 'channel/list.html' with post_list=post_list %}
             {% else %}
-                {% include 'posts/list.html' with post_list=not_subscribe_post_list %}
-            {% endif %} {% endcomment %}
-            {% include 'posts/list.html' with post_list=post_list %}
+                {% include 'channel/list.html' with post_list=not_subscribe_post_list %}
+            {% endif %}
         </div>
     </div>
     

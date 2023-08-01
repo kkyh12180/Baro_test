@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin
+from django.views.generic.edit import FormMixin
 from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -15,7 +16,8 @@ import random
 from account.forms import RegisterForm, AccountUpdateForm, AccountPasswordUpdateForm
 from account.models import User
 from follows.models import *
-from posts.models import Post
+from comments.forms import CommentCreationForm
+from channel.models import ChannelPost
 
 has_ownership = [account_ownership_required, login_required]
 
@@ -50,13 +52,15 @@ class AccountCreateView(CreateView) :
     success_url = reverse_lazy('account:signin')
     template_name = 'account/signup.html'
 
-class AccountDetailView(DetailView, MultipleObjectMixin) :
+class AccountDetailView(DetailView, FormMixin) :
     model = User
+    form_class = CommentCreationForm
     context_object_name = 'target_user'
     template_name = 'account/mypage.html'
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
         uploader=self.object
         user=self.request.user
         if user.is_authenticated:
@@ -65,11 +69,17 @@ class AccountDetailView(DetailView, MultipleObjectMixin) :
         else:
             subscription=None
             following=None
-        image_post_list=ImagePost.objects.filter(user=self.get_object())
+        context["subscription"]=subscription
+        context["following"]=following
+        image_post_list=ImagePost.objects.filter(user=uploader)
+        context["object_list"]=image_post_list
         not_subscribe_image_list = image_post_list.filter(subscribe_only=False)
-        post_list=Post.objects.filter(user=self.get_object())
-        #not_subscribe_post_list = post_list.filter(subscribe_only=False)
-        return super(AccountDetailView,self).get_context_data(not_subscribe_image_list=not_subscribe_image_list,object_list=image_post_list,post_list=post_list,subscription=subscription,following=following,**kwargs)
+        context["not_subscribe_image_list"]=not_subscribe_image_list
+        post_list=ChannelPost.objects.filter(user=uploader)
+        context["post_list"]=post_list
+        not_subscribe_post_list = post_list.filter(subscribe_only=False)
+        context["not_subscribe_post_list"]=not_subscribe_post_list
+        return context
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')

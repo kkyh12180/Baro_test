@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% load static%} {% block content %}
+<div class="container">
+    <div class="title" style="text-align: center; margin-top: 1rem">
+        <h4 style="font-family: 'GmarketSansMedium'">{{ target_post.title }}</h4>
+    </div>
+    <div
+        style="
+            border: 1px solid black;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            padding: 1rem 1rem;
+        "
+    >
+        <strong>{{ target_post.post_time }}</strong>
+        <strong>{% if target_post.subscribe_only %}subscribe{% endif %}</strong>
+        <p>{{ target_post.content }}</p>
+        
+    </div>
+    <div
+            class="button-container"
+            style="
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+                margin-top: 1.2rem;
+                justify-content: flex-end;
+            "
+    >
+        {% if target_post.user == user %}
+                <div style="text-align: center">
+                    <a href="{% url 'channel:update' pk=target_post.pk %}">
+                        <btn
+                            class="btn btn-dark rounded-pill"
+                            style="font-family: 'GmarketSansMedium'"
+                            >수정</btn
+                        >
+                    </a>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                <div style="text-align: center">
+                    <a href="{% url 'channel:delete' pk=target_post.pk %}">
+                        <btn
+                            class="btn btn-danger rounded-pill"
+                            style="font-family: 'GmarketSansMedium'"
+                            >삭제</btn
+                        >
+                    </a>
+                </div>
+        {% else %}
+            {% if user.is_authenticated %}
+                {% if not likes %}
+                    <div style="text-align: center">
+                        <a href="{% url 'channel:like' %}?post_pk={{ target_post.pk }}">
+                            <btn
+                                class="btn btn-outline-success rounded-pill"
+                                style="font-family: 'GmarketSansMedium'"
+                                >좋아요</btn
+                            >
+                        </a>
+                    </div>
+                {% else %}
+                    <div style="text-align: center">
+                        <a href="{% url 'channel:like' %}?post_pk={{ target_post.pk }}">
+                            <btn
+                                class="btn btn-outline-danger rounded-pill"
+                                style="font-family: 'GmarketSansMedium'"
+                                >좋아요 해제</btn
+                            >
+                        </a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endif %} 
+    </div>
+    {% comment %} comment {% endcomment %}
+    <div style="margin-top: 1rem; height: 40vh; overflow-y: scroll">
+        {% include 'comments/create.html' with post=target_post %}
+        {% for comment in target_post.post_comment.all %}
+            {% include 'comments/detail.html' with comment=comment.comment%}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

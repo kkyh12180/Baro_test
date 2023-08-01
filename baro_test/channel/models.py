@@ -15,7 +15,7 @@ class ChannelPost(models.Model):
     class Meta:
         db_table = 'channel_post'
 
-class PostLike(models.Model):
+class ChannelPostLike(models.Model):
     post = models.ForeignKey(ChannelPost, on_delete=models.CASCADE, related_name='channel_post_like')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='channel_post_like')
     post_like_time = models.DateTimeField(default=timezone.now)
