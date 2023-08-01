@@ -22,6 +22,7 @@ urlpatterns = [
     path('image/', include('images.urls')),
     path('comment/',include('comments.urls')),
     path('post/',include('posts.urls')),
+    path('channel/',include('channel.urls')),
     path('follow/',include('follows.urls')),
     path('project/',include('projects.urls')),
 ]
