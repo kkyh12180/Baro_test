@@ -98,5 +98,3 @@ def query_to_elastic(query):
 
 if __name__ == "__main__":
     query_to_elastic(query)
-
-    
