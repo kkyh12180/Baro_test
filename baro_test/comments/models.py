@@ -39,8 +39,8 @@ class PostComment(models.Model):
         db_table = 'post_comment'
 
 class ChannelPostComment(models.Model) :
-    channel_post = models.ForeignKey(ChannelPost, on_delete=models.CASCADE, related_name='post_comment')
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='post_comment')
+    channel_post = models.ForeignKey(ChannelPost, on_delete=models.CASCADE, related_name='channel_comment')
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='channel_comment')
 
     class Meta:
         db_table = 'channel_post_comment'
