@@ -87,17 +87,21 @@ class CommentDeleteView(DeleteView):
 class CommentImagePostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         comment = get_object_or_404(Comment, pk=self.request.GET.get('comment_pk'))
-        ptype = ""
+
         try :
             image_post = ImageComment.objects.get(comment=comment).image_post
-            ptype = "ip"
             image_post_pk = image_post.image_post_id
             return reverse('images:detail', kwargs={'pk': image_post_pk})
         except :
-            post = PostComment.objects.get(comment=comment).post
-            ptype = "p"
-            post_pk=post.post_id
-            return reverse('post:detail', kwargs={'pk': post_pk})
+            try :
+                post = PostComment.objects.get(comment=comment).post
+                post_pk=post.post_id
+                return reverse('post:detail', kwargs={'pk': post_pk})
+            except :
+                channel_post = ChannelPostComment.objects.get(comment=comment).channel_post
+                channel_post_pk = channel_post.channel_post_id
+                return reverse('channel:detail', kwargs={'pk': channel_post_pk})
+
     
     def get(self, request, *args, **kwargs) :
         comment = get_object_or_404(Comment, pk=self.request.GET.get('comment_pk'))
