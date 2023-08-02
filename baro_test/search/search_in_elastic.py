@@ -42,13 +42,13 @@ class QueryMake():
         return actions
 
     def make_query(self,match_action,prompt_match,negative_match):
-        query = {"query": {"bool": {"should": [{"match":{'negative_prompt':"nsfw easynegative"}}]}}}
+        query = {"query": {"bool": {"should": [], "must_not" :[{{"match":{'negative_prompt':"nsfw easynegative"}}}]}} }
         ln = len(match_action)
         for i in range(ln):
             query["query"]["bool"]["should"].append(match_action[i])
 
         query["query"]["bool"]["should"].append(prompt_match)
-        query["query"]["bool"]["should"].append(negative_match)
+        query["query"]["bool"]["must_not"].append(negative_match)
 
         return query
 
