@@ -8,10 +8,11 @@ def main(request):
     if request.method == 'POST':
         prompt=request.POST.get('prompt','')
         negative_prompt = request.POST.get('negative_prompt','')
-        print(request.user)
-        temp_log = LogClass()
-        temp_log.log_data(prompt,negative_prompt)
-        temp_log.logs()
+        print(request.user.pk)
+        if request.user != "AnonyomousUser":
+            temp_log = LogClass()
+            temp_log.log_data(prompt,negative_prompt,request.user.pk)
+            temp_log.logs(request.user.pk)
         context=result(prompt=prompt,negative_prompt=negative_prompt)
         return render(request,'search/result.html',context)
     return render(request,'search/main.html')
