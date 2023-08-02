@@ -47,13 +47,12 @@
     {% block css %} {% endblock %}
 </head>
 
-<body style="font-family:'GmarketSansLight';">
+<body class="d-flex flex-column min-vh-100" style="font-family:'GmarketSansLight';">
     
     {% include 'header.html' %}
 
     {% block content %}
     {% endblock %}
-
     
     {% include 'footer.html' %}
     

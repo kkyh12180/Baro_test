@@ -15,7 +15,7 @@
         </h1>
         <form action="{% url 'post:delete' pk=target_post.pk %}" method="POST">
             {% csrf_token %}
-            <input type="submit" class="btn btn-danger rounded-pill col-6 mt-3">
+            <input type="submit" class="btn btn-danger rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium'">
         </form>
     </div>
 {% endblock  %}
