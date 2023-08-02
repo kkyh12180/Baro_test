@@ -11,6 +11,7 @@ class Prompt(models.Model):
         db_table = 'prompt'
 
 class Prompt_log(models.Model):
+    prompt_log_id = models.CharField(primary_key=True,max_length=12)
     user = models.ForeignKey(User,on_delete=models.CASCADE, blank=True, null=True, related_name="prompt_log")
     prompt = models.TextField()
     negative_prompt = models.TextField()
