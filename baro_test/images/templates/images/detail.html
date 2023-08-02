@@ -1,23 +1,12 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
 
-<style>
-    .comment_container::-webkit-scrollbar {
-        width: 3px;
-    }
+{% load static %}
 
-    .comment_container::-webkit-scrollbar-thumb {
-        height: 5%;
-        background: rgba(255, 255, 255)
-        
-        border-radius: 1rem;
-        background-clip: padding-box;
-    }
-    
-    .comment_container::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255); 
-    }
-</style>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/image/image_detail.css' %}">
+{% endblock %}
 
+{% block content %}
 <div
     class="container-fluid"
     style="width: 100%; height: 80vh; padding-left: 0; padding-right: 0"
@@ -31,39 +20,22 @@
             id="carouselExample"
             class="carousel slide col-10"
             data-ride="carousel"
-            style="height: 100%; background-color: rgba(0, 0, 0, 0.3)"
         >
-            <div class="carousel-inner" style="width: 100%; height: 100%">
+            <div class="carousel-inner">
                 {% if first_image %}
-                <div
-                    class="carousel-item active"
-                    style="width: 100%; height: 100%"
-                >
+                <div class="carousel-item active">
                     <img
                         name="img_box"
                         class="d-block"
                         src="data:image/jpeg;base64,{{ first_image.image_file }}"
                         alt="First slide"
-                        style="width: 100%; height: 100%; object-fit: contain"
                         onclick="showInfo()"
                     />
                     <div
                         name="exifBox"
                         class="carousel-caption d-none d-md-block align-middle"
-                        style="
-                            background-color: rgba(0, 0, 0, 0.7);
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            right: 0;
-                            bottom: 1px;
-                            left: 0%;
-                            color: #fff;
-                            text-align: center;
-                            padding: 7rem 4rem 1rem;
-                            display: none !important;
-                        "
                         onclick="hideInfo()"
+                        style="display: none !important"
                     >
                         <div class="align-middle">
                             <p>prompts: {{first_image_pos}}</p>
@@ -78,10 +50,12 @@
                                 denoising strength:
                                 {{first_image.denoising_strength}}
                             </p>
-                            <a href="{% url 'images:input_exif' pk=first_image.pk %}">
+                            <a
+                                href="{% url 'images:input_exif' pk=first_image.pk %}"
+                            >
                                 <btn
-                                class="btn btn-outline-light rounded-pill"
-                                style="font-family: 'GmarketSansMedium'"
+                                    class="btn btn-outline-light rounded-pill"
+                                    style="font-family: 'GmarketSansMedium'"
                                 >
                                     이미지 정보 수정</btn
                                 >
@@ -96,26 +70,13 @@
                         class="d-block"
                         src="data:image/jpeg;base64,{{ image.0.image_file }}"
                         alt="Second slide"
-                        style="width: 100%; height: 100%; object-fit: contain"
                         onclick="showInfo()"
                     />
                     <div
                         name="exifBox"
                         class="carousel-caption d-none d-md-block align-middle"
-                        style="
-                            background-color: rgba(0, 0, 0, 0.7);
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            right: 0;
-                            bottom: 1px;
-                            left: 0%;
-                            color: #fff;
-                            text-align: center;
-                            padding: 7rem 4rem 1rem;
-                            display: none !important;
-                        "
                         onclick="hideInfo()"
+                        style="display: none !important"
                     >
                         <div class="align-middle">
                             <p>prompts: {{image.1}}</p>
@@ -130,11 +91,10 @@
                                 denoising strength:
                                 {{image.0.denoising_strength}}
                             </p>
-                            <a href="{% url 'images:input_exif' pk=image.0.pk %}">
-                                <btn
-                                class="btn btn-outline-light rounded-pill"
-                                style="font-family: 'GmarketSansMedium'"
-                                >
+                            <a
+                                href="{% url 'images:input_exif' pk=image.0.pk %}"
+                            >
+                                <btn class="btn btn-outline-light rounded-pill">
                                     이미지 정보 수정</btn
                                 >
                             </a>
@@ -148,7 +108,6 @@
                 type="button"
                 data-bs-target="#carouselExample"
                 data-bs-slide="prev"
-                style="background-color: rgba(0, 0, 0, 0.7); width: 5%"
             >
                 <span
                     class="carousel-control-prev-icon"
@@ -161,7 +120,6 @@
                 type="button"
                 data-bs-target="#carouselExample"
                 data-bs-slide="next"
-                style="background-color: rgba(0, 0, 0, 0.7); width: 5%"
             >
                 <span
                     class="carousel-control-next-icon"
@@ -171,155 +129,89 @@
             </button>
         </div>
 
-        {% comment %} else data {% endcomment %}
-        <div class="col-2" style="position: relative; height: 80vh;">
-            <div style="height: 50%; max-height: 50%">
-                <div class="title" style="text-align: center; margin-top: 1rem">
-                    <h4 style="font-family: 'GmarketSansMedium'">
-                        {{ target_post.title }}
-                    </h4>
+        <div class="col-2" style="position: relative; height: 80vh">
+            <div style="height: 50%; max-height: 40vh; top: 0">
+                <div class="title">
+                    <h4>{{ target_post.title }}</h4>
                 </div>
-                <div
-                    class="user-info-container"
-                    style="
-                        display: flex;
-                        flex-direction: row;
-                        align-items: flex-end;
-                        margin-top: 2rem;
-                    "
-                >
+                <div class="user-info-container">
                     {% if target_post.user.profile_image %}
                     <img
+                        class="user-img"
                         src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
                         alt=""
-                        style="
-                            border: 1px solid black;
-                            height: 5rem;
-                            width: 5rem;
-                            border-radius: 20rem;
-                            object-fit: cover;
-                        "
                     />
                     {% else %}
-                    <img
-                        src="{% static 'images/no_profile.png'%}"
-                        alt=""
-                        style="
-                            border: 1px solid black;
-                            height: 5rem;
-                            width: 5rem;
-                            border-radius: 20rem;
-                            object-fit: cover;
-                        "
-                    />
+                    <img class="user-img" src="{% static 'images/no_profile.png'%}" alt="" />
                     {% endif %} &nbsp;&nbsp;&nbsp;
                     <a href="{% url 'account:detail' pk=target_post.user.pk %}">
                         <strong>{{ target_post.user.username }}</strong>
                     </a>
                 </div>
-                <div
-                    style="
-                        border: 1px solid black;
-                        border-radius: 1rem;
-                        margin-top: 2rem;
-                        padding: 1rem 1rem;
-                    "
-                >
+                <div class="content-container">
                     <p>{{ target_post.content }}</p>
                     <strong>{{ target_post.post_time }}</strong>
                 </div>
-                <div
-                    class="user-info-container"
-                    style="
-                        display: flex;
-                        flex-direction: row;
-                        align-items: flex-end;
-                        margin-top: 1.2rem;
-                        justify-content: flex-end;
-                    "
-                >
-                {% if target_post.user == user %}
-                    <div style="text-align: center">
-                        <a href="{% url 'images:update' pk=target_post.pk %}">
-                            <btn
-                                class="btn btn-dark rounded-pill"
-                                style="font-family: 'GmarketSansMedium'"
-                                >수정</btn
-                            >
-                        </a>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div style="text-align: center">
-                        <a href="{% url 'images:delete' pk=target_post.pk %}">
-                            <btn
-                                class="btn btn-danger rounded-pill"
-                                style="font-family: 'GmarketSansMedium'"
-                                >삭제</btn
-                            >
-                        </a>
-                    </div>
-                {% else %}
-                    {% if user.is_authenticated %}
-                        {% if not bookmarks %}
+                <div class="button-container">
+                    {% if target_post.user == user %}
                         <div style="text-align: center">
-                            <a href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}">
-                                <btn
-                                    class="btn btn-outline-success rounded-pill"
-                                    style="font-family: 'GmarketSansMedium'"
-                                    >bookmark</btn
-                                >
+                            <a href="{% url 'images:update' pk=target_post.pk %}">
+                                <btn class="btn btn-dark rounded-pill">수정</btn>
                             </a>
                         </div>
-                        {% else %}
+                        &nbsp;&nbsp;&nbsp;
                         <div style="text-align: center">
-                            <a href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}">
-                                <btn
-                                    class="btn btn-outline-danger rounded-pill"
-                                    style="font-family: 'GmarketSansMedium'"
-                                    >not bookmark</btn
-                                >
+                            <a href="{% url 'images:delete' pk=target_post.pk %}">
+                                <btn class="btn btn-danger rounded-pill">삭제</btn>
                             </a>
                         </div>
-                        {% endif %}
-                        {% if not likes %}
-                        <div style="text-align: center">
-                            <a href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}">
-                                <btn
-                                    class="btn btn-outline-success rounded-pill"
-                                    style="font-family: 'GmarketSansMedium'"
-                                    >좋아요</btn
-                                >
-                            </a>
-                        </div>
-                        {% else %}
-                        <div style="text-align: center">
-                            <a href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}">
-                                <btn
-                                    class="btn btn-outline-danger rounded-pill"
-                                    style="font-family: 'GmarketSansMedium'"
-                                    >좋아요 해제</btn
-                                >
-                            </a>
-                        </div>
-                        {% endif %}
+                    {% else %}
+                        {% if user.is_authenticated %}
+                            {% if not bookmarks %}
+                                <div style="text-align: center">
+                                    <a
+                                        href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}"
+                                    >
+                                        <btn class="btn btn-dark rounded-pill">북마크</btn>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div style="text-align: center">
+                                    <a
+                                        href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}"
+                                    >
+                                        <btn class="btn btn-outline-danger rounded-pill"
+                                            >북마크 해제</btn
+                                        >
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if not likes %}
+                                <div style="text-align: center">
+                                    <a
+                                        href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
+                                    >
+                                        <btn class="btn btn-outline-success rounded-pill"
+                                            >좋아요</btn
+                                        >
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div style="text-align: center">
+                                    <a
+                                        href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
+                                    >
+                                        <btn class="btn btn-outline-danger rounded-pill"
+                                            >좋아요 해제</btn
+                                        >
+                                    </a>
+                                </div>
+                            {% endif %} 
+                        {% endif %} 
                     {% endif %}
-                {% endif %}
                 </div>
             </div>
-            <div
-                class="comment_container"
-                style="
-                    width: 100%;
-                    height: 50%;
-                    max-height: 35vh;
-                    overflow-y: auto;
-                    margin-top: 1rem;
-                    border: 1px solid black;
-                    border-radius: 1rem;
-                    padding: 1rem 1rem;
-                    
-                "
-            >
+            <div class="comment_container">
                 {% include 'comments/create.html' with post=target_post %}
                 {% for comment in target_post.image_comment.all %}
                     {% include 'comments/detail.html' with comment=comment.comment%}
@@ -341,7 +233,7 @@
         const exifDivs = document.getElementsByName("exifBox");
 
         for (exifDiv of exifDivs) {
-            if (exifDiv.style.display == "none")
+            if (exifDiv.style.display === "none")
                 exifDiv.style.setProperty("display", "block", "important");
         }
     }

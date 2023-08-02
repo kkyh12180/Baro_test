@@ -1,0 +1,110 @@
+.comment_container::-webkit-scrollbar {
+    width: 3px;
+}
+
+.comment_container::-webkit-scrollbar-thumb {
+    height: 5%;
+    background: rgba(255, 255, 255);
+    
+    border-radius: 1rem;
+    background-clip: padding-box;
+}
+
+.comment_container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255); 
+}
+
+#carouselExample {
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.carousel-inner {
+    width: 100%; 
+    height: 100%;
+}
+
+.carousel-item {
+    width: 100%; height: 100%
+}
+
+.d-block {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.carousel-caption{
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 1px;
+    left: 0%;
+    color: #fff;
+    text-align: center;
+    padding: 7rem 4rem 1rem;
+}
+
+.btn {
+    font-family: 'GmarketSansMedium';
+}
+
+.carousel-control-prev {
+    background-color: rgba(0, 0, 0, 0.7); 
+    width: 5%;
+}
+
+.carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.7); 
+    width: 5%;
+}
+
+.title {
+    text-align: center;
+    margin-top: 1rem;
+    font-family: 'GmarketSansMedium';
+}
+
+.user-info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-top: 2rem;
+}
+
+.user-img {
+    border: 1px solid black;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 20rem;
+    object-fit: cover;
+}
+
+.content-container {
+    border: 1px solid black;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    padding: 1rem 1rem;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-top: 1.2rem;
+    justify-content: flex-
+}
+
+.comment_container {
+    width: 100%;
+    height: 50%;
+    max-height: 40vh;
+    overflow-y: auto;
+    margin-top: 1rem;
+    padding: 1rem 1rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

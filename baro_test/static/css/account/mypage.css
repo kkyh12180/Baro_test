@@ -1,0 +1,44 @@
+.container div {
+    width: 250px;
+    height: auto;
+    border-radius: 1rem;
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.user-info-container {
+    text-align: center; 
+    margin: 2rem auto;
+}
+
+.profile-image{
+    height: 12rem; 
+    width: 12rem; 
+    border-radius: 20rem; 
+    margin-bottom: 2rem; 
+    object-fit: cover;
+}
+
+h2 {
+    font-family: 'GmarketSansBold';
+}
+
+.user-info-button {
+    text-decoration-line: none;
+    font-family: 'GmarketSansMedium';
+}
+
+.tab-container {
+    margin-top: 2rem;
+}
+
+.tab-content {
+    margin-top: 2rem;
+}

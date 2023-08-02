@@ -1,10 +1,6 @@
 {% load bootstrap5 %}
-<style>
-    .form-group textarea.form-control{
-        height: 100px;
-    }
-</style>
-<div style="text-align: center;max-width: 500px; margin: 4rem auto;">
+
+<div style="text-align: center; margin: 1rem auto;">
     <form action="{% url 'comment:create' post.pk %}" method="POST">
         {% csrf_token %}
         {% if user.is_authenticated %}
