@@ -4,6 +4,30 @@ from elasticsearch import Elasticsearch
 
 from search.pocket import pocket
 
+def log_data(prompt,negative):
+    info = pocket()
+    host=info.es_host
+    port=info.es_port
+    es_username = info.es_username
+    es_password = info.es_password
+
+    es=Elasticsearch(
+        [f"{host}:{port}"],
+        http_auth=(es_username, es_password),
+    )
+
+    query={
+        "prompt":prompt,
+        "negative":negative
+    }
+    res = es.index(index="log",body=query)
+    res_id=res['_id']
+    print(res['_id'])
+    
+    ress=es.get(index="log",id=res_id)
+    print(ress['_source'])
+
+
 def logs():
     info = pocket()
     host=info.es_host.replace("http://","")
