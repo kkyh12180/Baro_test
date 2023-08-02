@@ -48,26 +48,6 @@ class ProjectCrateView(CreateView):
     def get_success_url(self):
         return reverse('projects:detail',kwargs={'pk':self.object.pk})
 
-
-class ProjectSetView(RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        temp = Project()
-        temp.project_id="Atemp"
-        temp.user = self.request.user
-        temp.title = "자유게시판"
-        temp.save()
-        Announce = Project()
-        Announce.project_id="Announce"
-        Announce.user = self.request.user
-        Announce.title = "공지사항"
-        Announce.save()
-        voc = Project()
-        voc.project_id="Avoc"
-        voc.user = self.request.user
-        voc.title = "VOC"
-        voc.save()
-        return reverse('projects:list')
-
 class ProjectDetailView(DetailView, MultipleObjectMixin):
     model = Project
     context_object_name = 'target_project'
