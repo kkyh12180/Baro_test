@@ -55,7 +55,7 @@ class AnnounceCreateView(CreateView):
     def form_valid(self, form):
         temp_post=form.save(commit=False)
         temp_post.user = self.request.user
-        temp_post.project = Project.objects.get(project_id="Announce")
+        temp_post.project = Project.objects.get(project_id="A_Announce")
 
         pid = ""
         while (True) :

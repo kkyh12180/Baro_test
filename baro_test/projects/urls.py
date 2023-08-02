@@ -10,7 +10,6 @@ urlpatterns = [
     path('create/',ProjectCrateView.as_view(), name='create'),
     path('detail/<str:pk>',ProjectDetailView.as_view(), name='detail'),
     path('delete/<str:pk>',ProjectDeleteView.as_view(), name='delete'),
-    path('set/',ProjectSetView.as_view(),name='set'),
     path('clear/',clear),
     
 ]
