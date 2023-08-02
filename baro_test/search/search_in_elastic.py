@@ -41,7 +41,7 @@ class QueryMake():
 
         return actions
 
-    def make_query(self,match_action,prompt_match,negative_match):
+    def make_query(self,match_action,negative_match_action,prompt_match,negative_match):
         easy_negative={
             "match":{
                 'negative_prompt':{
@@ -55,6 +55,9 @@ class QueryMake():
         ln = len(match_action)
         for i in range(ln):
             query["query"]["bool"]["should"].append(match_action[i])
+        n_ln = len(negative_match_action)
+        for i in range(n_ln):
+            query["query"]["bool"]["must_not"].append(negative_match_action[i])
 
         query["query"]["bool"]["should"].append(prompt_match)
         query["query"]["bool"]["must_not"].append(negative_match)
@@ -63,6 +66,7 @@ class QueryMake():
 
     def tokenizequery(self,prompt,negative_prompt):
         phrase_list =[]
+        negative_phrase_list = []
         words = ""
         #positive
         prompt = prompt.replace(', ', ',')
@@ -82,12 +86,12 @@ class QueryMake():
         for tk in tok:
             if " " in tk:
                 phrase = self.match_phrase("negative_prompt",tk)
-                phrase_list.append(phrase)
+                negative_phrase_list.append(phrase)
             else:
                 words = words + " " + tk
         negative_match_action = self.match("negative_prompt",words)
 
-        return self.make_query(phrase_list,prompt_match_action,negative_match_action)
+        return self.make_query(phrase_list, negative_phrase_list,prompt_match_action,negative_match_action)
 
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
