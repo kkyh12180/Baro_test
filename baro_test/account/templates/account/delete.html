@@ -6,7 +6,7 @@
     </div>
     <form action="{% url 'account:quit' pk=target_user.pk %}" method="post">
         {% csrf_token %}
-        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" />
+        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';" value="확인"/>
     </form>
 </div>
 

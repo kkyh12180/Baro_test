@@ -17,13 +17,13 @@
         {% endif %}
         {% if target_project.pk|slice:"1" != "A" %}
             {% if target_project.user == user %}
-                <a href="{% url 'projects:delete' pk=target_project.pk %}" class="btn btn-danger rounded-pill">
-                    delete
+                <a href="{% url 'projects:delete' pk=target_project.pk %}" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium';">
+                    삭제
                 </a>
             {% endif %}
         {% elif user.is_admin %}
-            <a href="{% url 'projects:delete' pk=target_project.pk %}" class="btn btn-danger rounded-pill">
-                delete
+            <a href="{% url 'projects:delete' pk=target_project.pk %}" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium';">
+                삭제
             </a>
         {% endif %}
     </div>

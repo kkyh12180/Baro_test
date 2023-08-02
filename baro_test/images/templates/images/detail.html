@@ -50,6 +50,7 @@
                                 denoising strength:
                                 {{first_image.denoising_strength}}
                             </p>
+                            {% if target_post.user == user%}
                             <a
                                 href="{% url 'images:input_exif' pk=first_image.pk %}"
                             >
@@ -60,6 +61,7 @@
                                     이미지 정보 수정</btn
                                 >
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -91,6 +93,7 @@
                                 denoising strength:
                                 {{image.0.denoising_strength}}
                             </p>
+                            {% if target_post.user == user%}
                             <a
                                 href="{% url 'images:input_exif' pk=image.0.pk %}"
                             >
@@ -98,6 +101,7 @@
                                     이미지 정보 수정</btn
                                 >
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
