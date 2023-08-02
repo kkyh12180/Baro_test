@@ -41,13 +41,14 @@ class QueryMake():
 
         return actions
 
-    def make_query(self,match_action,match):
-        query = {"query": {"bool": {"should": []}}}
+    def make_query(self,match_action,prompt_match,negative_match):
+        query = {"query": {"bool": {"should": [{"match":{'negative_prompt':"nsfw easynegative"}}]}}}
         ln = len(match_action)
         for i in range(ln):
             query["query"]["bool"]["should"].append(match_action[i])
 
-        query["query"]["bool"]["should"].append(match)
+        query["query"]["bool"]["should"].append(prompt_match)
+        query["query"]["bool"]["should"].append(negative_match)
 
         return query
 
@@ -63,8 +64,9 @@ class QueryMake():
                 phrase_list.append(phrase)
             else:
                 words = words + " " + tk
-        match_action = self.match("prompt",words)
+        prompt_match_action = self.match("prompt",words)
 
+        words = ""
         #negative
         negative_prompt = negative_prompt.replace(', ', ',')
         tok = negative_prompt.split(',')
@@ -74,13 +76,13 @@ class QueryMake():
                 phrase_list.append(phrase)
             else:
                 words = words + " " + tk
-        match_action = self.match("negative_prompt",words)
+        negative_match_action = self.match("negative_prompt",words)
 
-        return self.make_query(phrase_list,match_action)
+        return self.make_query(phrase_list,prompt_match_action,negative_match_action)
 
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
-
+        print(fin_query)
         result = self.es.search(index="test_image", body= fin_query, size = 3)
         id_list=[]
         for hit in result["hits"]["hits"]:
