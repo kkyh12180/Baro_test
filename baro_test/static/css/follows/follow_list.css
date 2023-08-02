@@ -1,0 +1,46 @@
+.container div {
+    width: 250px;
+    height: auto;
+    border-radius: 1rem;
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.user-list-container {
+    text-align: center;
+}
+
+.user-list-container div {
+    width: 250px;
+    height: 100%;
+    border-radius: 1rem;
+    justify-content: center;
+    display: inline-block;
+    align-items: center;
+}
+
+.user-list-container .wrap-vertical {
+    width: 60%;
+    height: 8rem;
+    margin: 0;
+    overflow: scroll;
+    white-space: nowrap;
+}
+
+.wrap-vertical::-webkit-scrollbar {
+    display: none;
+}
+
+.user-profile {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 20rem;
+    margin-bottom: 2rem;
+}

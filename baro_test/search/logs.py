@@ -1,5 +1,4 @@
 import logging
-import logstash
 from elasticsearch import Elasticsearch
 
 from search.pocket import pocket

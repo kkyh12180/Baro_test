@@ -1,64 +1,50 @@
-{% extends 'base.html' %}
-{% block content %}
-{% load static %}
-<style>
-    .container div {
-        width: 250px;
-        height: auto;
-        border-radius: 1rem;
-        background-color: antiquewhite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container img {
-        width: 100%;
-        border-radius: 1rem;
-    }
-
-    .user-list-container {
-        text-align: center;
-    }
-
-    .user-list-container div {
-        width: 250px;   
-        height: 250px;
-        border-radius: 1rem;
-        justify-content: center;
-        display: inline-block;
-        align-items: center;
-    }
-
-    .user-list-container .wrap-vertical{
-        width: 80%;
-        height: 8rem;
-        margin: 0;
-        overflow: auto;
-        white-space: nowrap;
-    }
-
-    .wrap-vertical::-webkit-scrollbar{
-        display: none;
-    }
-
-</style>
+{% extends 'base.html' %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}" />
+{% endblock %} {% block content %}
 
 <div class="user-list-container">
-    <div class="wrap-vertical">
+    <div id="horizonal-user" class="wrap-vertical">
         {% for user in user_list %}
-        <a href = "{% url 'account:detail' username=user.username %}">
-            {% if user.profile_image %}
-                <img src="data:image/jpeg;base64,{{ user.profile_image }}" alt="" style="height: 6rem; width: 6rem; border-radius: 20rem; margin-bottom: 2rem;">
-            {% else %}
-                <img src="{% static 'images/no_profile.png'%}" alt="" style="height: 6rem; width: 6rem; border-radius: 20rem; margin-bottom: 2rem;">
-            {% endif %}
-            <div style="width: 50px; height: 50px;">{{user.username}}</div>
-        </a>
+        <div class="user-div">
+            <a href="{% url 'account:detail' username=user.username %}">
+                {% if user.profile_image %}
+                <img
+                    class="user-profile"
+                    src="data:image/jpeg;base64,{{ user.profile_image }}"
+                    alt=""
+                />
+                {% else %}
+                <img
+                    class="user-profile"
+                    src="{% static 'images/no_profile.png'%}"
+                    alt=""
+                />
+                {% endif %}
+                <div style="width: 50px; height: 50px">{{user.username}}</div>
+            </a>
+        </div>
         {% endfor %}
     </div>
 </div>
 
 {% include 'snippets/images_fragment.html' with image_post_list=image_post_list%}
 
-{% endblock  %}
+<script>
+    $("#horizonal-user").on("mousewheel", function (e) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        var wheelDelta = e.originalEvent.wheelDelta;
+
+        if (wheelDelta > 0) {
+            $(this).scrollLeft(-wheelDelta + $(this).scrollLeft());
+        } else {
+            $(this).scrollLeft(-wheelDelta + $(this).scrollLeft());
+        }
+
+        // 외부 스크롤 이벤트 막기
+        return false;
+    });
+</script>
+
+{% endblock %}

@@ -7,7 +7,7 @@
         <div class="form-group">
         {% bootstrap_form form %}
         </div>
-        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';" value="등록">
         {% else %}
         <a href="{% url 'account:signin' %}?next={{reqeust.path}}" class="btn btn-dark rounded-pill col-6 mt3">
             login

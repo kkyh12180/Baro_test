@@ -1,38 +1,29 @@
-{% extends 'base.html' %} {% load static%} {% block content %}
+{% extends 'base.html' %} {% load static%} 
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/post/post_detail.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
-    <div class="title" style="text-align: center; margin-top: 1rem">
-        <h4 style="font-family: 'GmarketSansMedium'">{{ target_post.title }}</h4>
-        <a href="{% url 'account:detail' username=target_post.user.username %}">
-            <h5>{{target_post.user.username}}</h5>
-        </a>
+    <div class="title">
+        <h4 class="title-text" style="font-family: 'GmarketSansMedium';">{{ target_post.title }}</h4>
     </div>
     <div class="user-info-container">
-        {% if target_post.user.profile_image %}
-            <img
-                src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
-                alt=""
-                style="
-                    border: 1px solid black;
-                    height: 5rem;
-                    width: 5rem;
-                    border-radius: 20rem;
-                    object-fit: cover;
-                "
-            />
-        {% else %}
-            <img
-                src="{% static 'images/no_profile.png'%}"
-                alt=""
-                style="
-                    border: 1px solid black;
-                    height: 5rem;
-                    width: 5rem;
-                    border-radius: 20rem;
-                    object-fit: cover;
-                "
-            />
-        {% endif %} &nbsp;&nbsp;&nbsp;
         <a href="{% url 'account:detail' username=target_post.user.username %}">
+            {% if target_post.user.profile_image %}
+                <img
+                    class="user-image"
+                    src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
+                    alt=""
+                />
+            {% else %}
+                <img
+                    class="user-image"
+                    src="{% static 'images/no_profile.png'%}"
+                    alt=""
+                />
+            {% endif %} &nbsp;&nbsp;&nbsp;
             <strong>{{ target_post.user.username }}</strong>
         </a>
         <div style="text-align:right;">
@@ -46,26 +37,12 @@
         </div>
     </div>
     <div
-        style="
-            border: 1px solid black;
-            border-radius: 1rem;
-            margin-top: 2rem;
-            padding: 1rem 1rem;
-        "
+        class="content-div"
     >
         <p>{{ target_post.content }}</p>
         <strong>{{ target_post.post_time }}</strong>
     </div>
-    <div
-            class="button-container"
-            style="
-                display: flex;
-                flex-direction: row;
-                align-items: flex-end;
-                margin-top: 1.2rem;
-                justify-content: flex-end;
-            "
-    >
+    <div class="button-container">
         {% if target_post.user == user %}
                 <div style="text-align: center">
                     <a href="{% url 'post:update' pk=target_post.pk %}">
@@ -113,7 +90,7 @@
         {% endif %} 
     </div>
     {% comment %} comment {% endcomment %}
-    <div style="margin-top: 1rem; height: 40vh; overflow-y: scroll">
+    <div class="post-comment-div">
         {% include 'comments/create.html' with post=target_post %}
         {% for comment in target_post.post_comment.all %}
             {% include 'comments/detail.html' with comment=comment.comment%}
