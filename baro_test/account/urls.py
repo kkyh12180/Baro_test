@@ -14,7 +14,7 @@ urlpatterns = [
     path('signin/', LoginView.as_view(template_name='account/signin.html'), name='signin'),
     path('signup/', AccountCreateView.as_view(), name='signup'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('mypage/<str:pk>', AccountDetailView.as_view(), name='detail'),
+    path('mypage/<str:username>', AccountDetailView.as_view(), name='detail'),
     path('edit_info/<str:pk>', AccountUpdateView.as_view(), name='edit'),
     path('edit_password/<str:pk>', AccountPasswordUpdateView.as_view(), name='edit_password'),
     path('quit/<str:pk>', AccountDeleteView.as_view(), name='quit'),
