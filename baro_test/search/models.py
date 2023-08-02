@@ -1,4 +1,5 @@
 from django.db import models
+from account.models import User
 
 # Create your models here.
 class Prompt(models.Model):
@@ -8,3 +9,12 @@ class Prompt(models.Model):
 
     class Meta:
         db_table = 'prompt'
+
+class Prompt_log(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE, blank=True, null=True, related_name="prompt_log")
+    prompt = models.TextField()
+    negative_prompt = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'prompt_log'
