@@ -8,6 +8,7 @@ def main(request):
     if request.method == 'POST':
         prompt=request.POST.get('prompt','')
         negative_prompt = request.POST.get('negative_prompt','')
+        log_data(prompt,negative_prompt)
         context=result(prompt=prompt,negative_prompt=negative_prompt)
         return render(request,'search/result.html',context)
     return render(request,'search/main.html')
