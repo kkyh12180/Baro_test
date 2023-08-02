@@ -144,7 +144,7 @@
                     {% else %}
                     <img class="user-img" src="{% static 'images/no_profile.png'%}" alt="" />
                     {% endif %} &nbsp;&nbsp;&nbsp;
-                    <a href="{% url 'account:detail' pk=target_post.user.pk %}">
+                    <a href="{% url 'account:detail' username=target_post.user.username %}">
                         <strong>{{ target_post.user.username }}</strong>
                     </a>
                 </div>

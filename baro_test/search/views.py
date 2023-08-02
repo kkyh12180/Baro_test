@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from search.search_in_elastic_lifeness import *
 from search.search_in_elastic import *
 
 # Create your views here.

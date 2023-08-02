@@ -47,7 +47,7 @@
 <div class="user-list-container">
     <div class="wrap-vertical">
         {% for user in user_list %}
-        <a href = "{% url 'account:detail' pk=user.pk %}">
+        <a href = "{% url 'account:detail' username=user.username %}">
             {% if user.profile_image %}
                 <img src="data:image/jpeg;base64,{{ user.profile_image }}" alt="" style="height: 6rem; width: 6rem; border-radius: 20rem; margin-bottom: 2rem;">
             {% else %}

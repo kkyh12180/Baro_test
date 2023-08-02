@@ -11,9 +11,9 @@ from follows.models import *
 @method_decorator(login_required,'get')
 class SubscriptionView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('account:detail',kwargs={'pk':self.request.GET.get('account_pk')})
+        return reverse('account:detail',kwargs={'username':self.request.GET.get('account_pk')})
     def get(self,request,*args,**kwargs):
-        uploader=get_object_or_404(User,pk=self.request.GET.get('account_pk'))
+        uploader=get_object_or_404(User,username=self.request.GET.get('account_pk'))
         user=self.request.user
 
         subscription = SubscribeUploader.objects.filter(user=user,uploader=uploader)
@@ -43,9 +43,9 @@ class SubscriptionListView(ListView):
 @method_decorator(login_required,'get')
 class FollowView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('account:detail',kwargs={'pk':self.request.GET.get('account_pk')})
+        return reverse('account:detail',kwargs={'username':self.request.GET.get('account_pk')})
     def get(self,request,*args,**kwargs):
-        uploader=get_object_or_404(User,pk=self.request.GET.get('account_pk'))
+        uploader=get_object_or_404(User,username=self.request.GET.get('account_pk'))
         user=self.request.user
 
         subscription = FollowUploader.objects.filter(user=user,uploader=uploader)

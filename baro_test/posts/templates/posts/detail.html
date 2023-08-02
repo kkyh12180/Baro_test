@@ -2,7 +2,7 @@
 <div class="container">
     <div class="title" style="text-align: center; margin-top: 1rem">
         <h4 style="font-family: 'GmarketSansMedium'">{{ target_post.title }}</h4>
-        <a href="{% url 'account:detail' pk=target_post.user.pk %}">
+        <a href="{% url 'account:detail' username=target_post.user.username %}">
             <h5>{{target_post.user.username}}</h5>
         </a>
     </div>
@@ -32,7 +32,7 @@
                 "
             />
         {% endif %} &nbsp;&nbsp;&nbsp;
-        <a href="{% url 'account:detail' pk=target_post.user.pk %}">
+        <a href="{% url 'account:detail' username=target_post.user.username %}">
             <strong>{{ target_post.user.username }}</strong>
         </a>
         <div style="text-align:right;">

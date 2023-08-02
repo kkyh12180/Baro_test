@@ -84,7 +84,6 @@ class QueryMake():
         result = self.es.search(index="test_image", body= fin_query, size = 3)
         id_list=[]
         for hit in result["hits"]["hits"]:
-            print(hit)
             id_list.append(hit["_id"])
         return id_list
         

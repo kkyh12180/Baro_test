@@ -1,4 +1,3 @@
-from typing import Any, Dict
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
@@ -10,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from account.decorators import account_ownership_required
 from django.db import connection
+from django.shortcuts import get_object_or_404
+
 import string
 import random
 
@@ -58,6 +59,10 @@ class AccountDetailView(DetailView, FormMixin) :
     context_object_name = 'target_user'
     template_name = 'account/mypage.html'
     paginate_by = 25
+    
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        return get_object_or_404(User,username=username)
 
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
@@ -96,7 +101,8 @@ class AccountUpdateView(UpdateView) :
 
     def get_success_url(self):
         uid=self.kwargs['pk']
-        return reverse_lazy('account:detail', kwargs={'pk': uid})
+        username=self.kwargs['username']
+        return reverse_lazy('account:detail', kwargs={'username': username})
 
     def form_valid(self, form) :
         form.save()
