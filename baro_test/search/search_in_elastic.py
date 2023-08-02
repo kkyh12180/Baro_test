@@ -1,6 +1,8 @@
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
+
 from search.pocket import pocket
+from search.models import Prompt
 
 class QueryMake():
     def __init__(self):
@@ -72,6 +74,17 @@ class QueryMake():
         prompt = prompt.replace(', ', ',')
         tok = prompt.split(',')
         for tk in tok:
+            prompt = Prompt.objects.filter(prompt=tk)
+            if not prompt:
+                prompt=Prompt()
+                prompt.prompt=tk
+                prompt.positive_weight=1
+                prompt.save()
+            else:
+                prompt_temp = prompt[0]
+                prompt_temp.positive_weight=prompt_temp.positive_weight+1
+                prompt_temp.save()
+            
             if " " in tk:
                 phrase = self.match_phrase("prompt",tk)
                 phrase_list.append(phrase)
@@ -84,6 +97,17 @@ class QueryMake():
         negative_prompt = negative_prompt.replace(', ', ',')
         tok = negative_prompt.split(',')
         for tk in tok:
+            prompt = Prompt.objects.filter(prompt=tk)
+            if not prompt:
+                prompt=Prompt()
+                prompt.prompt=tk
+                prompt.negative_weight=1
+                prompt.save()
+            else:
+                prompt_temp = prompt[0]
+                prompt_temp.negative_weight=prompt_temp.negative_weight+1
+                prompt_temp.save()
+            
             if " " in tk:
                 phrase = self.match_phrase("negative_prompt",tk)
                 negative_phrase_list.append(phrase)
@@ -95,7 +119,7 @@ class QueryMake():
 
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
-        print(fin_query)
+        #print(fin_query)
         result = self.es.search(index="test_image", body= fin_query, size = 3)
         id_list=[]
         for hit in result["hits"]["hits"]:
