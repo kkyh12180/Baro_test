@@ -2,6 +2,7 @@ import logging
 from elasticsearch import Elasticsearch
 
 from search.pocket import pocket
+from search.models import *
 
 class LogClass():
     def __init__(self):
@@ -17,20 +18,26 @@ class LogClass():
         )
         self.index_name = "log"
 
-    def log_data(self,prompt,negative):
+    def log_data(self,prompt,negative,user_pk):
+        user = User.objects.get(user_id=user_pk)
+        Prompt_log.objects.create(user=user,prompt=prompt,negative_prompt=negative)
+        count=Prompt_log.objects.filter(user_id=user_pk).count()
         query={
             "prompt":prompt,
             "negative":negative
         }
-        res = self.es.index(index=self.index_name,body=query)
+        id=str(user_pk)+str(count)
+        print(id)
+        self.es.index(index=self.index_name,id=id,body=query)
 
-    def logs(self):
+    def logs(self,user_pk):
+        prompt_logs = Prompt_log.objects.filter(user_id=user_pk)
         query={
             "query":{
                 "match_all": {}
             }
         }
-        res = self.es.search(index=self.index_name,body=query, size = 20)
+        res = self.es.search(index=self.index_name, body=query, size = 100)
 
         data=[hit['_source'] for hit in res['hits']['hits']]
 
