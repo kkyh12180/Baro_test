@@ -24,7 +24,7 @@
 </div>
 {% endif %}
 {% include 'snippets/pagination.html' with page_obj=page_obj %}
-{% if project.project_id != "Announce" %}
+{% if project.project_id != "A_Announce" %}
 <div style="text-align:center;">
     <a href="{% url 'post:create' %}" class="btn btn-outline-info rounded-pill mt-3 mb-3 px-2">
         create post
