@@ -60,13 +60,7 @@ def get_exif(file) :
                 break
 
     # print(taglabel)
-    '''
-        제목, prompt, negative_prompt, 이미지 링크, steps, sampler, cfg_scale, seed, size, model_hash, clip_skip, denoising_strength, Timestamp
-        TODO: EXIF 이미지 형식 깔끔하게 정리
-        TODO: EXIF가 존재하지 않을 경우 웹에서 가져오는 코드 추가
-        TODO: 웹에서 가져올 때 text 처리
-        TODO: 문자열 처리 + 바이트 코드로 넘어가는 부분 수정
-    '''
+    
     return taglabel
 
 def tokenizer(prompt,negative_prompt):
