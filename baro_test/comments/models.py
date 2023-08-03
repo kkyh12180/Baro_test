@@ -6,7 +6,6 @@ from channel.models import ChannelPost
 
 # Create your models here.
 
-# TODO Comment PK 작성 로직 필요 (views.py에서 진행)
 class Comment(models.Model):
     comment_id = models.CharField(primary_key=True, max_length=15)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='comment')

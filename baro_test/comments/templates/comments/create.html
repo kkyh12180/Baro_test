@@ -9,8 +9,8 @@
         </div>
         <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';" value="등록">
         {% else %}
-        <a href="{% url 'account:signin' %}?next={{reqeust.path}}" class="btn btn-dark rounded-pill col-6 mt3">
-            login
+        <a href="{% url 'account:signin' %}?next={{reqeust.path}}" class="btn btn-dark rounded-pill col-6 mt3" style="font-family: 'GmarketSansMedium';">
+            로그인
         </a>
         {% endif %}
         <input type="hidden" name="post_pk" value="{{post.pk}}">

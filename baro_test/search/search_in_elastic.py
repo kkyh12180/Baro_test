@@ -1,6 +1,9 @@
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
+
 from search.pocket import pocket
+from search.models import Prompt
+import re
 
 class QueryMake():
     def __init__(self):
@@ -69,9 +72,24 @@ class QueryMake():
         negative_phrase_list = []
         words = ""
         #positive
-        prompt = prompt.replace(', ', ',')
-        tok = prompt.split(',')
+        tok = delete_bracket(prompt).split(',')
         for tk in tok:
+            tk=make_tokenizer(tk)
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk :
+                continue
+            prompt = Prompt.objects.filter(prompt=tk)
+            if not prompt:
+                prompt=Prompt()
+                prompt.prompt=tk
+                prompt.positive_weight=1
+                prompt.save()
+            else:
+                prompt_temp = prompt[0]
+                prompt_temp.positive_weight=prompt_temp.positive_weight+1
+                prompt_temp.save()
+            
             if " " in tk:
                 phrase = self.match_phrase("prompt",tk)
                 phrase_list.append(phrase)
@@ -79,11 +97,26 @@ class QueryMake():
                 words = words + " " + tk
         prompt_match_action = self.match("prompt",words)
 
-        words = ""
         #negative
-        negative_prompt = negative_prompt.replace(', ', ',')
-        tok = negative_prompt.split(',')
+        words = ""
+        tok = delete_bracket(negative_prompt).split(',')
         for tk in tok:
+            tk=make_tokenizer(tk)
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk :
+                continue
+            prompt = Prompt.objects.filter(prompt=tk)
+            if not prompt:
+                prompt=Prompt()
+                prompt.prompt=tk
+                prompt.negative_weight=1
+                prompt.save()
+            else:
+                prompt_temp = prompt[0]
+                prompt_temp.negative_weight=prompt_temp.negative_weight+1
+                prompt_temp.save()
+            
             if " " in tk:
                 phrase = self.match_phrase("negative_prompt",tk)
                 negative_phrase_list.append(phrase)
@@ -95,11 +128,28 @@ class QueryMake():
 
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
-        print(fin_query)
         result = self.es.search(index="test_image", body= fin_query, size = 3)
         id_list=[]
         for hit in result["hits"]["hits"]:
-            id_list.append(hit["_id"])
+            id_list.append(hit["_source"])
         return id_list
-        
+    
+def make_tokenizer(tk):
+    if ":" in tk:
+        i=tk.find(":")
+        tk=tk[:i]
 
+    while(tk):
+        if tk[0] != " ":
+            break
+        tk=tk[1:]
+    while(tk):
+        if tk[-1] != " ":
+            break
+        tk=tk[:-1]
+    
+    return tk
+
+def delete_bracket(input_string):
+    output_string=re.sub(r'[()\[\]{}]',',',input_string)
+    return output_string

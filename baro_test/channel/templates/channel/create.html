@@ -14,12 +14,12 @@
     </style>
     <div class="container" style="text-align: center; margin: 4rem auto;">
         <h1 class="pragmatic_logo">
-            Post create!
+            게시글 작성
         </h1>
         <form action="{% url 'channel:create' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form%}
-            <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+            <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';" value="등록">
         </form>
     </div>
 <script>var editor = new MediumEditor('.editable');</script>
