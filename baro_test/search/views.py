@@ -17,6 +17,7 @@ def main(request):
     if request.method == 'POST':
         prompt=request.POST.get('prompt','')
         negative_prompt = request.POST.get('negative_prompt','')
+        prompt, negative_prompt = tokenizer(prompt,negative_prompt)
         if user_pk:
             prompt_log_check=Prompt_log.objects.filter(user_id=user_pk,prompt=prompt,negative_prompt=negative_prompt)
             if not prompt_log_check:
@@ -56,15 +57,68 @@ class LogListView(ListView):
     model = Prompt_log
     context_object_name = 'log_list'
     template_name = 'search/log.html'
-    paginate_by = 25
+    paginate_by = 20
 
     def get_queryset(self):
         user_pk = self.request.user.pk
         queryset = Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')
         return queryset
 
-def test(request):
-    log_list = Prompt_log.objects.all()
-    for log in log_list:
-        log.delete()
-    return redirect('sear:home')
+def tokenizer(prompt,negative_prompt):
+    #positive
+    prompt=re.sub(r'[()\[\]{}]',',',prompt)
+    tok = prompt.split(',')
+    temp_prompt = ""
+    for tk in tok:
+        tk=make_tokenizer(tk)
+        if not tk:
+            continue
+        if "<" in tk or ">" in tk :
+            continue
+        if temp_prompt:
+            temp_prompt=temp_prompt+","+tk
+        else :
+            temp_prompt=tk
+        prompt = Prompt.objects.filter(prompt=tk)
+        if not prompt:
+            prompt=Prompt()
+            prompt.prompt=tk
+            prompt.positive_weight=1
+            prompt.save()
+        else:
+            prompt_temp = prompt[0]
+            prompt_temp.positive_weight=prompt_temp.positive_weight+1
+            prompt_temp.save()
+
+    #negative
+    negative_prompt = re.sub(r'[()\[\]{}]',',',negative_prompt)
+    tok = negative_prompt.split(',')
+    temp_negative_prompt = ""
+    for tk in tok:
+        tk=make_tokenizer(tk)
+        if not tk:
+            continue
+        if "<" in tk or ">" in tk :
+            continue
+        if temp_negative_prompt:
+            temp_negative_prompt=temp_negative_prompt+","+tk
+        else :
+            temp_negative_prompt=tk
+        prompt = Prompt.objects.filter(prompt=tk)
+        if not prompt:
+            prompt=Prompt()
+            prompt.prompt=tk
+            prompt.negative_weight=1
+            prompt.save()
+        else:
+            prompt_temp = prompt[0]
+            prompt_temp.negative_weight=prompt_temp.negative_weight+1
+            prompt_temp.save()
+    return temp_prompt, temp_negative_prompt
+
+def make_tokenizer(tk):
+    if ":" in tk:
+        i=tk.find(":")
+        tk=tk[:i]
+    tk.strip()
+    return tk
