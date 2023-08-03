@@ -40,9 +40,16 @@ def main(request):
         return render(request,'search/main.html',context)
     return render(request,'search/main.html',context)
 
-def delete(request):
+def delete_all(request):
     user_pk=request.user.pk
     log_list = Prompt_log.objects.filter(user_id=user_pk)
+    for log in log_list:
+        log.delete()
+    return redirect('search:home')
+
+def delete(request, pk):
+    user_pk=request.user.pk
+    log_list = Prompt_log.objects.filter(user_id=user_pk,prompt_log_id=pk)
     for log in log_list:
         log.delete()
     return redirect('search:home')
