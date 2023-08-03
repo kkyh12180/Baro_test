@@ -1,8 +1,11 @@
 import base64
 from PIL import Image
 from PIL.ExifTags import TAGS
-from search.views import tokenizer, make_tokenizer
+
 import os
+import re
+
+from search.models import Prompt
 
 def get_exif(file) :
 
@@ -42,13 +45,12 @@ def get_exif(file) :
         # negative_prompt 넣어주기
         neg_value = info_tmp[1].split(':', 1)[1].replace('\x00', '').strip()
         
-        # prompt, negative tokenizer + 가중치
-        prompt,neg_value = tokenizer(prompt,neg_value)
-        prompt,neg_value = tokenizer(prompt,neg_value)
-        
         taglabel["parameters"] = prompt
         taglabel["Negative prompt"] = neg_value
-
+        
+        # prompt, negative 가중치
+        tokenizer(prompt,neg_value)
+        
         # 기타 정보 작업
         etc_tmp = info_tmp[2].replace('\x00', '').strip().split('Hashes')[0].split(',')
         for etcs in etc_tmp :
@@ -66,6 +68,53 @@ def get_exif(file) :
         TODO: 문자열 처리 + 바이트 코드로 넘어가는 부분 수정
     '''
     return taglabel
+
+def tokenizer(prompt,negative_prompt):
+    #positive
+    prompt=re.sub(r'[()\[\]{}]',',',prompt)
+    tok = prompt.split(',')
+    for tk in tok:
+        tk=make_tokenizer(tk)
+        if not tk:
+            continue
+        if "<" in tk or ">" in tk :
+            continue
+        prompt = Prompt.objects.filter(prompt=tk)
+        if not prompt:
+            prompt=Prompt()
+            prompt.prompt=tk
+            prompt.positive_weight=2
+            prompt.save()
+        else:
+            prompt_temp = prompt[0]
+            prompt_temp.positive_weight=prompt_temp.positive_weight+2
+            prompt_temp.save()
+
+    #negative
+    negative_prompt = re.sub(r'[()\[\]{}]',',',negative_prompt)
+    tok = negative_prompt.split(',')
+    for tk in tok:
+        tk=make_tokenizer(tk)
+        if not tk:
+            continue
+        if "<" in tk or ">" in tk :
+            continue
+        prompt = Prompt.objects.filter(prompt=tk)
+        if not prompt:
+            prompt=Prompt()
+            prompt.prompt=tk
+            prompt.negative_weight=2
+            prompt.save()
+        else:
+            prompt_temp = prompt[0]
+            prompt_temp.negative_weight=prompt_temp.negative_weight+2
+            prompt_temp.save()
+
+def make_tokenizer(tk):
+    if ":" in tk:
+        i=tk.find(":")
+        tk=tk[:i]
+    return tk.strip()
 
 def main() :
     get_exif()
