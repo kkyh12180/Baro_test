@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'projects',
     'channel',
     'search',
-    'prompt',
 ]
 
 MIDDLEWARE = [
