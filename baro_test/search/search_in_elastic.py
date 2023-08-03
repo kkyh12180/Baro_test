@@ -3,6 +3,7 @@ from elasticsearch.helpers import bulk
 
 from search.pocket import pocket
 from search.models import Prompt
+import re
 
 class QueryMake():
     def __init__(self):
@@ -71,9 +72,13 @@ class QueryMake():
         negative_phrase_list = []
         words = ""
         #positive
-        prompt = prompt.replace(', ', ',')
-        tok = prompt.split(',')
+        tok = delete_bracket(prompt).split(',')
         for tk in tok:
+            tk=make_tokenizer(tk)
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk :
+                continue
             prompt = Prompt.objects.filter(prompt=tk)
             if not prompt:
                 prompt=Prompt()
@@ -92,11 +97,15 @@ class QueryMake():
                 words = words + " " + tk
         prompt_match_action = self.match("prompt",words)
 
-        words = ""
         #negative
-        negative_prompt = negative_prompt.replace(', ', ',')
-        tok = negative_prompt.split(',')
+        words = ""
+        tok = delete_bracket(negative_prompt).split(',')
         for tk in tok:
+            tk=make_tokenizer(tk)
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk :
+                continue
             prompt = Prompt.objects.filter(prompt=tk)
             if not prompt:
                 prompt=Prompt()
@@ -119,11 +128,28 @@ class QueryMake():
 
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
-        #print(fin_query)
         result = self.es.search(index="test_image", body= fin_query, size = 3)
         id_list=[]
         for hit in result["hits"]["hits"]:
-            id_list.append(hit["_id"])
+            id_list.append(hit["_source"])
         return id_list
-        
+    
+def make_tokenizer(tk):
+    if ":" in tk:
+        i=tk.find(":")
+        tk=tk[:i]
 
+    while(tk):
+        if tk[0] != " ":
+            break
+        tk=tk[1:]
+    while(tk):
+        if tk[-1] != " ":
+            break
+        tk=tk[:-1]
+    
+    return tk
+
+def delete_bracket(input_string):
+    output_string=re.sub(r'[()\[\]{}]',',',input_string)
+    return output_string
