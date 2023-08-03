@@ -75,7 +75,7 @@ class BookmarkedListView(ListView):
     model=ImagePost
     context_object_name = "bookmark_list"
     template_name="follows/bookmark.html"
-    paginate_by = 5
+    paginate_by = 20
 
     def get_queryset(self):
         bookmarked_posts = BookmarkImagePost.objects.filter(user=self.request.user).values_list('image_post').order_by('-bookmark_time')

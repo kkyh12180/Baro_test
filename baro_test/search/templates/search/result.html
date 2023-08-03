@@ -24,7 +24,7 @@
         {% endfor %}
     </div>
     <script src="{% static 'js/magicgrid.js' %}"></script>
-    {% include 'snippets/pagination.html' with page_obj=page_obj %}
+    {% include 'snippets/pagination.html' with page_obj=data_list %}
 {% else %}
     <div style="text-align: center;">
         <h1>No Image Post Yet.</h1>
