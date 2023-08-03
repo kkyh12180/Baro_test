@@ -78,8 +78,12 @@ class ChannelUpdateView(UpdateView):
 class ChannelDeleteView(DeleteView):
     model = ChannelPost
     context_object_name = 'target_post'
-    success_url = reverse_lazy('channel:list')
-    template_name = 'channel/delete.html'
+    # success_url = reverse_lazy('channel:list')
+    template_name = 'channel/detail.html'
+
+    def get_success_url(self) :
+        username = self.request.user.username
+        return reverse('account:detail', kwargs={'username':username})
 
 class ChannelListView(ListView, FormMixin):
     model = ChannelPost

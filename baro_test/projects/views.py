@@ -24,11 +24,7 @@ class ProjectCrateView(CreateView):
     def form_valid(self, form):
         temp_post=form.save(commit=False)
         temp_post.user = self.request.user
-        while True:
-            temp_project=Project.objects.filter(title=temp_post.title)
-            if not temp_project.exists():
-                break
-            temp_post.title=temp_post.title+"l"
+
         gid = ""
         while (True) :
             letters_set = string.ascii_letters
@@ -46,20 +42,7 @@ class ProjectCrateView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse('projects:detail',kwargs={'pk':self.object.pk})
-
-class ProjectDetailView(DetailView, MultipleObjectMixin):
-    model = Project
-    context_object_name = 'target_project'
-    template_name = 'projects/detail.html'
-    paginate_by = 25 
-
-    def get_context_data(self, **kwargs):
-        if self.object.pk == "Atemp":
-            object_list=Post.objects.filter(project=None)
-        else:
-            object_list=Post.objects.filter(project=self.get_object())
-        return super(ProjectDetailView,self).get_context_data(object_list=object_list,**kwargs)
+        return reverse('projects:list')
 
 class ProjectListView(ListView, MultipleObjectMixin):
     model = Project
@@ -88,7 +71,15 @@ class ProjectListView(ListView, MultipleObjectMixin):
 class ProjectDeleteView(DeleteView):
     model = Project
     context_object_name = "target_project"
-    template_name = 'projects/delete.html'
+    template_name = 'projects/list.html'
+
+    def form_vaild(self, form) :
+        project_id = self.request.POST.get('project')
+        if project_id :
+            Project.objects.filter(project_id=project_id).delete()
+        
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('projects:list')
 

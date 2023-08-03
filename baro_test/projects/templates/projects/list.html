@@ -5,7 +5,7 @@
 
 <div class="container">
     {% if user.is_admin %}
-    <div style="text-align:center;">
+    <div style="text-align:center; margin-bottom: 2rem;">
         <a href="{% url 'projects:create' %}">
             <btn class="btn btn-dark rounded-pill" style="font-family: 'GmarketSansMedium'">
                 게시판 생성
@@ -16,11 +16,9 @@
                 공지사항 작성
             </btn>
         </a>&nbsp;&nbsp;&nbsp;
-        <a href="{% url 'post:announce' %}">
-            <btn class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'">
-                게시판 제거
-            </btn>
-        </a>
+        <btn class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
+            게시판 제거
+        </btn>
     </div>
     {% endif %}
     <div>
@@ -41,5 +39,42 @@
         {% endfor %}
     </div>
 </div>
+
+{% if user.is_admin %}
+<!-- Modal -->
+<div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="projectDeleteModalLabel">게시판 삭제</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="projectDeleteForm" action="{% url 'projects:delete' pk='nothing' %}" method="POST">
+                <div class="modal-body">
+                    <h5>삭제할 게시판을 선택해주세요.</h5>
+                    <select name="project" class="form-select" title="" required="" id="id_project" onchange="setProjectId()">
+                        <option value="" selected="">---------</option>
+                        {% for project in project_list %}
+                            <option value="{{ project.project_id }}">{{ project.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="삭제">
+                </div>
+            </form>
+
+            <script>
+                function setProjectId() {
+                    var selectedProjectId = document.getElementById('id_project').value;
+                    document.getElementById('projectDeleteForm').action = "/project/delete/" + selectedProjectId;   
+                }
+            </script>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}
 
