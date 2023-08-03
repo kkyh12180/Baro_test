@@ -8,5 +8,6 @@ app_name ="search"
 urlpatterns = [
     path('',main, name="home"),
     path('log/',LogListView.as_view(),name='log'),
-    path('delete/',delete,name='delete'),
+    path('delete/',delete_all,name='delete_all'),
+    path('delete/<str:pk>',delete,name='delete'),
 ]
