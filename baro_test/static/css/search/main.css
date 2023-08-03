@@ -22,8 +22,30 @@
     padding: 0 1.3rem;
 }
 
-
 .delete-btn {
     margin-bottom: 1rem;
     font-family: 'GmarketSansMedium';
+}
+
+.search-again-form {
+    display: none;
+}
+
+.form-submit-button {
+    display: none;
+}
+
+.tr-prompt {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.tr-negative {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.tr-time {
+    cursor: pointer;
+    vertical-align: middle;
 }
