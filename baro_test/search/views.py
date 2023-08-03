@@ -120,5 +120,4 @@ def make_tokenizer(tk):
     if ":" in tk:
         i=tk.find(":")
         tk=tk[:i]
-    tk.strip()
-    return tk
+    return tk.strip()

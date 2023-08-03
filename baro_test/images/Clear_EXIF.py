@@ -1,6 +1,7 @@
 import base64
 from PIL import Image
 from PIL.ExifTags import TAGS
+from search.views import tokenizer, make_tokenizer
 import os
 
 def get_exif(file) :
@@ -35,10 +36,17 @@ def get_exif(file) :
                 info_tmp = dec_string.split('\n')
     
     # prompt 넣어주기
-        taglabel["parameters"] = info_tmp[0].replace('\x00', '')
+        
+        prompt = info_tmp[0].replace('\x00', '')
 
         # negative_prompt 넣어주기
         neg_value = info_tmp[1].split(':', 1)[1].replace('\x00', '').strip()
+        
+        # prompt, negative tokenizer + 가중치
+        prompt,neg_value = tokenizer(prompt,neg_value)
+        prompt,neg_value = tokenizer(prompt,neg_value)
+        
+        taglabel["parameters"] = prompt
         taglabel["Negative prompt"] = neg_value
 
         # 기타 정보 작업
