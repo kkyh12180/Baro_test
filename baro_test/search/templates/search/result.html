@@ -1,13 +1,32 @@
-{% extends 'base.html' %}
-{% load bootstrap5 %}
-{% block content %}
-    {% if data_list %}
-    <ul>
-        {% for id in data_list %}
-            <img src = {{id}}>
+{% load static %}
+<style>
+    .container div {
+        width: 250px;
+        height: auto;
+        border-radius: 1rem;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+    }
+</style>
+{% if data_list %}
+    <div class="container">
+        {% for data in data_list %}
+        <div>
+            <img src={{data.name}}>
+        </div>  
         {% endfor %}
-    </ul>
-    {% else %}
-        <p>No data found.</p>
-    {% endif %}
-{% endblock  %}
+    </div>
+    <script src="{% static 'js/magicgrid.js' %}"></script>
+    {% include 'snippets/pagination.html' with page_obj=page_obj %}
+{% else %}
+    <div style="text-align: center;">
+        <h1>No Image Post Yet.</h1>
+    </div>
+{% endif %}

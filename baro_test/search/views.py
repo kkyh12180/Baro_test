@@ -1,24 +1,50 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import ListView, RedirectView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView
+from datetime import datetime
 
 from search.search_in_elastic import *
 from search.models import *
 
+import string
+import random
+
 # Create your views here.
 def main(request):
+    user_pk = request.user.pk
+    log_list = Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')
+    context={'log_list':log_list}
     if request.method == 'POST':
         prompt=request.POST.get('prompt','')
         negative_prompt = request.POST.get('negative_prompt','')
-        print(request.user.pk)
-        user_pk=request.user.pk
         if user_pk:
-            count=Prompt_log.objects.filter(user_id=user_pk).count()
-            log_id = str(user_pk)+str(count)
-            Prompt_log.objects.create(prompt_log_id=log_id,user_id=user_pk,prompt=prompt,negative_prompt=negative_prompt)
+            prompt_log_check=Prompt_log.objects.filter(user_id=user_pk,prompt=prompt,negative_prompt=negative_prompt)
+            if not prompt_log_check:
+                plid = ""
+                while(True):
+                    letters_set = string.ascii_letters
+                    num = random.randrange(1,9)
+                    random_list = random.sample(letters_set,num)
+                    random_str = f"PL{''.join(random_list)}"
+                    try :
+                        Prompt_log.objects.get(prompt_log_id=random_str)
+                    except:
+                        plid=random_str
+                        break
+                Prompt_log.objects.create(prompt_log_id=plid,user_id=user_pk,prompt=prompt,negative_prompt=negative_prompt)
+            else:
+                prompt_log_check[0].created_at=datetime.now()
+                prompt_log_check[0].save()
         context=result(prompt=prompt,negative_prompt=negative_prompt)
-        return render(request,'search/result.html',context)
-    return render(request,'search/main.html')
+        return render(request,'search/main.html',context)
+    return render(request,'search/main.html',context)
+
+def delete(request):
+    user_pk=request.user.pk
+    log_list = Prompt_log.objects.filter(user_id=user_pk)
+    for log in log_list:
+        log.delete()
+    return redirect('search:home')
 
 def result(prompt,negative_prompt):
     query_maker=QueryMake()
@@ -37,10 +63,8 @@ class LogListView(ListView):
         queryset = Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')
         return queryset
 
-def research(request, pk):
-    log = Prompt_log.objects.get(pk=pk)
-    context=result(prompt=log.prompt,negative_prompt=log.negative_prompt)
-    return render(request,'search/result.html',context)
-
 def test(request):
-    return render(request,'search/main.html')
+    log_list = Prompt_log.objects.all()
+    for log in log_list:
+        log.delete()
+    return redirect('sear:home')

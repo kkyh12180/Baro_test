@@ -1,36 +1,39 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="container"> 
-{% if log_list %}
-<div>
-    <table class="table">
-        <thead class="table-dark">
-          <tr>
-            <th class="prompt" scope="col">prompt</th>
-            <th class="negative" scope="col">negative_prompt</th>
-            <th class="time" scope="col">time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for log in log_list %}
-              <tr>
-                <td class="prompt">
-                  <a href="{% url 'search:research' pk=log.pk %}">
-                    {{log.prompt}}
-                  </a>
-                </td>
-                <td class="negative">{{log.negative_prompt}}</td>
-                <td class="time">{{log.created_at}}</td>
-              </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% include 'snippets/pagination.html' with page_obj=page_obj %}
+<div class="container">
+  <a href="{% url 'search:delete' %}">
+    <button class="btn btn-danger">delete</button>
+  </a>
+  {% if log_list %}
+  <table class="table">
+    <thead class="table-dark">
+      <tr>
+        <th class="prompt" scope="col">prompt</th>
+        <th class="negative" scope="col">negative_prompt</th>
+        <th class="time" scope="col">time</th>
+        <th class="research" sceop="col">research</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in log_list %}
+        <tr>
+          <td class="prompt">{{log.prompt}}</td>
+          <td class="negative">{{log.negative_prompt}}</td>
+          <td class="time">{{log.created_at}}</td>
+          <td>
+            <form method="post">
+              {% csrf_token %}
+              <input type = "hidden" name="prompt" value="{{log.prompt}}">
+              <input type = "hidden" name="negative_prompt" value="{{log.negative_prompt}}">
+              <button type="submit">Research</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'snippets/pagination.html' with page_obj=page_obj %}
+  {% elif user.is_authenticated %}
+  <div class="no-text" style="text-align:center;">
+    <h1> no search yet!</h1>
+  </div>
+  {% endif %}
 </div>
-{% else %}
-<div class="no-text" style="text-align:center;">
-    <h1> no post yet!</h1>
-</div>
-{% endif %}
-</div>
-{% endblock%}

@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block content %}
-<div class="input-group">
-    <form method="post">
-        {% csrf_token %}
-        <div class="input-group">
-            <div class="form-outline">
-                <input type="text" name="prompt" class="form-control" />
-                <label class="form-label" for="prompt">Prompt</label>
+<div style="text-align: center; margin: 0 auto; width: 70%; margin-bottom: 2rem;">
+    <div class="input-group">
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <div class="form-outline">
+                    <label class="form-label" for="prompt">Prompt</label>
+                    <input type="text" name="prompt" class="form-control" />
+                </div>
+                &nbsp&nbsp&nbsp&nbsp
+                <div class="form-outline">
+                    <label class="form-label" for="negative_prompt">Negative Prompt</label>
+                    <input type="text" name="negative_prompt" class="form-control" />
+                </div>
+                &nbsp&nbsp&nbsp&nbsp
+                <button type="submit" class="btn btn-primary">Search</button>
             </div>
-        </div>
-        <div class="input-group">
-            <div class="form-outline">
-                <input type="text" name="negative_prompt" class="form-control" />
-                <label class="form-label" for="negative_prompt">Negative Prompt</label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+        </form>
+    </div>
 </div>
+
+{% if data_list %}
+    {% include 'search/result.html' %}
+{% else %}
+    {% include 'search/log.html' with log_list=log_list%}
+{% endif %}
 {% endblock  %}
