@@ -1,5 +1,5 @@
 <div class="container">
-  <a href="{% url 'search:delete' %}">
+  <a href="{% url 'search:delete_all' %}">
     <button class="btn btn-danger">delete</button>
   </a>
   {% if log_list %}
@@ -9,7 +9,8 @@
         <th class="prompt" scope="col">prompt</th>
         <th class="negative" scope="col">negative_prompt</th>
         <th class="time" scope="col">time</th>
-        <th class="research" sceop="col">research</th>
+        <th class="research" scope="col">research</th>
+        <th class="delete" scope="delete">delete</th>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +26,11 @@
               <input type = "hidden" name="negative_prompt" value="{{log.negative_prompt}}">
               <button type="submit">Research</button>
             </form>
+          </td>
+          <td>
+            <a href="{% url 'search:delete' pk=log.pk %}">
+              <button type"submit">delete</button>
+            </a>
           </td>
         </tr>
       {% endfor %}
