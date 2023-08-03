@@ -9,5 +9,5 @@ urlpatterns = [
     path('',main, name="home"),
     path('test/',test,name='test'),
     path('log/',LogListView.as_view(),name='log'),
-    path('research/<str:pk>/',research, name='research'),
+    path('delete/',delete,name='delete'),
 ]
