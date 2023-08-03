@@ -12,7 +12,7 @@ import random
 # Create your views here.
 def main(request):
     user_pk = request.user.pk
-    log_list = Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')
+    log_list = Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')[:15]
     context={'log_list':log_list}
     if request.method == 'POST':
         prompt=request.POST.get('prompt','')
