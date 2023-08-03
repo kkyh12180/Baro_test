@@ -232,7 +232,7 @@ class ImagePostDetailView(DetailView, FormMixin) :
 class ImagePostDeleteView(DeleteView) :
     model = ImagePost
     context_object_name = 'target_post'
-    template_name = 'images/delete.html'
+    template_name = 'images/detail.html'
 
     def get_success_url(self) :
         return reverse_lazy('images:list')

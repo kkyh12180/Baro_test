@@ -165,9 +165,7 @@
                         </div>
                         &nbsp;&nbsp;&nbsp;
                         <div style="text-align: center">
-                            <a href="{% url 'images:delete' pk=target_post.pk %}">
-                                <btn class="btn btn-danger rounded-pill">삭제</btn>
-                            </a>
+                            <btn class="btn btn-danger rounded-pill"data-bs-toggle="modal" data-bs-target="#imageModal">삭제</btn>
                         </div>
                     {% else %}
                         {% if user.is_authenticated %}
@@ -225,6 +223,28 @@
         </div>
     </div>
 </div>
+{% if target_post.user == user %}
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">이미지 게시글 삭제</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                이미지 게시글을 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'images:delete' pk=target_post.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="삭제">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 <script>
     function hideInfo() {
         const exifDivs = document.getElementsByName("exifBox");

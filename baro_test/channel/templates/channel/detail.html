@@ -1,56 +1,44 @@
-{% extends 'base.html' %} {% load static%} {% block content %}
+{% extends 'base.html' %} {% load static %} 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/channel/channel_detail.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
-    <div class="title" style="text-align: center; margin-top: 1rem">
+    <div class="title">
         <h4 style="font-family: 'GmarketSansMedium'">{{ target_post.title }}</h4>
     </div>
-    <div
-        style="
-            border: 1px solid black;
-            border-radius: 1rem;
-            margin-top: 2rem;
-            padding: 1rem 1rem;
-        "
-    >
+    <div class="content-div">
         <strong>{{ target_post.post_time }}</strong>
         <strong>{% if target_post.subscribe_only %}subscribe{% endif %}</strong>
         <p>{{ target_post.content }}</p>
-        
     </div>
-    <div
-            class="button-container"
-            style="
-                display: flex;
-                flex-direction: row;
-                align-items: flex-end;
-                margin-top: 1.2rem;
-                justify-content: flex-end;
-            "
-    >
+    <div class="button-container">
         {% if target_post.user == user %}
-                <div style="text-align: center">
-                    <a href="{% url 'channel:update' pk=target_post.pk %}">
-                        <btn
-                            class="btn btn-dark rounded-pill"
-                            style="font-family: 'GmarketSansMedium'"
-                            >수정</btn
-                        >
-                    </a>
-                </div>
-                &nbsp;&nbsp;&nbsp;
-                <div style="text-align: center">
-                    <a href="{% url 'channel:delete' pk=target_post.pk %}">
-                        <btn
-                            class="btn btn-danger rounded-pill"
-                            style="font-family: 'GmarketSansMedium'"
-                            >삭제</btn
-                        >
-                    </a>
-                </div>
-        {% else %}
-            {% if user.is_authenticated %}
+            <div style="text-align: center">
+                <a href="{% url 'post:update' pk=target_post.pk %}">
+                    <btn
+                        class="btn btn-dark rounded-pill"
+                        style="font-family: 'GmarketSansMedium'"
+                        >수정</btn
+                    >
+                </a>
+            </div>
+            &nbsp;&nbsp;&nbsp;
+            <div style="text-align: center">
+                <btn
+                    class="btn btn-danger rounded-pill"
+                    style="font-family: 'GmarketSansMedium'"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    >삭제</btn
+                >
+            </div>
+        {% else %} 
+            {% if user.is_authenticated %} 
                 {% if not likes %}
                     <div style="text-align: center">
-                        <a href="{% url 'channel:like' %}?post_pk={{ target_post.pk }}">
+                        <a href="{% url 'post:like' %}?post_pk={{ target_post.pk }}">
                             <btn
                                 class="btn btn-outline-success rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
@@ -60,7 +48,7 @@
                     </div>
                 {% else %}
                     <div style="text-align: center">
-                        <a href="{% url 'channel:like' %}?post_pk={{ target_post.pk }}">
+                        <a href="{% url 'post:like' %}?post_pk={{ target_post.pk }}">
                             <btn
                                 class="btn btn-outline-danger rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
@@ -73,11 +61,35 @@
         {% endif %} 
     </div>
     {% comment %} comment {% endcomment %}
-    <div style="margin-top: 1rem; height: 40vh; overflow-y: scroll">
+    <div class="post-comment-div">
         {% include 'comments/create.html' with post=target_post %}
         {% for comment in target_post.channel_comment.all %}
             {% include 'comments/detail.html' with comment=comment.comment%}
         {% endfor %}
     </div>
 </div>
+
+{% if target_post.user == user %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{target_post.title}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                게시글을 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'channel:delete' pk=target_post.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="삭제">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}

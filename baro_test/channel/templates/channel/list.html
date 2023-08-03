@@ -1,7 +1,8 @@
 {% load static %}
 {% if post_list %}
     {% for post in post_list %}
-    <div style="width: 80%;margin: 1rem 10%;">
+    <div style="width: 80%; margin: 1rem 10%;">
+        <a href="{% url 'channel:detail' pk=post.pk %}">
         <div
             style="
                 border: 1px solid black;
@@ -10,12 +11,11 @@
                 padding: 1rem 1rem;
             "
         >
-            <a href="{% url 'channel:detail' pk=post.pk %}">
                 <h4 style="font-family: 'GmarketSansMedium'">{{ post.title }}</h4>
                 <strong>{{ post.post_time }}</strong>
                 <p>{{ post.content }}</p>
-            </a>
         </div>
+    </a>
     </div>
     {% endfor %}
     {% include 'snippets/pagination.html' with page_obj=page_obj %}

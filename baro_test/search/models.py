@@ -3,7 +3,7 @@ from account.models import User
 
 # Create your models here.
 class Prompt(models.Model):
-    prompt = models.CharField(primary_key=True,max_length=100)
+    prompt = models.CharField(primary_key=True,max_length=255)
     positive_weight = models.IntegerField(default=0)
     negative_weight = models.IntegerField(default=0)
 

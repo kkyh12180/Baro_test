@@ -87,7 +87,7 @@ class CommentCreateView(CreateView):
 class CommentDeleteView(DeleteView):
     model = Comment
     context_object_name = 'target_comment'
-    template_name = 'comments/delete.html'
+    template_name = 'comments/detail.html'
     def get_success_url(self):
         image_coms = self.object.image_comment.all()
         if image_coms:

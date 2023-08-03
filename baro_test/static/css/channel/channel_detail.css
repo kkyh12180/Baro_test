@@ -1,0 +1,36 @@
+.title {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem 1rem;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-top: 1.2rem;
+    justify-content: flex-end;
+}
+
+.content-div {
+    border: 1px solid black;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    padding: 1rem 1rem;
+}
+
+.post-comment-div::-webkit-scrollbar {
+    width: 3px;
+}
+
+.post-comment-div::-webkit-scrollbar-thumb {
+    height: 5%;
+    background: rgba(255, 255, 255);
+    
+    border-radius: 1rem;
+    background-clip: padding-box;
+}
+
+.post-comment-div::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255); 
+}
