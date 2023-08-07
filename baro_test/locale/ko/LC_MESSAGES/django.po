@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-07 06:06+0000\n"
+"POT-Creation-Date: 2023-08-07 07:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,12 +38,14 @@ msgstr "개인정보 수정"
 msgid "withdrawal"
 msgstr "탈퇴"
 
-#: account/templates/account/mypage.html:33
-msgid "Subscription"
+#: account/templates/account/mypage.html:33 templates/header.html:44
+msgid "Subscribe"
 msgstr "구독"
 
 #: account/templates/account/mypage.html:37
-msgid "Unsubscription"
+#, fuzzy
+#| msgid "subscribe"
+msgid "Unsubscribe"
 msgstr "구독"
 
 #: account/templates/account/mypage.html:42
@@ -70,17 +72,17 @@ msgstr "정말 탈퇴하시겠습니까?"
 msgid "hello world"
 msgstr "안녕"
 
-#: baro_test/settings.py:130
+#: baro_test/settings.py:129
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:131
+#: baro_test/settings.py:130
 msgid "English"
 msgstr ""
 
 #: channel/templates/channel/create.html:7
 #: channel/templates/channel/list.html:31 posts/templates/posts/create.html:17
-#: posts/templates/posts/list.html:37
+#: posts/templates/posts/list.html:40
 #: templates/snippets/images_fragment.html:21
 msgid "New Post"
 msgstr "게시글 생성"
@@ -109,8 +111,7 @@ msgstr "수정"
 #: projects/templates/projects/detail.html:26
 #: projects/templates/projects/list.html:20
 #: projects/templates/projects/list.html:49
-#: projects/templates/projects/list.html:64 search/templates/search/log.html:4
-#: search/templates/search/log.html:14
+#: projects/templates/projects/list.html:64 search/templates/search/log.html:14
 msgid "Delete"
 msgstr "삭제"
 
@@ -202,10 +203,6 @@ msgstr "회원가입"
 msgid "Following"
 msgstr "팔로우"
 
-#: templates/header.html:44
-msgid "Subscribe"
-msgstr "구독"
-
 #: templates/header.html:47
 msgid "My page"
 msgstr "마이페이지"
@@ -214,3 +211,8 @@ msgstr "마이페이지"
 msgid "Logout"
 msgstr "로그아웃"
 
+#~ msgid "Subscription"
+#~ msgstr "구독"
+
+#~ msgid "Unsubscription"
+#~ msgstr "구독"
