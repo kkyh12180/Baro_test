@@ -30,20 +30,20 @@ msgid "Submit"
 msgstr ""
 
 #: account/templates/account/mypage.html:24
-msgid "Change personal information"
+msgid "Edit profile"
 msgstr ""
 
 #: account/templates/account/mypage.html:26
 #: account/templates/account/mypage.html:87
-msgid "withdrawal"
+msgid "Delete your account"
 msgstr ""
 
 #: account/templates/account/mypage.html:33
-msgid "Subscription"
+msgid "Subscribe"
 msgstr ""
 
 #: account/templates/account/mypage.html:37
-msgid "UnSubscription"
+msgid "Unsubscribe"
 msgstr ""
 
 #: account/templates/account/mypage.html:42
@@ -51,7 +51,7 @@ msgid "Follow"
 msgstr ""
 
 #: account/templates/account/mypage.html:46
-msgid "UnFollow"
+msgid "Unfollow"
 msgstr ""
 
 #: account/templates/account/mypage.html:58 templates/header.html:23
@@ -86,7 +86,7 @@ msgid "New Post"
 msgstr ""
 
 #: channel/templates/channel/detail.html:13
-msgid "subscribe"
+msgid "Subscribe"
 msgstr ""
 
 #: channel/templates/channel/detail.html:23
@@ -124,7 +124,7 @@ msgstr "Like"
 #: comments/templates/comments/detail.html:44
 #: images/templates/images/detail.html:209 posts/templates/posts/detail.html:76
 msgid "좋아요 해제"
-msgstr "UnLike"
+msgstr "Unlike"
 
 #: channel/templates/channel/detail.html:83
 #: posts/templates/posts/detail.html:102
@@ -157,7 +157,7 @@ msgid "Bookmark"
 msgstr ""
 
 #: images/templates/images/detail.html:187
-msgid "UnBookmark"
+msgid "Unbookmark"
 msgstr ""
 
 #: images/templates/images/detail.html:237
@@ -187,7 +187,7 @@ msgid "삭제할 게시판을 선택해주세요."
 msgstr "Please select the bulletin board you want to delete."
 
 #: search/templates/search/log.html:4
-msgid "all data"
+msgid "Delete all"
 msgstr ""
 
 #: search/templates/search/main.html:23 templates/header.html:63

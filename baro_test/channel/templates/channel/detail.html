@@ -38,7 +38,7 @@
             {% if user.is_authenticated %} 
                 {% if not likes %}
                     <div style="text-align: center">
-                        <a href="{% url 'post:like' %}?post_pk={{ target_post.pk }}">
+                        <a href="{% url 'channel:like' %}?post_pk={{ target_post.pk }}">
                             <btn
                                 class="btn btn-outline-success rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
@@ -48,7 +48,7 @@
                     </div>
                 {% else %}
                     <div style="text-align: center">
-                        <a href="{% url 'post:like' %}?post_pk={{ target_post.pk }}">
+                        <a href="{% url 'channel:like' %}?post_pk={{ target_post.pk }}">
                             <btn
                                 class="btn btn-outline-danger rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
