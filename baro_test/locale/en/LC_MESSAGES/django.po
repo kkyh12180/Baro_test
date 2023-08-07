@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-07 06:06+0000\n"
+"POT-Creation-Date: 2023-08-07 07:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,15 +30,15 @@ msgid "Submit"
 msgstr ""
 
 #: account/templates/account/mypage.html:24
-msgid "Edit profile"
+msgid "Change personal information"
 msgstr ""
 
 #: account/templates/account/mypage.html:26
 #: account/templates/account/mypage.html:87
-msgid "Delete your account"
+msgid "withdrawal"
 msgstr ""
 
-#: account/templates/account/mypage.html:33
+#: account/templates/account/mypage.html:33 templates/header.html:44
 msgid "Subscribe"
 msgstr ""
 
@@ -70,23 +70,23 @@ msgstr ""
 msgid "hello world"
 msgstr "hello"
 
-#: baro_test/settings.py:130
+#: baro_test/settings.py:129
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:131
+#: baro_test/settings.py:130
 msgid "English"
 msgstr ""
 
 #: channel/templates/channel/create.html:7
 #: channel/templates/channel/list.html:31 posts/templates/posts/create.html:17
-#: posts/templates/posts/list.html:37
+#: posts/templates/posts/list.html:40
 #: templates/snippets/images_fragment.html:21
 msgid "New Post"
 msgstr ""
 
 #: channel/templates/channel/detail.html:13
-msgid "Subscribe"
+msgid "subscribe"
 msgstr ""
 
 #: channel/templates/channel/detail.html:23
@@ -109,8 +109,7 @@ msgstr ""
 #: projects/templates/projects/detail.html:26
 #: projects/templates/projects/list.html:20
 #: projects/templates/projects/list.html:49
-#: projects/templates/projects/list.html:64 search/templates/search/log.html:4
-#: search/templates/search/log.html:14
+#: projects/templates/projects/list.html:64 search/templates/search/log.html:14
 msgid "Delete"
 msgstr ""
 
@@ -200,10 +199,6 @@ msgstr ""
 
 #: templates/header.html:41
 msgid "Following"
-msgstr ""
-
-#: templates/header.html:44
-msgid "Subscribe"
 msgstr ""
 
 #: templates/header.html:47
