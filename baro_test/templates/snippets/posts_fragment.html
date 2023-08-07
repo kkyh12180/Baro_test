@@ -1,0 +1,115 @@
+{% load static %}
+
+{% if post_list %}
+<div>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th class="title" scope="col">Title</th>
+                <th class="user" scope="col">User</th>
+                <th class="time" scope="col">Time</th>
+            </tr>
+        </thead>
+        <tbody id="post-tbody">
+
+        </tbody>
+    </table>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group me-2" role="group" id="pagination">
+        </div>
+    </div>
+</div>
+
+<script>
+    function set_button(currentGroup, lastGroup, pageCount, maxPage) {
+        const btn_div = document.getElementById("pagination");
+        var btn_group = ''
+        if (currentGroup === 1) { 
+            if (currentGroup === lastGroup) {
+                for (i = 1; i <= maxPage; i++) {
+                    btn_group += '<button type="button" class="btn btn-secondary">' + i + '</button>';
+                }
+            } else {
+                for (i = 1; i <= pageCount; i++) {
+                    btn_group += '<button type="button" class="btn btn-secondary">' + i + '</button>';
+                }
+                btn_group += '<button type="button" class="btn btn-secondary">❯</button>';
+            }
+        } else if (currentGroup === lastGroup) {
+            btn_group += '<button type="button" class="btn btn-secondary">❮</button>'
+            for (i = (currentGroup - 1) * pageCount; i <= maxPage; i++) {
+                btn_group += '<button type="button" class="btn btn-secondary">' + i + '</button>';
+            }
+        } else {
+            btn_group += '<button type="button" class="btn btn-secondary">❮</button>'
+            for (i = (currentGroup - 1) * pageCount; i <= currentGroup * pageCount; i++) {
+                btn_group += '<button type="button" class="btn btn-secondary">' + i + '</button>';
+            }
+            btn_group += '<button type="button" class="btn btn-secondary">❯</button>';
+        }
+        btn_div.innerHTML = btn_group
+    }
+
+    function set_tbody(postListJSON, currentPage, maxPage, postInPage, maxPost) {
+        const post_tbody = document.getElementById("post-tbody");
+        var tr_inner = '';
+        if (currentPage === maxPage) {
+            for (i = (currentPage - 1) * postInPage; i < maxPost; i++) {
+                tr_inner += '<tr id="post-tr">';
+                tr_inner += '<th class="title" scope="row">' + postListJSON[i].title + '</th>';
+                tr_inner += '<td class="user">' + postListJSON[i].username + '</th>';
+                tr_inner += '<td class="time">' + postListJSON[i].post_time + '</th>';
+                tr_inner += '</tr>';
+            }
+        } else {
+            for (i = (currentPage - 1) * postInPage; i < currentPage * postInPage; i++) {
+                tr_inner += '<tr id="post-tr">';
+                tr_inner += '<th class="title" scope="row">' + postListJSON[i].title + '</th>';
+                tr_inner += '<td class="user">' + postListJSON[i].username + '</th>';
+                tr_inner += '<td class="time">' + postListJSON[i].post_time + '</th>';
+                tr_inner += '</tr>';
+            }
+        }
+        post_tbody.innerHTML = tr_inner
+    }
+
+    var maxPost = {{ post_list|length }};
+    var postInPage = 2;
+    var maxPage = Math.ceil(maxPost / postInPage);
+
+    var currentPage = 1;
+    var currentPageGroup = 1;
+    var pageCount = 5;
+    var maxPageGroup = Math.ceil(maxPage / pageCount);
+
+    let lastNumber = maxPageGroup * pageCount;
+    if (lastNumber > maxPage) {
+        lastNumber = maxPage;
+    }
+    
+    let firstNumber = lastNumber - (pageCount - 1)
+
+    var postListJSON = [
+        {% for post in post_list %}
+            {
+                "title": "{{ post.title|escapejs }}",
+                "username": "{{ post.user.username|escapejs }}",
+                "post_time": "{{ post.post_time|escapejs }}",
+                "pk" : "{{ post.pk|escapejs }}"
+            },
+        {% endfor %}
+    ];
+    
+    // 보여지는 버튼 수를 조정
+    set_button(currentPageGroup, maxPageGroup, pageCount, maxPage);
+    set_tbody(postListJSON, currentPage, maxPage, postInPage, maxPost);
+
+
+
+</script>
+
+{% else %}
+<div class="no-text" style="text-align: center">
+    <h1>no post yet!</h1>
+</div>
+{% endif %}

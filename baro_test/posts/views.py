@@ -118,7 +118,7 @@ class PostListView(ListView):
     context_object_name = 'post_list'
     template_name = 'posts/list.html'
     ordering = ['-post_time']
-    paginate_by = 25
+    paginate_by = 20
 
 def clear(request):
     posts=Post.objects.all()

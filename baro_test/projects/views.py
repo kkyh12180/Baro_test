@@ -56,7 +56,7 @@ class ProjectListView(ListView, MultipleObjectMixin):
         project_list = Project.objects.all().order_by('pk')
         context["project_list"] = project_list
 
-         # Get the active project's project_id from the URL (e.g., "G001", "G002", ...)
+        # Get the active project's project_id from the URL (e.g., "G001", "G002", ...)
         active_project_id = self.request.GET.get('project_id')
 
         # Retrieve posts for each project and add them to the context

@@ -4,33 +4,8 @@
 <link rel="stylesheet" href="{% static 'css/post/post_list.css' %}">
 {% endblock %}
 
-{% if post_list %}
-<div>
-    <table class="table">
-        <thead class="table-dark">
-          <tr>
-            <th class="title" scope="col">Title</th>
-            <th class="user" scope="col">User</th>
-            <th class="time" scope="col">Time</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for post in post_list %}
-          <tr>
-            <th class="title" scope="row"><a href = "{% url 'post:detail' pk=post.pk %}">{{post.title}}</a></th>
-            <td class="user">{{post.user.username}}</td>
-            <td class="time">{{post.post_time}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-</div>
-{% else %}
-<div class="no-text" style="text-align:center;">
-    <h1> no post yet!</h1>
-</div>
-{% endif %}
-{% include 'snippets/pagination.html' with page_obj=page_obj %}
+{% include 'snippets/posts_fragment.html' with post_list=post_list %}
+
 {% if project.project_id != "A_Announce" %}
 <div style="text-align:center;">
     <a href="{% url 'post:create' %}" class="btn btn-outline-dark rounded-pill mt-3 mb-3" style="font-family: 'GmarketSansMedium';">
