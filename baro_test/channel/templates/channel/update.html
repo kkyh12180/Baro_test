@@ -19,7 +19,7 @@
     <form action="{% url 'channel:update' pk=target_post.pk %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form%}
-        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';" value="확인">
+        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';" value={{_('Submit')}}>
     </form>
 </div>
 

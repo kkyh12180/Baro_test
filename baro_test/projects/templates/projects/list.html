@@ -8,16 +8,16 @@
     <div style="text-align:center; margin-bottom: 2rem;">
         <a href="{% url 'projects:create' %}">
             <btn class="btn btn-dark rounded-pill" style="font-family: 'GmarketSansMedium'">
-                게시판 생성
+                {{_('New Project')}}
             </btn>
         </a>&nbsp;&nbsp;&nbsp;
         <a href="{% url 'post:announce' %}">
             <btn class="btn btn-dark rounded-pill" style="font-family: 'GmarketSansMedium'">
-                공지사항 작성
+                {{_('New Announce')}}
             </btn>
         </a>&nbsp;&nbsp;&nbsp;
         <btn class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" data-bs-toggle="modal" data-bs-target="#projectDeleteModal">
-            게시판 제거
+            {{_('Delete')}}
         </btn>
     </div>
     {% endif %}
@@ -46,12 +46,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="projectDeleteModalLabel">게시판 삭제</h5>
+                <h5 class="modal-title" id="projectDeleteModalLabel">{{_('Delete')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="projectDeleteForm" action="{% url 'projects:delete' pk='nothing' %}" method="POST">
                 <div class="modal-body">
-                    <h5>삭제할 게시판을 선택해주세요.</h5>
+                    <h5>{{_('삭제할 게시판을 선택해주세요.')}}</h5>
                     <select name="project" class="form-select" title="" required="" id="id_project" onchange="setProjectId()">
                         <option value="" selected="">---------</option>
                         {% for project in project_list %}
@@ -61,7 +61,7 @@
                 </div>
                 <div class="modal-footer">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="삭제">
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Delete')}}>
                 </div>
             </form>
 

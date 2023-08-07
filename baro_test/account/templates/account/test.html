@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/account/mypage.css' %}">
+{% endblock %}
+
+{% block content %}
+{% trans "hello world" as translated_text%}
+<p> {{translated_text}}</p>
+{% endblock %}
