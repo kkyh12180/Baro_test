@@ -30,12 +30,12 @@ msgid "Submit"
 msgstr "등록"
 
 #: account/templates/account/mypage.html:24
-msgid "Change personal information"
+msgid "Change profile"
 msgstr "개인정보 수정"
 
 #: account/templates/account/mypage.html:26
 #: account/templates/account/mypage.html:87
-msgid "withdrawal"
+msgid "Delete account"
 msgstr "탈퇴"
 
 #: account/templates/account/mypage.html:33 templates/header.html:44

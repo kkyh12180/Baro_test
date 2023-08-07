@@ -21,9 +21,9 @@
 
         {% if target_user == user %}
             <a class="user-info-button" href="{% url 'account:edit' pk=user.user_id %}">
-                <btn class="btn btn-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Change personal information')}}</btn>
+                <btn class="btn btn-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Change profile')}}</btn>
             </a><br>
-            <btn class="btn btn-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';" data-bs-toggle="modal" data-bs-target="#exampleModal">{{_('withdrawal')}}</btn>
+            <btn class="btn btn-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';" data-bs-toggle="modal" data-bs-target="#exampleModal">{{_('Delete account')}}</btn>
         {% else %}
             {% if user.is_authenticated %}
                 {% comment %} follows {% endcomment %}
@@ -82,7 +82,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{_('withdrawal')}}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{_('Delete account')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
