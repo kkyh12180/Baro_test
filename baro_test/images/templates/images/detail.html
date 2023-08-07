@@ -58,7 +58,7 @@
                                     class="btn btn-outline-light rounded-pill"
                                     style="font-family: 'GmarketSansMedium'"
                                 >
-                                    이미지 정보 수정</btn
+                                    {{_('Modify')}}</btn
                                 >
                             </a>
                             {% endif %}
@@ -98,7 +98,7 @@
                                 href="{% url 'images:input_exif' pk=image.0.pk %}"
                             >
                                 <btn class="btn btn-outline-light rounded-pill">
-                                    이미지 정보 수정</btn
+                                    {{_('Modify')}}</btn
                                 >
                             </a>
                             {% endif %}
@@ -117,7 +117,7 @@
                     class="carousel-control-prev-icon"
                     aria-hidden="true"
                 ></span>
-                <span class="visually-hidden">Previous</span>
+                <span class="visually-hidden">{{_('Previous')}}</span>
             </button>
             <button
                 class="carousel-control-next"
@@ -129,7 +129,7 @@
                     class="carousel-control-next-icon"
                     aria-hidden="true"
                 ></span>
-                <span class="visually-hidden">Next</span>
+                <span class="visually-hidden">{{_('Next')}}</span>
             </button>
         </div>
 
@@ -160,12 +160,12 @@
                     {% if target_post.user == user %}
                         <div style="text-align: center">
                             <a href="{% url 'images:update' pk=target_post.pk %}">
-                                <btn class="btn btn-dark rounded-pill">수정</btn>
+                                <btn class="btn btn-dark rounded-pill">{{_('Modify')}}</btn>
                             </a>
                         </div>
                         &nbsp;&nbsp;&nbsp;
                         <div style="text-align: center">
-                            <btn class="btn btn-danger rounded-pill"data-bs-toggle="modal" data-bs-target="#imageModal">삭제</btn>
+                            <btn class="btn btn-danger rounded-pill"data-bs-toggle="modal" data-bs-target="#imageModal">{{_('Delete')}}</btn>
                         </div>
                     {% else %}
                         {% if user.is_authenticated %}
@@ -174,7 +174,7 @@
                                     <a
                                         href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}"
                                     >
-                                        <btn class="btn btn-dark rounded-pill">북마크</btn>
+                                        <btn class="btn btn-dark rounded-pill">{{_('Bookmark')}}</btn>
                                     </a>
                                 </div>
                             {% else %}
@@ -183,7 +183,7 @@
                                         href="{% url 'images:bookmark' %}?image_post_pk={{ target_post.pk }}"
                                     >
                                         <btn class="btn btn-outline-danger rounded-pill"
-                                            >북마크 해제</btn
+                                            >{{_('UnBookmark')}}</btn
                                         >
                                     </a>
                                 </div>
@@ -195,7 +195,7 @@
                                         href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
                                     >
                                         <btn class="btn btn-outline-success rounded-pill"
-                                            >좋아요</btn
+                                            >{{_('좋아요')}}</btn
                                         >
                                     </a>
                                 </div>
@@ -205,7 +205,7 @@
                                         href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
                                     >
                                         <btn class="btn btn-outline-danger rounded-pill"
-                                            >좋아요 해제</btn
+                                            >{{_('좋아요 해제')}}</btn
                                         >
                                     </a>
                                 </div>
@@ -229,16 +229,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">이미지 게시글 삭제</h5>
+                <h5 class="modal-title" id="imageModalLabel">{{_('Delete')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                이미지 게시글을 삭제하시겠습니까?
+                {{_('이미지 게시글을 삭제하시겠습니까?')}}
             </div>
             <div class="modal-footer">
                 <form action="{% url 'images:delete' pk=target_post.pk %}" method="POST">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="삭제">
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Delete')}}>
                 </form>
             </div>
         </div>

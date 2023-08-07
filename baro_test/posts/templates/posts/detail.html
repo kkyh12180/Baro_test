@@ -43,7 +43,7 @@
                 <btn
                     class="btn btn-dark rounded-pill"
                     style="font-family: 'GmarketSansMedium'"
-                    >수정</btn
+                    >{{_('Modify')}}</btn
                 >
             </a>
         </div>
@@ -54,7 +54,7 @@
                 style="font-family: 'GmarketSansMedium'"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
-                >삭제</btn
+                >{{_('Delete')}}</btn
             >
         </div>
         {% else %} {% if user.is_authenticated %} {% if not likes %}
@@ -63,7 +63,7 @@
                 <btn
                     class="btn btn-outline-success rounded-pill"
                     style="font-family: 'GmarketSansMedium'"
-                    >좋아요</btn
+                    >{{_('좋아요')}}</btn
                 >
             </a>
         </div>
@@ -73,7 +73,7 @@
                 <btn
                     class="btn btn-outline-danger rounded-pill"
                     style="font-family: 'GmarketSansMedium'"
-                    >좋아요 해제</btn
+                    >{{_('좋아요 해제')}}</btn
                 >
             </a>
         </div>
@@ -98,12 +98,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                게시글을 삭제하시겠습니까?
+                {{_('게시글을 삭제하시겠습니까?')}}
             </div>
             <div class="modal-footer">
                 <form action="{% url 'post:delete' pk=target_post.pk %}" method="POST">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="삭제">
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Delete')}}>
                 </form>
             </div>
         </div>

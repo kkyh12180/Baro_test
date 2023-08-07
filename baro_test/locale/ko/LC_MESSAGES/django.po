@@ -1,0 +1,216 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-07 06:06+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: account/templates/account/edit_password.html:14
+#: account/templates/account/mypage.html:96
+#: channel/templates/channel/create.html:11
+#: channel/templates/channel/update.html:22
+#: comments/templates/comments/create.html:10
+#: images/templates/images/exif_info.html:13
+#: posts/templates/posts/announce.html:22 posts/templates/posts/create.html:22
+#: posts/templates/posts/update.html:22
+#: projects/templates/projects/create.html:11
+#: projects/templates/projects/delete.html:10
+msgid "Submit"
+msgstr "등록"
+
+#: account/templates/account/mypage.html:24
+msgid "Change personal information"
+msgstr "개인정보 수정"
+
+#: account/templates/account/mypage.html:26
+#: account/templates/account/mypage.html:87
+msgid "withdrawal"
+msgstr "탈퇴"
+
+#: account/templates/account/mypage.html:33
+msgid "Subscription"
+msgstr "구독"
+
+#: account/templates/account/mypage.html:37
+msgid "UnSubscription"
+msgstr "구독"
+
+#: account/templates/account/mypage.html:42
+msgid "Follow"
+msgstr "팔로우"
+
+#: account/templates/account/mypage.html:46
+msgid "UnFollow"
+msgstr "팔로우"
+
+#: account/templates/account/mypage.html:58 templates/header.html:23
+msgid "Images"
+msgstr "이미지"
+
+#: account/templates/account/mypage.html:59 templates/header.html:26
+msgid "Posts"
+msgstr "게시판"
+
+#: account/templates/account/mypage.html:91
+msgid "Are you sure you want to leave?"
+msgstr "정말 탈퇴하시겠습니까?"
+
+#: account/templates/account/test.html:10
+msgid "hello world"
+msgstr "안녕"
+
+#: baro_test/settings.py:130
+msgid "Korean"
+msgstr ""
+
+#: baro_test/settings.py:131
+msgid "English"
+msgstr ""
+
+#: channel/templates/channel/create.html:7
+#: channel/templates/channel/list.html:31 posts/templates/posts/create.html:17
+#: posts/templates/posts/list.html:37
+#: templates/snippets/images_fragment.html:21
+msgid "New Post"
+msgstr "게시글 생성"
+
+#: channel/templates/channel/detail.html:13
+msgid "subscribe"
+msgstr "구독"
+
+#: channel/templates/channel/detail.html:23
+#: images/templates/images/detail.html:62
+#: images/templates/images/detail.html:102
+#: images/templates/images/detail.html:164
+#: images/templates/images/update.html:9 posts/templates/posts/detail.html:46
+#: posts/templates/posts/update.html:17
+msgid "Modify"
+msgstr "수정"
+
+#: channel/templates/channel/detail.html:34
+#: comments/templates/comments/detail.html:31
+#: comments/templates/comments/detail.html:66
+#: images/templates/images/detail.html:169
+#: images/templates/images/detail.html:233
+#: images/templates/images/detail.html:242 posts/templates/posts/detail.html:57
+#: posts/templates/posts/detail.html:107
+#: projects/templates/projects/detail.html:21
+#: projects/templates/projects/detail.html:26
+#: projects/templates/projects/list.html:20
+#: projects/templates/projects/list.html:49
+#: projects/templates/projects/list.html:64 search/templates/search/log.html:4
+#: search/templates/search/log.html:14
+msgid "Delete"
+msgstr "삭제"
+
+#: channel/templates/channel/detail.html:45
+#: comments/templates/comments/detail.html:55
+#: images/templates/images/detail.html:199 posts/templates/posts/detail.html:66
+msgid "좋아요"
+msgstr "좋아요"
+
+#: channel/templates/channel/detail.html:55
+#: comments/templates/comments/detail.html:44
+#: images/templates/images/detail.html:209 posts/templates/posts/detail.html:76
+msgid "좋아요 해제"
+msgstr ""
+
+#: channel/templates/channel/detail.html:83
+#: posts/templates/posts/detail.html:102
+msgid "게시글을 삭제하시겠습니까?"
+msgstr ""
+
+#: comments/templates/comments/create.html:13 templates/header.html:31
+msgid "Sign in"
+msgstr "로그인"
+
+#: comments/templates/comments/detail.html:70
+msgid "삭제하시겠습니까?"
+msgstr ""
+
+#: images/templates/images/create.html:8
+#: images/templates/images/exif_info.html:8
+msgid "Upload"
+msgstr "업로드"
+
+#: images/templates/images/detail.html:121
+msgid "Previous"
+msgstr "이전"
+
+#: images/templates/images/detail.html:133
+msgid "Next"
+msgstr "다음"
+
+#: images/templates/images/detail.html:178 templates/header.html:38
+msgid "Bookmark"
+msgstr "북마크"
+
+#: images/templates/images/detail.html:187
+msgid "UnBookmark"
+msgstr "북마크 해제"
+
+#: images/templates/images/detail.html:237
+msgid "이미지 게시글을 삭제하시겠습니까?"
+msgstr ""
+
+#: posts/templates/posts/announce.html:17
+#: projects/templates/projects/list.html:16
+msgid "New Announce"
+msgstr "공지사항 작성"
+
+#: posts/templates/posts/list.html:13
+msgid "User"
+msgstr "사용자"
+
+#: posts/templates/posts/list.html:14 search/templates/search/log.html:13
+msgid "Time"
+msgstr "시간"
+
+#: projects/templates/projects/create.html:6
+#: projects/templates/projects/list.html:11
+msgid "New Project"
+msgstr "새 프로젝트"
+
+#: projects/templates/projects/list.html:54
+msgid "삭제할 게시판을 선택해주세요."
+msgstr ""
+
+#: search/templates/search/log.html:4
+msgid "all data"
+msgstr "검색 기록"
+
+#: search/templates/search/main.html:23 templates/header.html:63
+msgid "Search"
+msgstr "검색"
+
+#: templates/header.html:34
+msgid "Sign up"
+msgstr "회원가입"
+
+#: templates/header.html:41
+msgid "Following"
+msgstr "팔로우"
+
+#: templates/header.html:44
+msgid "Subscribe"
+msgstr "구독"
+
+#: templates/header.html:47
+msgid "My page"
+msgstr "마이페이지"
+
+#: templates/header.html:50
+msgid "Logout"
+msgstr "로그아웃"
+

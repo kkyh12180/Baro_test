@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% load static %}
+{% load i18n %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/account/mypage.css' %}">
@@ -20,28 +21,28 @@
 
         {% if target_user == user %}
             <a class="user-info-button" href="{% url 'account:edit' pk=user.user_id %}">
-                <btn class="btn btn-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">개인정보 변경</btn>
+                <btn class="btn btn-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Change personal information')}}</btn>
             </a><br>
-            <btn class="btn btn-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';" data-bs-toggle="modal" data-bs-target="#exampleModal">탈퇴</btn>
+            <btn class="btn btn-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';" data-bs-toggle="modal" data-bs-target="#exampleModal">{{_('withdrawal')}}</btn>
         {% else %}
             {% if user.is_authenticated %}
                 {% comment %} follows {% endcomment %}
                 {% if not subscription %}
                 <a class="user-info-button" href="{% url 'follows:subscribe' %}?account_pk={{target_user.username}}">
-                    <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">구독</btn>
+                    <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Subscription')}}</btn>
                 </a><br>
                 {% else %}
                 <a class="user-info-button" href="{% url 'follows:subscribe' %}?account_pk={{target_user.username}}">
-                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">구독 취소</btn>
+                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('UnSubscription')}}</btn>
                 </a><br>
                 {% endif %}
                 {% if not following %}
                 <a class="user-info-button" href="{% url 'follows:follow' %}?account_pk={{target_user.username}}">
-                    <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">팔로우</btn>
+                    <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Follow')}}</btn>
                 </a><br>
                 {% else %}
                 <a class="user-info-button" href="{% url 'follows:follow' %}?account_pk={{target_user.username}}">
-                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">언팔로우</btn>
+                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('UnFollow')}}</btn>
                 </a><br>
                 {% endif %}
             {% endif %}
@@ -52,8 +53,8 @@
     <div class="tab-container">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-images-tab" data-bs-toggle="tab" data-bs-target="#nav-images" type="button" role="tab" aria-controls="nav-images" aria-selected="true">Images</button>
-                <button class="nav-link" id="nav-posts-tab" data-bs-toggle="tab" data-bs-target="#nav-posts" type="button" role="tab" aria-controls="nav-posts" aria-selected="false">Posts</button>
+                <button class="nav-link active" id="nav-images-tab" data-bs-toggle="tab" data-bs-target="#nav-images" type="button" role="tab" aria-controls="nav-images" aria-selected="true">{{_('Images')}}</button>
+                <button class="nav-link" id="nav-posts-tab" data-bs-toggle="tab" data-bs-target="#nav-posts" type="button" role="tab" aria-controls="nav-posts" aria-selected="false">{{_('Posts')}}</button>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -81,16 +82,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">계정 탈퇴</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{_('withdrawal')}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                정말 탈퇴하시겠습니까?
+                {{_('Are you sure you want to leave?')}}
             </div>
             <div class="modal-footer">
                 <form action="{% url 'account:quit' pk=user.pk %}" method="post">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="확인"/>
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Submit')}}/>
                 </form>
             </div>
         </div>

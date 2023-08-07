@@ -14,6 +14,7 @@ from django.urls import reverse_lazy
 import environ
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 env = environ.Env(
     # set casting, default value
@@ -64,7 +65,9 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'baro_test.urls'
@@ -118,6 +121,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = [
+    ('ko', _('Korean')),
+    ('en', _('English')),
+    # ('zh-CN,_('Simplified Chineses)),
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR,'locale'),
+)
 
 TIME_ZONE = 'UTC'
 
