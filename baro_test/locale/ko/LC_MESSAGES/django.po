@@ -43,7 +43,7 @@ msgid "Subscription"
 msgstr "구독"
 
 #: account/templates/account/mypage.html:37
-msgid "UnSubscription"
+msgid "Unsubscription"
 msgstr "구독"
 
 #: account/templates/account/mypage.html:42
@@ -51,8 +51,8 @@ msgid "Follow"
 msgstr "팔로우"
 
 #: account/templates/account/mypage.html:46
-msgid "UnFollow"
-msgstr "팔로우"
+msgid "Unfollow"
+msgstr "팔로우 해제"
 
 #: account/templates/account/mypage.html:58 templates/header.html:23
 msgid "Images"
@@ -157,7 +157,7 @@ msgid "Bookmark"
 msgstr "북마크"
 
 #: images/templates/images/detail.html:187
-msgid "UnBookmark"
+msgid "Unbookmark"
 msgstr "북마크 해제"
 
 #: images/templates/images/detail.html:237
@@ -187,8 +187,8 @@ msgid "삭제할 게시판을 선택해주세요."
 msgstr ""
 
 #: search/templates/search/log.html:4
-msgid "all data"
-msgstr "검색 기록"
+msgid "Delete all"
+msgstr "검색 기록 전부 삭제"
 
 #: search/templates/search/main.html:23 templates/header.html:63
 msgid "Search"

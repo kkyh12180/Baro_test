@@ -29,11 +29,11 @@
                 {% comment %} follows {% endcomment %}
                 {% if not subscription %}
                 <a class="user-info-button" href="{% url 'follows:subscribe' %}?account_pk={{target_user.username}}">
-                    <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Subscription')}}</btn>
+                    <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Subscribe')}}</btn>
                 </a><br>
                 {% else %}
                 <a class="user-info-button" href="{% url 'follows:subscribe' %}?account_pk={{target_user.username}}">
-                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('UnSubscription')}}</btn>
+                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Unsubscribe')}}</btn>
                 </a><br>
                 {% endif %}
                 {% if not following %}
@@ -42,7 +42,7 @@
                 </a><br>
                 {% else %}
                 <a class="user-info-button" href="{% url 'follows:follow' %}?account_pk={{target_user.username}}">
-                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('UnFollow')}}</btn>
+                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Unfollow')}}</btn>
                 </a><br>
                 {% endif %}
             {% endif %}
