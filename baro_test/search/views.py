@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
-from datetime import datetime
+from django.utils import timezone
+from django.core.paginator import Paginator
 
 from search.search_in_elastic import *
 from search.models import *
@@ -9,36 +10,54 @@ from search.models import *
 import string
 import random
 
-# Create your views here.
-def main(request):
-    user_pk = request.user.pk
-    log_list = Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')[:15]
-    context={'log_list':log_list}
-    if request.method == 'POST':
-        prompt=request.POST.get('prompt','')
-        negative_prompt = request.POST.get('negative_prompt','')
-        prompt, negative_prompt = tokenizer(prompt,negative_prompt)
+class PromptLogListView(ListView):
+    #model = Prompt_log
+    template_name = 'search/main.html'
+    context_object_name = 'log_list'
+    paginate_by = 10
+
+    def get_queryset(self):
+        user_pk = self.request.user.pk
+        return Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')[:15]
+
+    def post(self, request, *args, **kwargs):
+        query_maker=QueryMake()
+    
+        user_pk = request.user.pk
+        prompt = request.POST.get('prompt', '')
+        negative_prompt = request.POST.get('negative_prompt', '')
+        prompt, negative_prompt = tokenizer(prompt, negative_prompt)
+
         if user_pk:
-            prompt_log_check=Prompt_log.objects.filter(user_id=user_pk,prompt=prompt,negative_prompt=negative_prompt)
+            prompt_log_check = Prompt_log.objects.filter(user_id=user_pk, prompt=prompt, negative_prompt=negative_prompt)
+
             if not prompt_log_check:
                 plid = ""
-                while(True):
+                while True:
                     letters_set = string.ascii_letters
-                    num = random.randrange(1,9)
-                    random_list = random.sample(letters_set,num)
+                    num = random.randrange(1, 9)
+                    random_list = random.sample(letters_set, num)
                     random_str = f"PL{''.join(random_list)}"
-                    try :
+                    try:
                         Prompt_log.objects.get(prompt_log_id=random_str)
-                    except:
-                        plid=random_str
+                    except Prompt_log.DoesNotExist:
+                        plid = random_str
                         break
-                Prompt_log.objects.create(prompt_log_id=plid,user_id=user_pk,prompt=prompt,negative_prompt=negative_prompt)
+
+                Prompt_log.objects.create(prompt_log_id=plid, user_id=user_pk, prompt=prompt, negative_prompt=negative_prompt)
             else:
-                prompt_log_check[0].created_at=datetime.now()
+                prompt_log_check[0].created_at = timezone.now()
                 prompt_log_check[0].save()
-        context=result(prompt=prompt,negative_prompt=negative_prompt)
+        
+        data_list=query_maker.query_to_elastic(prompt,negative_prompt)
+
+        '''paginator = Paginator(data_list,self.paginate_by)
+        page_number = request.GET.get('page')
+        data_list_page = paginator.get_page(page_number)'''
+
+        #context={'data_list':data_list_page}
+        context={'data_list':data_list}
         return render(request,'search/main.html',context)
-    return render(request,'search/main.html',context)
 
 def delete_all(request):
     user_pk=request.user.pk
@@ -53,23 +72,6 @@ def delete(request, pk):
     for log in log_list:
         log.delete()
     return redirect('search:home')
-
-def result(prompt,negative_prompt):
-    query_maker=QueryMake()
-    data_list=query_maker.query_to_elastic(prompt,negative_prompt)
-    context={'data_list':data_list}
-    return context
-
-class LogListView(ListView):
-    model = Prompt_log
-    context_object_name = 'log_list'
-    template_name = 'search/log.html'
-    paginate_by = 20
-
-    def get_queryset(self):
-        user_pk = self.request.user.pk
-        queryset = Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')
-        return queryset
 
 def tokenizer(prompt,negative_prompt):
     #positive

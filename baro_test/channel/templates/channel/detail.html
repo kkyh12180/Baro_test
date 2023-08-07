@@ -10,7 +10,7 @@
     </div>
     <div class="content-div">
         <strong>{{ target_post.post_time }}</strong>
-        <strong>{% if target_post.subscribe_only %}subscribe{% endif %}</strong>
+        <strong>{% if target_post.subscribe_only %}{{_('subscribe')}}{% endif %}</strong>
         <p>{{ target_post.content }}</p>
     </div>
     <div class="button-container">
@@ -20,7 +20,7 @@
                     <btn
                         class="btn btn-dark rounded-pill"
                         style="font-family: 'GmarketSansMedium'"
-                        >수정</btn
+                        >{{_('Modify')}}</btn
                     >
                 </a>
             </div>
@@ -31,7 +31,7 @@
                     style="font-family: 'GmarketSansMedium'"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
-                    >삭제</btn
+                    >{{_('Delete')}}</btn
                 >
             </div>
         {% else %} 
@@ -42,7 +42,7 @@
                             <btn
                                 class="btn btn-outline-success rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
-                                >좋아요</btn
+                                >{{_('좋아요')}}</btn
                             >
                         </a>
                     </div>
@@ -52,7 +52,7 @@
                             <btn
                                 class="btn btn-outline-danger rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
-                                >좋아요 해제</btn
+                                >{{_('좋아요 해제')}}</btn
                             >
                         </a>
                     </div>
@@ -79,12 +79,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                게시글을 삭제하시겠습니까?
+                {{_('게시글을 삭제하시겠습니까?')}}
             </div>
             <div class="modal-footer">
                 <form action="{% url 'channel:delete' pk=target_post.pk %}" method="POST">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="삭제">
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="delete">
                 </form>
             </div>
         </div>

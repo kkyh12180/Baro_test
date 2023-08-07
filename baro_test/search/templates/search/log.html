@@ -1,7 +1,7 @@
 <div class="container">
     <a href="{% url 'search:delete_all' %}">
         <button class="btn btn-outline-danger delete-btn">
-            검색 기록 전체 삭제
+            {{_('all data')}} {{_('Delete')}}
         </button>
     </a>
     {% if log_list %}
@@ -10,8 +10,8 @@
                 <tr>
                     <th class="prompt" scope="col">prompt</th>
                     <th class="negative" scope="col">negative_prompt</th>
-                    <th class="time" scope="col">시간</th>
-                    <th class="delete" scope="col">삭제</th>
+                    <th class="time" scope="col">{{_('Time')}}</th>
+                    <th class="delete" scope="col">{{_('Delete')}}</th>
                 </tr>
             </thead>
             <tbody>

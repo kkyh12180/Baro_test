@@ -1,3 +1,4 @@
+{% load i18n %}
 <nav
     class="navbar navbar-expand-lg"
     style="background-color: #ffffff"
@@ -19,34 +20,34 @@
         <div class="collapse navbar-collapse" id="navbarColor03">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'images:list' %}">Images</a>
+                    <a class="nav-link" href="{% url 'images:list' %}">{{_('Images')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'projects:list' %}">Posts</a>
+                    <a class="nav-link" href="{% url 'projects:list' %}">{{_('Posts')}}</a>
                 </li>
 
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account:signin' %}?next={{ request.path }}">Sign in</a>
+                        <a class="nav-link" href="{% url 'account:signin' %}?next={{ request.path }}">{{_('Sign in')}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account:signup' %}?next={{ request.path }}">Sign up</a>
+                        <a class="nav-link" href="{% url 'account:signup' %}?next={{ request.path }}">{{_('Sign up')}}</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'follows:bookmarked' %}?next={{ request.path }}">Bookmark</a>
+                        <a class="nav-link" href="{% url 'follows:bookmarked' %}?next={{ request.path }}">{{_('Bookmark')}}</a>
                     </li>
                     <li class "nav-item">
-                        <a class="nav-link" href="{% url 'follows:following' %}">Following</a>
+                        <a class="nav-link" href="{% url 'follows:following' %}">{{_('Following')}}</a>
                     </li>
                     <li class "nav-item">
-                        <a class="nav-link" href="{% url 'follows:subscribed' %}">Subscribe</a>
+                        <a class="nav-link" href="{% url 'follows:subscribed' %}">{{_('Subscribe')}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account:detail' username=user.username %}">My page</a>
+                        <a class="nav-link" href="{% url 'account:detail' username=user.username %}">{{_('My page')}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account:logout' %}?next={{ request.path }}">Logout</a>
+                        <a class="nav-link" href="{% url 'account:logout' %}?next={{ request.path }}">{{_('Logout')}}</a>
                     </li>
                 {% endif %}
 
@@ -59,7 +60,7 @@
                     aria-label="Search"
                 />
                 <button class="btn btn-outline-dark" type="submit">
-                    Search
+                    {{_('Search')}}
                 </button>
             </form>
         </div>

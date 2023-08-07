@@ -18,7 +18,7 @@
 {% if target_user == user %}
 <div style="text-align: center;">
     <a href="{% url 'images:create' %}">
-        <btn class="btn btn-dark rounded-pill col-3 mt-3 mb-3" style="font-family: 'GmarketSansMedium';">이미지 게시글 작성</btn>
+        <btn class="btn btn-dark rounded-pill col-3 mt-3 mb-3" style="font-family: 'GmarketSansMedium';">{{_('New Post')}}</btn>
     </a>
 </div>
 {% endif %}
