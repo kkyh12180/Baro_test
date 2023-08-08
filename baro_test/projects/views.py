@@ -42,7 +42,7 @@ class ProjectCrateView(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse('projects:list')
+        return reverse('projects:list',kwargs={'pk':self.object.pk})
 
 class ProjectDetailView(DetailView):
     model = Project
@@ -70,4 +70,4 @@ class ProjectDeleteView(DeleteView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('projects:list')
+        return reverse('projects:list',kwargs={'pk':'A_Announce'})
