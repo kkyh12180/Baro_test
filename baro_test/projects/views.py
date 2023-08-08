@@ -52,7 +52,7 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        project_list = Project.objects.all().order_by('pk')
+        project_list = Project.objects.values('pk', 'title')
         context["project_list"] = project_list
 
         return context

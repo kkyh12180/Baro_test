@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/image/image_list.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <style>
@@ -24,9 +28,9 @@
 
 {% include 'snippets/images_fragment.html' with image_post_list=image_post_list %}
 
-<div style="text-align: center;">
+<div class="btn-container">
     <a href="{% url 'images:create' %}">
-        <btn class="btn btn-dark rounded-pill col-3 mt-3 mb-3">{{_('이미지 게시글 작성')}}</btn>
+        <btn class="btn btn-dark rounded-pill col-2 mt-3 mb-3" style="font-family: 'GmarketSansMedium';">{{_('이미지 게시글 작성')}}</btn>
     </a>
 </div>
 
