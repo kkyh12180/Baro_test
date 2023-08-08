@@ -39,7 +39,7 @@
 
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-{{ target_project.project_id }}" role="tabpanel" aria-labelledby="nav-{{ target_project.project_id }}-tab">
-            {% include 'posts/list.html' with post_list=target_project.post.all %}
+            {% include 'posts/list.html' with post_list=post_list %}
         </div>
     </div>
 </div>

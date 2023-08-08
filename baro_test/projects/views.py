@@ -54,7 +54,8 @@ class ProjectDetailView(DetailView):
 
         project_list = Project.objects.values('pk', 'title')
         context["project_list"] = project_list
-
+        post_list = Post.objects.filter(project_id=self.object.pk).order_by('-post_time')
+        context["post_list"] = post_list
         return context
 
 class ProjectDeleteView(DeleteView):
