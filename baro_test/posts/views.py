@@ -115,12 +115,6 @@ class PostDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('projects:list',kwargs={'pk':'A_Announce'})
 
-class PostListView(ListView):
-    model = Post
-    context_object_name = 'post_list'
-    template_name = 'posts/list.html'
-    ordering = ['-post_time']
-
 class PostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('post:detail', kwargs={'pk': self.request.GET.get('post_pk')})
