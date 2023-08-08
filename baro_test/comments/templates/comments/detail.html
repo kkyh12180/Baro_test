@@ -72,7 +72,7 @@
             <div class="modal-footer">
                 <form action="{% url 'comment:delete' pk=comment.pk %}" method="POST">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="delete">
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Delete')}}>
                 </form>
             </div>
         </div>

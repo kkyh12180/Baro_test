@@ -10,7 +10,7 @@
     </div>
     <div class="content-div">
         <strong>{{ target_post.post_time }}</strong>
-        <strong>{% if target_post.subscribe_only %}{{_('subscribe')}}{% endif %}</strong>
+        <strong>{% if target_post.subscribe_only %}{{_('Subscribe')}}{% endif %}</strong>
         <p>{{ target_post.content }}</p>
     </div>
     <div class="button-container">
@@ -84,7 +84,7 @@
             <div class="modal-footer">
                 <form action="{% url 'channel:delete' pk=target_post.pk %}" method="POST">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="delete">
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Delete')}}>
                 </form>
             </div>
         </div>
