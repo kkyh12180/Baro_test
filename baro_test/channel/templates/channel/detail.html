@@ -16,7 +16,7 @@
     <div class="button-container">
         {% if target_post.user == user %}
             <div style="text-align: center">
-                <a href="{% url 'post:update' pk=target_post.pk %}">
+                <a href="{% url 'channel:update' pk=target_post.pk %}">
                     <btn
                         class="btn btn-dark rounded-pill"
                         style="font-family: 'GmarketSansMedium'"

@@ -22,10 +22,6 @@ from channel.models import ChannelPost
 
 has_ownership = [account_ownership_required, login_required]
 
-# Create your views here.
-def test(request) :
-    return render(request, 'account/test.html')
-
 class AccountCreateView(CreateView) :
     model = User
     

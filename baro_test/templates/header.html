@@ -23,7 +23,7 @@
                     <a class="nav-link" href="{% url 'images:list' %}">{{_('Images')}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'projects:list' %}">{{_('Posts')}}</a>
+                    <a class="nav-link" href="{% url 'projects:list' pk='A_Announce' %}">{{_('Posts')}}</a>
                 </li>
 
                 {% if not user.is_authenticated %}

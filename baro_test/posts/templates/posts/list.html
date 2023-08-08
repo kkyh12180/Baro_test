@@ -32,9 +32,7 @@
 </div>
 {% endif %}
 
-{% include 'snippets/pagination.html' with page_obj=page_obj %}
-
-{% if project.project_id != "A_Announce" %}
+{% if target_project.project_id != "A_Announce" %}
 <div style="text-align:center;">
     <a href="{% url 'post:create' %}" class="btn btn-outline-dark rounded-pill mt-3 mb-3" style="font-family: 'GmarketSansMedium';">
         {{_('New Post')}}
