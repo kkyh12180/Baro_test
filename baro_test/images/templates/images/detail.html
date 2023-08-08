@@ -158,6 +158,18 @@
                 </div>
                 <div class="button-container">
                     {% if target_post.user == user %}
+                        <div>
+                            <a href="{% url 'images:subscribe' %}?image_post_pk={{target_post.pk}}">
+                                <input type="checkbox" name={{_('Subscribe_only')}} {% if target_post.subscribe_only %}checked{% endif %}>
+                                {{_('Subscribe_only')}}
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{% url 'images:adult' %}?image_post_pk={{target_post.pk}}">
+                                <input type="checkbox" name={{_('Adult')}} {% if target_post.adult %}checked{% endif %}>
+                                {{_('Adult')}}
+                            </a>
+                        </div>
                         <div style="text-align: center">
                             <a href="{% url 'images:update' pk=target_post.pk %}">
                                 <btn class="btn btn-dark rounded-pill">{{_('Modify')}}</btn>

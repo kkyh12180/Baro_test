@@ -397,6 +397,28 @@ class ImagePostBookmarkView(RedirectView) :
 
         return super(ImagePostBookmarkView, self).get(request, *args, **kwargs)
 
+class ImagePostSubscribeView(RedirectView) :
+    def get_redirect_url(self, *args, **kwargs) :
+        return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
+    
+    def get(self, request, *args, **kwargs) :
+        image_post = get_object_or_404(ImagePost, pk=self.request.GET.get('image_post_pk'))
+        image_post.subscribe_only = not image_post.subscribe_only
+        image_post.save()
+
+        return super(ImagePostSubscribeView, self).get(request, *args, **kwargs)
+
+class ImagePostAdultView(RedirectView) :
+    def get_redirect_url(self, *args, **kwargs) :
+        return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
+    
+    def get(self, request, *args, **kwargs) :
+        image_post = get_object_or_404(ImagePost, pk=self.request.GET.get('image_post_pk'))
+        image_post.adult = not image_post.adult
+        image_post.save()
+
+        return super(ImagePostAdultView, self).get(request, *args, **kwargs)
+
 class InputExifInfo(FormView) :
     template_name = 'images/exif_info.html'
     form_class = ExifForm
