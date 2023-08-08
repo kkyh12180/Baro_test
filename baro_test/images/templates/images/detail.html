@@ -218,9 +218,9 @@
                         <div style="text-align: center">
                             <a href="{% url 'images:subscribe' %}?image_post_pk={{target_post.pk}}">
                                 {% if target_post.subscribe_only %}
-                                    <btn class="btn btn-outline-warning rounded-pill">구독자 전용 해제</btn>
+                                    <btn class="btn btn-outline-warning rounded-pill">{{_('구독자 전용 해제')}}</btn>
                                 {% else %}
-                                    <btn class="btn btn-warning rounded-pill">구독자 전용 설정</btn>
+                                    <btn class="btn btn-warning rounded-pill">{{_('구독자 전용 설정')}}</btn>
                                 {% endif %}
                             </a>
                         </div>
@@ -228,9 +228,9 @@
                         <div style="text-align: center">
                             <a href="{% url 'images:adult' %}?image_post_pk={{target_post.pk}}">
                                 {% if target_post.adult %}
-                                    <btn class="btn btn-outline-warning rounded-pill">성인 전용 해제</btn>
+                                    <btn class="btn btn-outline-warning rounded-pill">{{_('성인 전용 해제')}}</btn>
                                 {% else %} 
-                                    <btn class="btn btn-warning rounded-pill">성인 전용 설정</btn>
+                                    <btn class="btn btn-warning rounded-pill">{{_('성인 전용 설정')}}</btn>
                                 {% endif %}
                             </a>
                         </div>
