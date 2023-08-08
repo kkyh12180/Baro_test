@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-07 07:41+0000\n"
+"POT-Creation-Date: 2023-08-08 00:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,8 @@ msgstr ""
 msgid "Delete account"
 msgstr ""
 
-#: account/templates/account/mypage.html:33 templates/header.html:44
+#: account/templates/account/mypage.html:33
+#: channel/templates/channel/detail.html:13 templates/header.html:44
 msgid "Subscribe"
 msgstr ""
 
@@ -85,10 +86,6 @@ msgstr ""
 msgid "New Post"
 msgstr ""
 
-#: channel/templates/channel/detail.html:13
-msgid "subscribe"
-msgstr ""
-
 #: channel/templates/channel/detail.html:23
 #: images/templates/images/detail.html:62
 #: images/templates/images/detail.html:102
@@ -99,8 +96,10 @@ msgid "Modify"
 msgstr ""
 
 #: channel/templates/channel/detail.html:34
+#: channel/templates/channel/detail.html:88
 #: comments/templates/comments/detail.html:31
 #: comments/templates/comments/detail.html:66
+#: comments/templates/comments/detail.html:75
 #: images/templates/images/detail.html:169
 #: images/templates/images/detail.html:233
 #: images/templates/images/detail.html:242 posts/templates/posts/detail.html:57
@@ -126,9 +125,14 @@ msgid "좋아요 해제"
 msgstr "Unlike"
 
 #: channel/templates/channel/detail.html:83
+#: images/templates/images/detail.html:237
 #: posts/templates/posts/detail.html:102
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
+
+#: channel/templates/channel/list.html:24 posts/templates/posts/list.html:31
+msgid "No Post Yet."
+msgstr ""
 
 #: comments/templates/comments/create.html:13 templates/header.html:31
 msgid "Sign in"
@@ -159,13 +163,13 @@ msgstr ""
 msgid "Unbookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:237
-msgid "이미지 게시글을 삭제하시겠습니까?"
-msgstr "Are you sure you want to delete it?"
-
 #: posts/templates/posts/announce.html:17
 #: projects/templates/projects/list.html:16
 msgid "New Announce"
+msgstr ""
+
+#: posts/templates/posts/list.html:12
+msgid "Title"
 msgstr ""
 
 #: posts/templates/posts/list.html:13
@@ -189,8 +193,17 @@ msgstr "Please select the bulletin board you want to delete."
 msgid "Delete all"
 msgstr ""
 
+#: search/templates/search/log.html:34
+msgid "No Search yet!"
+msgstr ""
+
 #: search/templates/search/main.html:23 templates/header.html:63
 msgid "Search"
+msgstr ""
+
+#: search/templates/search/result.html:30
+#: templates/snippets/images_fragment.html:14
+msgid "No Image Post Yet."
 msgstr ""
 
 #: templates/header.html:34

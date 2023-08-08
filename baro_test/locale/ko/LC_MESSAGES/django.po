@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-07 07:39+0000\n"
+"POT-Creation-Date: 2023-08-08 00:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,15 +38,14 @@ msgstr "개인정보 수정"
 msgid "Delete account"
 msgstr "탈퇴"
 
-#: account/templates/account/mypage.html:33 templates/header.html:44
+#: account/templates/account/mypage.html:33
+#: channel/templates/channel/detail.html:13 templates/header.html:44
 msgid "Subscribe"
 msgstr "구독"
 
 #: account/templates/account/mypage.html:37
-#, fuzzy
-#| msgid "subscribe"
 msgid "Unsubscribe"
-msgstr "구독"
+msgstr "구독 해제"
 
 #: account/templates/account/mypage.html:42
 msgid "Follow"
@@ -87,10 +86,6 @@ msgstr ""
 msgid "New Post"
 msgstr "게시글 생성"
 
-#: channel/templates/channel/detail.html:13
-msgid "subscribe"
-msgstr "구독"
-
 #: channel/templates/channel/detail.html:23
 #: images/templates/images/detail.html:62
 #: images/templates/images/detail.html:102
@@ -101,8 +96,10 @@ msgid "Modify"
 msgstr "수정"
 
 #: channel/templates/channel/detail.html:34
+#: channel/templates/channel/detail.html:88
 #: comments/templates/comments/detail.html:31
 #: comments/templates/comments/detail.html:66
+#: comments/templates/comments/detail.html:75
 #: images/templates/images/detail.html:169
 #: images/templates/images/detail.html:233
 #: images/templates/images/detail.html:242 posts/templates/posts/detail.html:57
@@ -125,12 +122,17 @@ msgstr "좋아요"
 #: comments/templates/comments/detail.html:44
 #: images/templates/images/detail.html:209 posts/templates/posts/detail.html:76
 msgid "좋아요 해제"
-msgstr ""
+msgstr "좋아요 해제"
 
 #: channel/templates/channel/detail.html:83
+#: images/templates/images/detail.html:237
 #: posts/templates/posts/detail.html:102
 msgid "게시글을 삭제하시겠습니까?"
-msgstr ""
+msgstr "게시글을 삭제하시겠습니까?"
+
+#: channel/templates/channel/list.html:24 posts/templates/posts/list.html:31
+msgid "No Post Yet."
+msgstr "게시글이 아직 없습니다."
 
 #: comments/templates/comments/create.html:13 templates/header.html:31
 msgid "Sign in"
@@ -138,7 +140,7 @@ msgstr "로그인"
 
 #: comments/templates/comments/detail.html:70
 msgid "삭제하시겠습니까?"
-msgstr ""
+msgstr "삭제하시겠습니까?"
 
 #: images/templates/images/create.html:8
 #: images/templates/images/exif_info.html:8
@@ -161,14 +163,14 @@ msgstr "북마크"
 msgid "Unbookmark"
 msgstr "북마크 해제"
 
-#: images/templates/images/detail.html:237
-msgid "이미지 게시글을 삭제하시겠습니까?"
-msgstr ""
-
 #: posts/templates/posts/announce.html:17
 #: projects/templates/projects/list.html:16
 msgid "New Announce"
 msgstr "공지사항 작성"
+
+#: posts/templates/posts/list.html:12
+msgid "Title"
+msgstr "제목"
 
 #: posts/templates/posts/list.html:13
 msgid "User"
@@ -191,9 +193,18 @@ msgstr ""
 msgid "Delete all"
 msgstr "검색 기록 전부 삭제"
 
+#: search/templates/search/log.html:34
+msgid "No Search yet!"
+msgstr "검색 기록이 없습니다."
+
 #: search/templates/search/main.html:23 templates/header.html:63
 msgid "Search"
 msgstr "검색"
+
+#: search/templates/search/result.html:30
+#: templates/snippets/images_fragment.html:14
+msgid "No Image Post Yet."
+msgstr "이미지 게시글이 없습니다."
 
 #: templates/header.html:34
 msgid "Sign up"
@@ -210,9 +221,3 @@ msgstr "마이페이지"
 #: templates/header.html:50
 msgid "Logout"
 msgstr "로그아웃"
-
-#~ msgid "Subscription"
-#~ msgstr "구독"
-
-#~ msgid "Unsubscription"
-#~ msgstr "구독"
