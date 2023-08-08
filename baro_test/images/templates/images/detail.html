@@ -18,7 +18,7 @@
         {% comment %} image {% endcomment %}
         <div
             id="carouselExample"
-            class="carousel slide col-10"
+            class="carousel slide col-9"
             data-ride="carousel"
         >
             <div class="carousel-inner">
@@ -28,7 +28,7 @@
                         name="img_box"
                         class="d-block"
                         src="data:image/jpeg;base64,{{ first_image.image_file }}"
-                        alt="First slide"
+                        alt=""
                         onclick="showInfo()"
                     />
                     <div
@@ -71,7 +71,7 @@
                         name="img_box"
                         class="d-block"
                         src="data:image/jpeg;base64,{{ image.0.image_file }}"
-                        alt="Second slide"
+                        alt=""
                         onclick="showInfo()"
                     />
                     <div
@@ -133,8 +133,8 @@
             </button>
         </div>
 
-        <div class="col-2" style="position: relative; height: 80vh">
-            <div style="height: 50%; max-height: 40vh; top: 0">
+        <div class="col-3" style="position: relative; height: 80vh">
+            <div style="height: 60%; max-height: 48vh; top: 0">
                 <div class="title">
                     <h4>{{ target_post.title }}</h4>
                 </div>
@@ -158,18 +158,6 @@
                 </div>
                 <div class="button-container">
                     {% if target_post.user == user %}
-                        <div>
-                            <a href="{% url 'images:subscribe' %}?image_post_pk={{target_post.pk}}">
-                                <input type="checkbox" name={{_('Subscribe_only')}} {% if target_post.subscribe_only %}checked{% endif %}>
-                                {{_('Subscribe_only')}}
-                            </a>
-                        </div>
-                        <div>
-                            <a href="{% url 'images:adult' %}?image_post_pk={{target_post.pk}}">
-                                <input type="checkbox" name={{_('Adult')}} {% if target_post.adult %}checked{% endif %}>
-                                {{_('Adult')}}
-                            </a>
-                        </div>
                         <div style="text-align: center">
                             <a href="{% url 'images:update' pk=target_post.pk %}">
                                 <btn class="btn btn-dark rounded-pill">{{_('Modify')}}</btn>
@@ -225,6 +213,29 @@
                         {% endif %} 
                     {% endif %}
                 </div>
+                {% if target_post.user == user %}
+                    <div class="button-container">
+                        <div style="text-align: center">
+                            <a href="{% url 'images:subscribe' %}?image_post_pk={{target_post.pk}}">
+                                {% if target_post.subscribe_only %}
+                                    <btn class="btn btn-outline-warning rounded-pill">구독자 전용 해제</btn>
+                                {% else %}
+                                    <btn class="btn btn-warning rounded-pill">구독자 전용 설정</btn>
+                                {% endif %}
+                            </a>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
+                        <div style="text-align: center">
+                            <a href="{% url 'images:adult' %}?image_post_pk={{target_post.pk}}">
+                                {% if target_post.adult %}
+                                    <btn class="btn btn-outline-warning rounded-pill">성인 전용 해제</btn>
+                                {% else %} 
+                                    <btn class="btn btn-warning rounded-pill">성인 전용 설정</btn>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
             <div class="comment_container">
                 {% include 'comments/create.html' with post=target_post %}
