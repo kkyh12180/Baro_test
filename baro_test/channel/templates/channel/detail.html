@@ -6,7 +6,27 @@
 {% block content %}
 <div class="container">
     <div class="title">
-        <h4 style="font-family: 'GmarketSansMedium'">{{ target_post.title }}</h4>
+        <h4 style="font-family: 'GmarketSansMedium'">
+            {{ target_post.title }}
+        </h4>
+    </div>
+    <div class="user-info-container">
+        <a href="{% url 'account:detail' username=target_post.user.username %}">
+            {% if target_post.user.profile_image %}
+            <img
+                class="user-image"
+                src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
+                alt=""
+            />
+            {% else %}
+            <img
+                class="user-image"
+                src="{% static 'images/no_profile.png'%}"
+                alt=""
+            />
+            {% endif %} &nbsp;&nbsp;&nbsp;
+            <strong>{{ target_post.user.username }}</strong>
+        </a>
     </div>
     <div class="content-div">
         <strong>{{ target_post.post_time }}</strong>
