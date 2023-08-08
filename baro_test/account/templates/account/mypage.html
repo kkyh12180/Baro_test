@@ -91,7 +91,7 @@
             <div class="modal-footer">
                 <form action="{% url 'account:quit' pk=user.pk %}" method="post">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Submit')}}/>
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Submit')}}>
                 </form>
             </div>
         </div>
