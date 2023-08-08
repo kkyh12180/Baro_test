@@ -26,7 +26,7 @@
         </a>
         <div style="text-align: right">
             {% if target_post.project.pk %}
-            <a href="{% url 'projects:list' %}">
+            <a href="{% url 'projects:list'  pk=target_post.project.pk %}">
                 {{target_post.project.title}}
             </a>
             {% endif %}
