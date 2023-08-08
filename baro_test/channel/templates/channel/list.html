@@ -21,7 +21,7 @@
     {% include 'snippets/pagination.html' with page_obj=page_obj %}
 {% else %}
     <div style="text-align: center;">
-        <h1>No Post Yet.</h1>
+        <h1>{{_('No Post Yet.')}}</h1>
     </div>
 {% endif %}
 

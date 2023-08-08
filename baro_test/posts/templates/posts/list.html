@@ -9,7 +9,7 @@
     <table class="table">
         <thead class="table-dark">
           <tr>
-            <th class="title" scope="col">Title</th>
+            <th class="title" scope="col">{{_('Title')}}</th>
             <th class="user" scope="col">{{_('User')}}</th>
             <th class="time" scope="col">{{_('Time')}}</th>
           </tr>
@@ -28,7 +28,7 @@
 {% else %}
 
 <div class="no-text" style="text-align:center;">
-    <h1> no post yet!</h1>
+    <h1> {{_('No Post Yet.')}}</h1>
 </div>
 {% endif %}
 
