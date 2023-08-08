@@ -110,8 +110,10 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
     model = Post
     context_object_name = 'target_post'
-    success_url = reverse_lazy('projects:list')
     template_name = 'posts/detail.html'
+
+    def get_success_url(self):
+        return reverse('projects:list',kwargs={'pk':'A_Announce'})
 
 class PostListView(ListView):
     model = Post
