@@ -71,9 +71,3 @@ class ProjectDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('projects:list')
-
-def clear(request):
-    projects=Project.objects.all()
-    for project in projects:
-        if not project.pk:
-            project.delete()
