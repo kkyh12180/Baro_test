@@ -1,12 +1,22 @@
+{% load i18n %}
 <div class="baro_practice_footer_div mt-auto mb-2">
     <div class="baro_practice_footer_span_div">
         <a href="{% url 'projects:list' pk='A_Announce' %}">
-            <span>공지사항</span> 
+            <span>{{_('공지사항')}}</span> 
         </a>
         |
-        <span>제휴문의</span> 
+        <span>{{_('제휴문의')}}</span> 
         | 
-        <span>서비스 소개</span>
+        <span>{{_('서비스 소개')}}</span>
+    </div>
+    <div style="text-align: center">
+        <a href="{% url 'account:language' %}">
+            <btn class="btn btn-outline-warning rounded-pill">
+                {% get_language_info for LANGUAGE_CODE as lang_info %}
+                {{ lang_info.name_local }} ({{ lang_info.code }})
+                {% comment %} {{request.session.LANGUAGE_CODE}} {% endcomment %}
+            </btn>
+        </a>
     </div>
     <div class="baro_practice_footer_logo_div">
         <h6 class="baro_practice_footer_logo">Baro_practice</h6>

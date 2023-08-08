@@ -1,4 +1,29 @@
+{% extends 'base.html' %}
 {% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/search/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-sm search-div">
+    <form method="post" class="search-form">
+        {% csrf_token %}
+        <div class="input-group">
+            <div class="form-outline">
+                <label class="form-label" for="prompt">Prompt</label>
+                <input type="text" name="prompt" class="form-control" />
+            </div>
+            &nbsp;&nbsp;
+            <div class="form-outline">
+                <label class="form-label" for="negative_prompt">Negative Prompt</label>
+                <input type="text" name="negative_prompt" class="form-control" />
+            </div>
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-outline-dark search-btn">{{_('Search')}}</button>
+        </div>
+    </form>
+</div>
 <style>
     .container div {
         width: 250px;
@@ -24,9 +49,10 @@
         {% endfor %}
     </div>
     <script src="{% static 'js/magicgrid.js' %}"></script>
-    {% include 'snippets/pagination.html' with page_obj=data_list %}
+    {% include 'snippets/pagination.html' with page_obj=page_obj %}
 {% else %}
     <div style="text-align: center;">
         <h1>{{_('No Image Post Yet.')}}</h1>
     </div>
 {% endif %}
+{% endblock %}

@@ -8,7 +8,6 @@ from channel.views import *
 app_name = 'channel'
 
 urlpatterns = [
-    path('',ChannelListView.as_view(), name='list'),
     path('create/',ChannelCrateView.as_view(), name='create'),
     path('detail/<str:pk>',ChannelDetailView.as_view(), name='detail'),
     path('update/<str:pk>',ChannelUpdateView.as_view(), name='update'),

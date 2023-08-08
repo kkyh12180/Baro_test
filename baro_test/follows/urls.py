@@ -11,5 +11,4 @@ urlpatterns = [
     path('follow',FollowView.as_view(), name='follow'),
     path('following/',FollowingListView.as_view(), name='following'),
     path('bookmarked/',BookmarkedListView.as_view(), name='bookmarked'),
-    #path('bookmark/',BookmarkView.as_view(), name='bookmark'),
 ]

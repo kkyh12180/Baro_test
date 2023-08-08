@@ -85,14 +85,6 @@ class ChannelDeleteView(DeleteView):
         username = self.request.user.username
         return reverse('account:detail', kwargs={'username':username})
 
-class ChannelListView(ListView, FormMixin):
-    model = ChannelPost
-    form_class = CommentCreationForm
-    context_object_name = 'post_list'
-    template_name = 'channel/list.html'
-    ordering = ['-post_time']
-    paginate_by = 25
-
 class ChannelLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('channel:detail', kwargs={'pk': self.request.GET.get('post_pk')})

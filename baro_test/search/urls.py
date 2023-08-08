@@ -6,7 +6,8 @@ from search.views import *
 app_name ="search"
 
 urlpatterns = [
-    path('',PromptLogListView.as_view(), name="home"),
+    path('',SearchListView.as_view(), name="home"),
     path('delete/',delete_all,name='delete_all'),
     path('delete/<str:pk>',delete,name='delete'),
+    path('result/',ResultView.as_view(), name="result"),
 ]

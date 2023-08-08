@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.urls import reverse
+from django.views.generic import ListView, View
 from django.utils import timezone
 from django.core.paginator import Paginator
 
@@ -10,8 +11,7 @@ from search.models import *
 import string
 import random
 
-class PromptLogListView(ListView):
-    #model = Prompt_log
+class SearchListView(ListView):
     template_name = 'search/main.html'
     context_object_name = 'log_list'
     paginate_by = 10
@@ -21,8 +21,6 @@ class PromptLogListView(ListView):
         return Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')[:15]
 
     def post(self, request, *args, **kwargs):
-        query_maker=QueryMake()
-    
         user_pk = request.user.pk
         prompt = request.POST.get('prompt', '')
         negative_prompt = request.POST.get('negative_prompt', '')
@@ -49,16 +47,69 @@ class PromptLogListView(ListView):
                 prompt_log_check[0].created_at = timezone.now()
                 prompt_log_check[0].save()
         
-        data_list=query_maker.query_to_elastic(prompt,negative_prompt)
+        # Store the search results in the session
+        request.session['search_query'] = {'prompt': prompt, 'negative_prompt': negative_prompt}
+        
+        # Build the URL for redirecting with pagination
+        redirect_url = reverse('search:result')
+        redirect_url += f'?page=1'
+        
+        # Redirect to ResultView with pagination
+        return redirect(redirect_url)
 
-        '''paginator = Paginator(data_list,self.paginate_by)
-        page_number = request.GET.get('page')
-        data_list_page = paginator.get_page(page_number)'''
+class ResultView(ListView):
+    template_name = 'search/result.html'
+    context_object_name = 'data_list'
+    paginate_by = 20
 
-        #context={'data_list':data_list_page}
-        context={'data_list':data_list}
-        return render(request,'search/main.html',context)
+    def get_queryset(self):
+        # Get search query from session
+        search_query = self.request.session.get('search_query', {})
+        prompt = search_query.get('prompt', '')
+        negative_prompt = search_query.get('negative_prompt', '')
 
+        # Perform the search using query_maker
+        query_maker = QueryMake()
+        data_list = query_maker.query_to_elastic(prompt, negative_prompt)
+        return data_list
+    
+    def post(self, request, *args, **kwargs):
+        user_pk = request.user.pk
+        prompt = request.POST.get('prompt', '')
+        negative_prompt = request.POST.get('negative_prompt', '')
+        prompt, negative_prompt = tokenizer(prompt, negative_prompt)
+
+        if user_pk:
+            prompt_log_check = Prompt_log.objects.filter(user_id=user_pk, prompt=prompt, negative_prompt=negative_prompt)
+
+            if not prompt_log_check:
+                plid = ""
+                while True:
+                    letters_set = string.ascii_letters
+                    num = random.randrange(1, 9)
+                    random_list = random.sample(letters_set, num)
+                    random_str = f"PL{''.join(random_list)}"
+                    try:
+                        Prompt_log.objects.get(prompt_log_id=random_str)
+                    except Prompt_log.DoesNotExist:
+                        plid = random_str
+                        break
+
+                Prompt_log.objects.create(prompt_log_id=plid, user_id=user_pk, prompt=prompt, negative_prompt=negative_prompt)
+            else:
+                prompt_log_check[0].created_at = timezone.now()
+                prompt_log_check[0].save()
+        
+        # Store the search results in the session
+        request.session['search_query'] = {'prompt': prompt, 'negative_prompt': negative_prompt}
+        
+        # Build the URL for redirecting with pagination
+        redirect_url = reverse('search:result')
+        redirect_url += f'?page=1'
+        
+        # Redirect to ResultView with pagination
+        return redirect(redirect_url)
+    
 def delete_all(request):
     user_pk=request.user.pk
     log_list = Prompt_log.objects.filter(user_id=user_pk)

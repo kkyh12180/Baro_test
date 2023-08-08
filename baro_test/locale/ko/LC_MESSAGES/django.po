@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 01:33+0000\n"
+"POT-Creation-Date: 2023-08-08 07:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgid "Delete account"
 msgstr "탈퇴"
 
 #: account/templates/account/mypage.html:33
-#: channel/templates/channel/detail.html:13 templates/header.html:44
+#: channel/templates/channel/detail.html:33 templates/header.html:44
 msgid "Subscribe"
 msgstr "구독"
 
@@ -67,11 +67,11 @@ msgstr "게시판"
 msgid "Are you sure you want to leave?"
 msgstr "정말 탈퇴하시겠습니까?"
 
-#: baro_test/settings.py:129
+#: baro_test/settings.py:130
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:130
+#: baro_test/settings.py:131
 msgid "English"
 msgstr ""
 
@@ -82,45 +82,45 @@ msgstr ""
 msgid "New Post"
 msgstr "게시글 생성"
 
-#: channel/templates/channel/detail.html:23
+#: channel/templates/channel/detail.html:43
 #: channel/templates/channel/update.html:17
 #: images/templates/images/detail.html:62
 #: images/templates/images/detail.html:102
-#: images/templates/images/detail.html:176
+#: images/templates/images/detail.html:164
 #: images/templates/images/update.html:9 posts/templates/posts/detail.html:46
 #: posts/templates/posts/update.html:17
 msgid "Modify"
 msgstr "수정"
 
-#: channel/templates/channel/detail.html:34
-#: channel/templates/channel/detail.html:88
+#: channel/templates/channel/detail.html:54
+#: channel/templates/channel/detail.html:108
 #: comments/templates/comments/detail.html:31
 #: comments/templates/comments/detail.html:66
 #: comments/templates/comments/detail.html:75
-#: images/templates/images/detail.html:181
-#: images/templates/images/detail.html:245
-#: images/templates/images/detail.html:254 posts/templates/posts/detail.html:57
+#: images/templates/images/detail.html:169
+#: images/templates/images/detail.html:256
+#: images/templates/images/detail.html:265 posts/templates/posts/detail.html:57
 #: posts/templates/posts/detail.html:107
-#: projects/templates/projects/list.html:25
-#: projects/templates/projects/list.html:54
-#: projects/templates/projects/list.html:69 search/templates/search/log.html:14
+#: projects/templates/projects/list.html:24
+#: projects/templates/projects/list.html:53
+#: projects/templates/projects/list.html:68 search/templates/search/log.html:14
 msgid "Delete"
 msgstr "삭제"
 
-#: channel/templates/channel/detail.html:45
+#: channel/templates/channel/detail.html:65
 #: comments/templates/comments/detail.html:55
-#: images/templates/images/detail.html:211 posts/templates/posts/detail.html:66
+#: images/templates/images/detail.html:199 posts/templates/posts/detail.html:66
 msgid "좋아요"
 msgstr "좋아요"
 
-#: channel/templates/channel/detail.html:55
+#: channel/templates/channel/detail.html:75
 #: comments/templates/comments/detail.html:44
-#: images/templates/images/detail.html:221 posts/templates/posts/detail.html:76
+#: images/templates/images/detail.html:209 posts/templates/posts/detail.html:76
 msgid "좋아요 해제"
 msgstr "좋아요 해제"
 
-#: channel/templates/channel/detail.html:83
-#: images/templates/images/detail.html:249
+#: channel/templates/channel/detail.html:103
+#: images/templates/images/detail.html:260
 #: posts/templates/posts/detail.html:102
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "게시글을 삭제하시겠습니까?"
@@ -150,30 +150,36 @@ msgstr "이전"
 msgid "Next"
 msgstr "다음"
 
-#: images/templates/images/detail.html:164
-#: images/templates/images/detail.html:165
-msgid "Subscribe_only"
-msgstr "구독자 전용"
-
-#: images/templates/images/detail.html:170
-#: images/templates/images/detail.html:171
-msgid "Adult"
-msgstr "성인"
-
-#: images/templates/images/detail.html:190 templates/header.html:38
+#: images/templates/images/detail.html:178 templates/header.html:38
 msgid "Bookmark"
 msgstr "북마크"
 
-#: images/templates/images/detail.html:199
+#: images/templates/images/detail.html:187
 msgid "Unbookmark"
 msgstr "북마크 해제"
 
+#: images/templates/images/detail.html:222
+msgid "구독자 전용 해제"
+msgstr "구독자 전용 해제"
+
+#: images/templates/images/detail.html:224
+msgid "구독자 전용 설정"
+msgstr "구독자 전용 설정"
+
+#: images/templates/images/detail.html:232
+msgid "성인 전용 해제"
+msgstr "성인 전용 해제"
+
+#: images/templates/images/detail.html:234
+msgid "성인 전용 설정"
+msgstr "성인 전용 설정"
+
 #: images/templates/images/list.html:29
 msgid "이미지 게시글 작성"
-msgstr ""
+msgstr "이미지 게시글 작성"
 
 #: posts/templates/posts/announce.html:17
-#: projects/templates/projects/list.html:21
+#: projects/templates/projects/list.html:20
 msgid "New Announce"
 msgstr "공지사항 작성"
 
@@ -190,11 +196,11 @@ msgid "Time"
 msgstr "시간"
 
 #: projects/templates/projects/create.html:6
-#: projects/templates/projects/list.html:16
+#: projects/templates/projects/list.html:15
 msgid "New Project"
 msgstr "새 프로젝트"
 
-#: projects/templates/projects/list.html:59
+#: projects/templates/projects/list.html:58
 msgid "삭제할 게시판을 선택해주세요."
 msgstr ""
 
@@ -206,14 +212,27 @@ msgstr "검색 기록 전부 삭제"
 msgid "No Search yet!"
 msgstr "검색 기록이 없습니다."
 
-#: search/templates/search/main.html:23 templates/header.html:63
+#: search/templates/search/main.html:23 search/templates/search/result.html:23
+#: templates/header.html:63
 msgid "Search"
 msgstr "검색"
 
-#: search/templates/search/result.html:30
+#: search/templates/search/result.html:55
 #: templates/snippets/images_fragment.html:14
 msgid "No Image Post Yet."
 msgstr "이미지 게시글이 없습니다."
+
+#: templates/footer.html:5
+msgid "공지사항"
+msgstr "공지사항"
+
+#: templates/footer.html:8
+msgid "제휴문의"
+msgstr "제휴문의"
+
+#: templates/footer.html:10
+msgid "서비스 소개"
+msgstr "서비스 소개"
 
 #: templates/header.html:34
 msgid "Sign up"
