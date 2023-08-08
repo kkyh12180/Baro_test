@@ -59,7 +59,7 @@
                     <select name="project" class="form-select" title="" required="" id="id_project" onchange="setProjectId()">
                         <option value="" selected="">---------</option>
                         {% for project in project_list %}
-                            <option value="{{ project.project_id }}">{{ project.title }}</option>
+                            <option value="{{ project.pk }}">{{ project.title }}</option>
                         {% endfor %}
                     </select>
                 </div>
