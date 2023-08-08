@@ -4,6 +4,14 @@
     padding: 1rem 1rem;
 }
 
+.user-image {
+    border: 1px solid black;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 20rem;
+    object-fit: cover;
+}
+
 .button-container {
     display: flex;
     flex-direction: row;
