@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 04:54+0000\n"
+"POT-Creation-Date: 2023-08-08 07:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,11 +67,11 @@ msgstr ""
 msgid "Are you sure you want to leave?"
 msgstr ""
 
-#: baro_test/settings.py:129
+#: baro_test/settings.py:130
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:130
+#: baro_test/settings.py:131
 msgid "English"
 msgstr ""
 
@@ -221,6 +221,18 @@ msgstr ""
 #: templates/snippets/images_fragment.html:14
 msgid "No Image Post Yet."
 msgstr ""
+
+#: templates/footer.html:5
+msgid "공지사항"
+msgstr "Announce"
+
+#: templates/footer.html:8
+msgid "제휴문의"
+msgstr "Partnership"
+
+#: templates/footer.html:10
+msgid "서비스 소개"
+msgstr "Service"
 
 #: templates/header.html:34
 msgid "Sign up"

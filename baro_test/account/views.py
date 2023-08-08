@@ -1,6 +1,7 @@
+from typing import Any, Optional
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, RedirectView
 from django.views.generic.list import MultipleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.contrib import auth
@@ -10,9 +11,12 @@ from django.utils.decorators import method_decorator
 from account.decorators import account_ownership_required
 from django.db import connection
 from django.shortcuts import get_object_or_404
+from django.utils import translation
 
 import string
 import random
+
+from django.utils.translation import gettext as _
 
 from account.forms import RegisterForm, AccountUpdateForm, AccountPasswordUpdateForm
 from account.models import User
@@ -120,3 +124,24 @@ class AccountDeleteView(DeleteView) :
     context_object_name = 'target_user'
     success_url = reverse_lazy('account:test')
     template_name = 'account/mypage.html'
+
+class ChangeLanguageView(RedirectView):
+    permanent = False
+    
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('search:home')
+    
+    def get(self, request, *args, **kwargs):
+        language_code = translation.get_language()
+        #= request.session.get('LANGUAGE_CODE','en')
+        print(language_code)
+        
+        # Toggle the language
+        new_language_code = "ko" if language_code == "en" else "en"
+
+        translation.activate(new_language_code)
+
+        request.session["LANGUAGE_CODE"] = new_language_code
+        request.session.modified = True
+
+        return super().get(request, *args, **kwargs)
