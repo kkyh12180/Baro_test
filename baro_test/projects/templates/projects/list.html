@@ -30,18 +30,18 @@
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 {% for project in project_list %}
-                <button class="nav-link {% if forloop.first %}active{% endif %}" id="nav-{{ project.project_id }}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ project.project_id }}" type="button" role="tab" aria-controls="nav-{{ project.project_id }}" aria-selected="{{ forloop.first|yesno:'true,false' }}">{{ project.title }}</button>
+                <a href={% url 'projects:list' pk=project.pk %}>
+                    <button class="nav-link {% if project == target_project %}active{% endif %}" id="nav-{{ project.project_id }}-tab" type="button" role="tab" aria-controls="nav-{{ project.project_id }}" aria-selected="{% if project == target_project %}true{% else %}false{% endif %}">{{ project.title }}</button>
+                </a>
                 {% endfor %}
             </div>
         </nav>
     </div>
 
     <div class="tab-content" id="nav-tabContent">
-        {% for project in project_list %}
-        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="nav-{{ project.project_id }}" role="tabpanel" aria-labelledby="nav-{{ project.project_id }}-tab">
-            {% include 'posts/list.html' with post_list=context|get_project_posts:project.project_id %}
+        <div class="tab-pane fade show active" id="nav-{{ target_project.project_id }}" role="tabpanel" aria-labelledby="nav-{{ target_project.project_id }}-tab">
+            {% include 'posts/list.html' with post_list=target_project.post.all %}
         </div>
-        {% endfor %}
     </div>
 </div>
 

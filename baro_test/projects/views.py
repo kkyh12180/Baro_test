@@ -44,11 +44,10 @@ class ProjectCrateView(CreateView):
     def get_success_url(self):
         return reverse('projects:list')
 
-class ProjectDetailView(DetailView, MultipleObjectMixin):
+class ProjectDetailView(DetailView):
     model = Project
     context_object_name = 'target_project'
     template_name = 'projects/list.html'
-    paginate_by = 25
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

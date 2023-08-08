@@ -118,13 +118,6 @@ class PostListView(ListView):
     context_object_name = 'post_list'
     template_name = 'posts/list.html'
     ordering = ['-post_time']
-    paginate_by = 20
-
-def clear(request):
-    posts=Post.objects.all()
-    for post in posts:
-        post.delete()
-    return reverse('post:list')
 
 class PostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
