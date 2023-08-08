@@ -8,7 +8,6 @@ from posts.views import *
 app_name = 'post'
 
 urlpatterns = [
-    path('',PostListView.as_view(), name='list'),
     path('create/',PostCrateView.as_view(), name='create'),
     path('announce/',AnnounceCreateView.as_view(),name='announce'),
     path('detail/<str:pk>',PostDetailView.as_view(), name='detail'),

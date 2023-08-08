@@ -44,9 +44,9 @@ class ProjectCrateView(CreateView):
     def get_success_url(self):
         return reverse('projects:list')
 
-class ProjectListView(ListView, MultipleObjectMixin):
+class ProjectDetailView(DetailView, MultipleObjectMixin):
     model = Project
-    context_object_name = 'project_list'
+    context_object_name = 'target_project'
     template_name = 'projects/list.html'
     paginate_by = 25
     
@@ -56,16 +56,6 @@ class ProjectListView(ListView, MultipleObjectMixin):
         project_list = Project.objects.all().order_by('pk')
         context["project_list"] = project_list
 
-        # Get the active project's project_id from the URL (e.g., "G001", "G002", ...)
-        active_project_id = self.request.GET.get('project_id')
-
-        # Retrieve posts for each project and add them to the context
-        for project in project_list:
-            if project.project_id == active_project_id:
-                posts = Post.objects.filter(project=project)
-                context[f"{project.project_id}_list"] = posts
-            else:
-                context[f"{project.project_id}_list"] = []
         return context
 
 class ProjectDeleteView(DeleteView):

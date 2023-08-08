@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
-{% load project_filters %}
 {% load static %}
+{% load project_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/project/project_list.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
     {% if user.is_admin %}
-    <div style="text-align:center; margin-bottom: 2rem;">
+    <div class="project-btn">
         <a href="{% url 'projects:create' %}">
             <btn class="btn btn-dark rounded-pill" style="font-family: 'GmarketSansMedium'">
                 {{_('New Project')}}
