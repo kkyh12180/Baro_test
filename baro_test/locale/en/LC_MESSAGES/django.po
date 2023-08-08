@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 00:20+0000\n"
+"POT-Creation-Date: 2023-08-08 00:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,9 +87,10 @@ msgid "New Post"
 msgstr ""
 
 #: channel/templates/channel/detail.html:23
+#: channel/templates/channel/update.html:17
 #: images/templates/images/detail.html:62
 #: images/templates/images/detail.html:102
-#: images/templates/images/detail.html:164
+#: images/templates/images/detail.html:176
 #: images/templates/images/update.html:9 posts/templates/posts/detail.html:46
 #: posts/templates/posts/update.html:17
 msgid "Modify"
@@ -100,9 +101,9 @@ msgstr ""
 #: comments/templates/comments/detail.html:31
 #: comments/templates/comments/detail.html:66
 #: comments/templates/comments/detail.html:75
-#: images/templates/images/detail.html:169
-#: images/templates/images/detail.html:233
-#: images/templates/images/detail.html:242 posts/templates/posts/detail.html:57
+#: images/templates/images/detail.html:181
+#: images/templates/images/detail.html:245
+#: images/templates/images/detail.html:254 posts/templates/posts/detail.html:57
 #: posts/templates/posts/detail.html:107
 #: projects/templates/projects/detail.html:21
 #: projects/templates/projects/detail.html:26
@@ -114,18 +115,18 @@ msgstr ""
 
 #: channel/templates/channel/detail.html:45
 #: comments/templates/comments/detail.html:55
-#: images/templates/images/detail.html:199 posts/templates/posts/detail.html:66
+#: images/templates/images/detail.html:211 posts/templates/posts/detail.html:66
 msgid "좋아요"
 msgstr "Like"
 
 #: channel/templates/channel/detail.html:55
 #: comments/templates/comments/detail.html:44
-#: images/templates/images/detail.html:209 posts/templates/posts/detail.html:76
+#: images/templates/images/detail.html:221 posts/templates/posts/detail.html:76
 msgid "좋아요 해제"
 msgstr "Unlike"
 
 #: channel/templates/channel/detail.html:83
-#: images/templates/images/detail.html:237
+#: images/templates/images/detail.html:249
 #: posts/templates/posts/detail.html:102
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
@@ -155,11 +156,21 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: images/templates/images/detail.html:178 templates/header.html:38
+#: images/templates/images/detail.html:164
+#: images/templates/images/detail.html:165
+msgid "Subscribe_only"
+msgstr ""
+
+#: images/templates/images/detail.html:170
+#: images/templates/images/detail.html:171
+msgid "Adult"
+msgstr ""
+
+#: images/templates/images/detail.html:190 templates/header.html:38
 msgid "Bookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:187
+#: images/templates/images/detail.html:199
 msgid "Unbookmark"
 msgstr ""
 
