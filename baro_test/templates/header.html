@@ -63,6 +63,12 @@
                     {{_('Search')}}
                 </button>
             </form> {% endcomment %}
+            <a href="{% url 'account:language' %}?next={{request.path}}">
+                <btn class="btn btn-outline-dark" style="font-family: 'GmarketSansMedium';">
+                    {% get_language_info for LANGUAGE_CODE as lang_info %}
+                    {{ lang_info.name_local }} ({{ lang_info.code }})
+                </btn>
+            </a>
         </div>
     </div>
 </nav>
