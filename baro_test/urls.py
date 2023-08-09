@@ -21,6 +21,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += i18n_patterns(
     path('',include('search.urls')),
     path('account/', include('account.urls')),
     path('image/', include('images.urls')),
@@ -29,4 +32,4 @@ urlpatterns = [
     path('channel/',include('channel.urls')),
     path('follow/',include('follows.urls')),
     path('project/',include('projects.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+)
