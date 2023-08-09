@@ -1,11 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'css/search/main.css' %}">
-{% endblock %}
-
 {% block content %}
+
+<style>
+    .container div {
+        width: 250px;
+        height: auto;
+        border-radius: 1rem;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+    }
+</style>
+
 <div class="container-sm search-div">
     <form method="post" class="search-form">
         {% csrf_token %}
@@ -24,22 +38,7 @@
         </div>
     </form>
 </div>
-<style>
-    .container div {
-        width: 250px;
-        height: auto;
-        border-radius: 1rem;
-        background-color: antiquewhite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
-    .container img {
-        width: 100%;
-        border-radius: 1rem;
-    }
-</style>
 {% if data_list %}
     <div class="container">
         {% for data in data_list %}
@@ -55,4 +54,5 @@
         <h1>{{_('No Image Post Yet.')}}</h1>
     </div>
 {% endif %}
+
 {% endblock %}

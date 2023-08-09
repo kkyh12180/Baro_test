@@ -249,3 +249,11 @@ msgstr "마이페이지"
 #: templates/header.html:50
 msgid "Logout"
 msgstr "로그아웃"
+
+#: account/templates/account/mypage.html:28
+msgid "New Image Post"
+msgstr "이미지 게시글 생성"
+
+#: account/templates/account/mypage.html:31
+msgid "New Channel Post"
+msgstr "채널 게시글 생성"
