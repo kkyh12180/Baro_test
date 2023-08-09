@@ -11,6 +11,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='comment')
     content = models.TextField(blank=True, null=False)
     comment_time = models.DateTimeField(auto_now_add=True)
+    like_number = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'comment'

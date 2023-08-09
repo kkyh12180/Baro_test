@@ -95,8 +95,12 @@ class ChannelLikeView(RedirectView) :
         like = ChannelPostLike.objects.filter(user=user, post=post)
 
         if like.exists() :
+            post.like_number -= 1
+            post.save()
             like.delete()
         else :
+            post.like_number += 1
+            post.save()
             ChannelPostLike(user=user, post=post).save()
 
         return super(ChannelLikeView, self).get(request, *args, **kwargs)

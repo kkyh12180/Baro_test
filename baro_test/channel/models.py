@@ -9,7 +9,7 @@ class ChannelPost(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
     post_time = models.DateTimeField(auto_now_add=True)
-    like_number = models.IntegerField(blank=True, null=True)
+    like_number = models.IntegerField(default=0)
     subscribe_only = models.BooleanField(default=False)
 
     class Meta:

@@ -195,7 +195,7 @@
                                         href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
                                     >
                                         <btn class="btn btn-outline-success rounded-pill"
-                                            >{{_('좋아요')}}</btn
+                                            >{{_('좋아요')}} ({{ target_post.like_number }})</btn
                                         >
                                     </a>
                                 </div>
@@ -205,7 +205,7 @@
                                         href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
                                     >
                                         <btn class="btn btn-outline-danger rounded-pill"
-                                            >{{_('좋아요 해제')}}</btn
+                                            >{{_('좋아요 해제')}} ({{ target_post.like_number }})</btn
                                         >
                                     </a>
                                 </div>
