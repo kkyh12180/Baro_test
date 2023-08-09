@@ -39,6 +39,15 @@
     <div class="button-container">
         {% if target_post.user == user %}
         <div style="text-align: center">
+            {% if target_post.project.pk == "A_Announce" %}
+            <a href="{% url 'post:announce_update' pk=target_post.pk %}">
+                <btn
+                    class="btn btn-dark rounded-pill"
+                    style="font-family: 'GmarketSansMedium'"
+                    >{{_('Modify')}}</btn
+                >
+            </a>
+            {% else %}
             <a href="{% url 'post:update' pk=target_post.pk %}">
                 <btn
                     class="btn btn-dark rounded-pill"
@@ -46,6 +55,7 @@
                     >{{_('Modify')}}</btn
                 >
             </a>
+            {% endif %}
         </div>
         &nbsp;&nbsp;&nbsp;
         <div style="text-align: center">

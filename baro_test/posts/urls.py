@@ -10,6 +10,7 @@ app_name = 'post'
 urlpatterns = [
     path('create/',PostCrateView.as_view(), name='create'),
     path('announce/',AnnounceCreateView.as_view(),name='announce'),
+    path('announce/update/<str:pk>',AnnounceUpdateView.as_view(),name='announce_update'),
     path('detail/<str:pk>',PostDetailView.as_view(), name='detail'),
     path('update/<str:pk>',PostUpdateView.as_view(), name='update'),
     path('delete/<str:pk>',PostDeleteView.as_view(), name='delete'),

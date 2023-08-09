@@ -104,6 +104,17 @@ class PostUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('post:detail',kwargs={'pk':self.object.pk})
+    
+@method_decorator(post_ownership_required,'get')
+@method_decorator(post_ownership_required,'post')
+class AnnounceUpdateView(UpdateView):
+    model = Post
+    form_class = AnnounceCreationForm
+    context_object_name = 'target_post'
+    template_name = 'posts/announce_update.html'
+
+    def get_success_url(self):
+        return reverse('post:detail',kwargs={'pk':self.object.pk})
 
 @method_decorator(post_ownership_required,'get')
 @method_decorator(post_ownership_required,'post')

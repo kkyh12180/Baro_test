@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-09 01:34+0000\n"
+"POT-Creation-Date: 2023-08-09 01:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,8 +22,9 @@ msgstr ""
 #: channel/templates/channel/update.html:22
 #: comments/templates/comments/create.html:10
 #: images/templates/images/exif_info.html:13
-#: posts/templates/posts/announce.html:22 posts/templates/posts/create.html:22
-#: posts/templates/posts/update.html:22
+#: posts/templates/posts/announce.html:22
+#: posts/templates/posts/announce_update.html:22
+#: posts/templates/posts/create.html:22 posts/templates/posts/update.html:22
 #: projects/templates/projects/create.html:11
 #: projects/templates/projects/delete.html:10
 msgid "Submit"
@@ -93,7 +94,9 @@ msgstr "게시글 작성"
 #: images/templates/images/detail.html:62
 #: images/templates/images/detail.html:102
 #: images/templates/images/detail.html:164
-#: images/templates/images/update.html:9 posts/templates/posts/detail.html:46
+#: images/templates/images/update.html:9
+#: posts/templates/posts/announce_update.html:17
+#: posts/templates/posts/detail.html:47 posts/templates/posts/detail.html:55
 #: posts/templates/posts/update.html:17
 msgid "Modify"
 msgstr "수정"
@@ -105,8 +108,8 @@ msgstr "수정"
 #: comments/templates/comments/detail.html:75
 #: images/templates/images/detail.html:169
 #: images/templates/images/detail.html:256
-#: images/templates/images/detail.html:265 posts/templates/posts/detail.html:57
-#: posts/templates/posts/detail.html:107
+#: images/templates/images/detail.html:265 posts/templates/posts/detail.html:67
+#: posts/templates/posts/detail.html:117
 #: projects/templates/projects/list.html:24
 #: projects/templates/projects/list.html:53
 #: projects/templates/projects/list.html:68 search/templates/search/log.html:14
@@ -115,19 +118,19 @@ msgstr "삭제"
 
 #: channel/templates/channel/detail.html:65
 #: comments/templates/comments/detail.html:55
-#: images/templates/images/detail.html:199 posts/templates/posts/detail.html:66
+#: images/templates/images/detail.html:199 posts/templates/posts/detail.html:76
 msgid "좋아요"
 msgstr "좋아요"
 
 #: channel/templates/channel/detail.html:75
 #: comments/templates/comments/detail.html:44
-#: images/templates/images/detail.html:209 posts/templates/posts/detail.html:76
+#: images/templates/images/detail.html:209 posts/templates/posts/detail.html:86
 msgid "좋아요 해제"
 msgstr "좋아요 해제"
 
 #: channel/templates/channel/detail.html:103
 #: images/templates/images/detail.html:260
-#: posts/templates/posts/detail.html:102
+#: posts/templates/posts/detail.html:112
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "게시글을 삭제하시겠습니까?"
 
