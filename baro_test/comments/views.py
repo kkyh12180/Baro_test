@@ -129,8 +129,12 @@ class CommentImagePostLikeView(RedirectView) :
         like = CommentLike.objects.filter(user=user, comment=comment)
 
         if like.exists() :
+            comment.like_number -= 1
+            comment.save()
             like.delete()
         else :
+            comment.like_number += 1
+            comment.save()
             CommentLike(user=user, comment=comment).save()
 
         return super(CommentImagePostLikeView, self).get(request, *args, **kwargs)

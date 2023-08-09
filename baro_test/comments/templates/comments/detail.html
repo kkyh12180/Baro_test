@@ -41,7 +41,7 @@
                             href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }} "
                             class="btn btn-outline-danger rounded-pill"
                         >
-                            {{_('좋아요 해제')}} 
+                            {{_('좋아요 해제')}} ({{ comment.like_number }})
                         </a>
                     </div>
                 {% endif %}
@@ -52,7 +52,7 @@
                         href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }}"
                         class="btn btn-outline-success rounded-pill"
                     >
-                        {{_('좋아요')}}
+                        {{_('좋아요')}} ({{ comment.like_number }})
                     </a>
                 </div>
         {% endif %}
