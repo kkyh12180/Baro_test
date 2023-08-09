@@ -1,0 +1,24 @@
+.project-btn {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.tab-pane {
+    max-height: 70vh;
+    overflow-y: scroll;
+}
+
+.tab-pane::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tab-pane::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: #585858; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+.tab-pane::-webkit-scrollbar-track {
+    background: #F2F2F2;
+}

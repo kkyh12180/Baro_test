@@ -1,0 +1,32 @@
+.title {
+    width: 500px;
+    max-width: 500px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.user {
+    width: 50px;
+    max-width: 50px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.time {
+    width: 100px;
+    max-width: 100px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.no-text {
+    text-align:center;
+    margin-top: 2rem;
+}
+
+.table-dark {
+    font-family: 'GmarketSansMedium';
+}
