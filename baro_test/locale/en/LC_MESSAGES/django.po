@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 07:17+0000\n"
+"POT-Creation-Date: 2023-08-09 01:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,13 +17,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: account/templates/account/edit_password.html:14
-#: account/templates/account/mypage.html:96
+#: account/templates/account/mypage.html:102
 #: channel/templates/channel/create.html:11
 #: channel/templates/channel/update.html:22
 #: comments/templates/comments/create.html:10
 #: images/templates/images/exif_info.html:13
-#: posts/templates/posts/announce.html:22 posts/templates/posts/create.html:22
-#: posts/templates/posts/update.html:22
+#: posts/templates/posts/announce.html:22
+#: posts/templates/posts/announce_update.html:22
+#: posts/templates/posts/create.html:22 posts/templates/posts/update.html:22
 #: projects/templates/projects/create.html:11
 #: projects/templates/projects/delete.html:10
 msgid "Submit"
@@ -34,51 +35,57 @@ msgid "Change profile"
 msgstr ""
 
 #: account/templates/account/mypage.html:26
-#: account/templates/account/mypage.html:87
+#: account/templates/account/mypage.html:93
 msgid "Delete account"
 msgstr ""
 
-#: account/templates/account/mypage.html:33
+#: account/templates/account/mypage.html:28
+msgid "New Image Post"
+msgstr ""
+
+#: account/templates/account/mypage.html:31
+msgid "New Channel Post"
+msgstr ""
+
+#: account/templates/account/mypage.html:39
 #: channel/templates/channel/detail.html:33 templates/header.html:44
 msgid "Subscribe"
 msgstr ""
 
-#: account/templates/account/mypage.html:37
+#: account/templates/account/mypage.html:43
 msgid "Unsubscribe"
 msgstr ""
 
-#: account/templates/account/mypage.html:42
+#: account/templates/account/mypage.html:48
 msgid "Follow"
 msgstr ""
 
-#: account/templates/account/mypage.html:46
+#: account/templates/account/mypage.html:52
 msgid "Unfollow"
 msgstr ""
 
-#: account/templates/account/mypage.html:58 templates/header.html:23
+#: account/templates/account/mypage.html:64 templates/header.html:23
 msgid "Images"
 msgstr ""
 
-#: account/templates/account/mypage.html:59 templates/header.html:26
+#: account/templates/account/mypage.html:65 templates/header.html:26
 msgid "Posts"
 msgstr ""
 
-#: account/templates/account/mypage.html:91
+#: account/templates/account/mypage.html:97
 msgid "Are you sure you want to leave?"
 msgstr ""
 
-#: baro_test/settings.py:130
+#: baro_test/settings.py:129
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:131
+#: baro_test/settings.py:130
 msgid "English"
 msgstr ""
 
-#: channel/templates/channel/create.html:7
-#: channel/templates/channel/list.html:31 posts/templates/posts/create.html:17
+#: channel/templates/channel/create.html:7 posts/templates/posts/create.html:17
 #: posts/templates/posts/list.html:38
-#: templates/snippets/images_fragment.html:21
 msgid "New Post"
 msgstr ""
 
@@ -87,7 +94,9 @@ msgstr ""
 #: images/templates/images/detail.html:62
 #: images/templates/images/detail.html:102
 #: images/templates/images/detail.html:164
-#: images/templates/images/update.html:9 posts/templates/posts/detail.html:46
+#: images/templates/images/update.html:9
+#: posts/templates/posts/announce_update.html:17
+#: posts/templates/posts/detail.html:47 posts/templates/posts/detail.html:55
 #: posts/templates/posts/update.html:17
 msgid "Modify"
 msgstr ""
@@ -99,8 +108,8 @@ msgstr ""
 #: comments/templates/comments/detail.html:75
 #: images/templates/images/detail.html:169
 #: images/templates/images/detail.html:256
-#: images/templates/images/detail.html:265 posts/templates/posts/detail.html:57
-#: posts/templates/posts/detail.html:107
+#: images/templates/images/detail.html:265 posts/templates/posts/detail.html:67
+#: posts/templates/posts/detail.html:117
 #: projects/templates/projects/list.html:24
 #: projects/templates/projects/list.html:53
 #: projects/templates/projects/list.html:68 search/templates/search/log.html:14
@@ -109,23 +118,23 @@ msgstr ""
 
 #: channel/templates/channel/detail.html:65
 #: comments/templates/comments/detail.html:55
-#: images/templates/images/detail.html:199 posts/templates/posts/detail.html:66
+#: images/templates/images/detail.html:199 posts/templates/posts/detail.html:76
 msgid "좋아요"
 msgstr "Like"
 
 #: channel/templates/channel/detail.html:75
 #: comments/templates/comments/detail.html:44
-#: images/templates/images/detail.html:209 posts/templates/posts/detail.html:76
+#: images/templates/images/detail.html:209 posts/templates/posts/detail.html:86
 msgid "좋아요 해제"
 msgstr "Unlike"
 
 #: channel/templates/channel/detail.html:103
 #: images/templates/images/detail.html:260
-#: posts/templates/posts/detail.html:102
+#: posts/templates/posts/detail.html:112
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
 
-#: channel/templates/channel/list.html:24 posts/templates/posts/list.html:31
+#: channel/templates/channel/list.html:23 posts/templates/posts/list.html:31
 msgid "No Post Yet."
 msgstr ""
 
@@ -174,13 +183,13 @@ msgstr "For all age"
 msgid "성인 전용 설정"
 msgstr "For adult"
 
-#: images/templates/images/list.html:29
+#: images/templates/images/list.html:30
 msgid "이미지 게시글 작성"
 msgstr "New Image Post"
 
 #: posts/templates/posts/announce.html:17
 #: projects/templates/projects/list.html:20
-msgid "New Announce"
+msgid "New Announcement"
 msgstr ""
 
 #: posts/templates/posts/list.html:12
@@ -212,19 +221,18 @@ msgstr ""
 msgid "No Search yet!"
 msgstr ""
 
-#: search/templates/search/main.html:23 search/templates/search/result.html:23
-#: templates/header.html:63
+#: search/templates/search/main.html:23 search/templates/search/result.html:37
 msgid "Search"
 msgstr ""
 
-#: search/templates/search/result.html:55
-#: templates/snippets/images_fragment.html:14
+#: search/templates/search/result.html:54
+#: templates/snippets/images_fragment.html:13
 msgid "No Image Post Yet."
 msgstr ""
 
 #: templates/footer.html:5
 msgid "공지사항"
-msgstr "Announce"
+msgstr "Announcement"
 
 #: templates/footer.html:8
 msgid "제휴문의"
@@ -248,12 +256,4 @@ msgstr ""
 
 #: templates/header.html:50
 msgid "Logout"
-msgstr ""
-
-#: account/templates/account/mypage.html:28
-msgid "New Image Post"
-msgstr ""
-
-#: account/templates/account/mypage.html:31
-msgid "New Channel Post"
 msgstr ""

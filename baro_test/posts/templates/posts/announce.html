@@ -14,7 +14,7 @@
     </style>
     <div class="container" style="text-align: center; margin: 4rem auto;">
         <h1 class="pragmatic_logo">
-            {{_('New Announce')}}
+            {{_('New Announcement')}}
         </h1>
         <form action="{% url 'post:announce' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
