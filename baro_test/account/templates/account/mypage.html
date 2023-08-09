@@ -23,7 +23,13 @@
             <a class="user-info-button" href="{% url 'account:edit' pk=user.user_id %}">
                 <btn class="btn btn-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Change profile')}}</btn>
             </a><br>
-            <btn class="btn btn-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';" data-bs-toggle="modal" data-bs-target="#exampleModal">{{_('Delete account')}}</btn>
+            <btn class="btn btn-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';" data-bs-toggle="modal" data-bs-target="#exampleModal">{{_('Delete account')}}</btn><br><br>
+            <a href="{% url 'images:create' %}">
+                <btn class="btn btn-outline-dark rounded-pill col-3 mt-3 mb-3" style="font-family: 'GmarketSansMedium';">{{_('New Image Post')}}</btn>
+            </a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'channel:create' %}">
+                <btn class="btn btn-outline-dark rounded-pill col-3 mt-3 mb-3" style="font-family: 'GmarketSansMedium';">{{_('New Channel Post')}}</btn>
+            </a>
         {% else %}
             {% if user.is_authenticated %}
                 {% comment %} follows {% endcomment %}
@@ -91,7 +97,7 @@
             <div class="modal-footer">
                 <form action="{% url 'account:quit' pk=user.pk %}" method="post">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value={{_('Submit')}}/>
+                    <input type="submit" class="btn btn-danger rounded-pill" style="font-family: 'GmarketSansMedium'" value="{{_('Submit')}}">
                 </form>
             </div>
         </div>

@@ -8,17 +8,8 @@
         {% endfor %}
     </div>
     <script src="{% static 'js/magicgrid.js' %}"></script>
-    {% include 'snippets/pagination.html' with page_obj=page_obj %}
 {% else %}
     <div style="text-align: center;">
         <h1>{{_('No Image Post Yet.')}}</h1>
     </div>
-{% endif %}
-
-{% if target_user == user %}
-<div style="text-align: center;">
-    <a href="{% url 'images:create' %}">
-        <btn class="btn btn-dark rounded-pill col-3 mt-3 mb-3" style="font-family: 'GmarketSansMedium';">{{_('New Post')}}</btn>
-    </a>
-</div>
 {% endif %}

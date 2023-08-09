@@ -249,3 +249,11 @@ msgstr ""
 #: templates/header.html:50
 msgid "Logout"
 msgstr ""
+
+#: account/templates/account/mypage.html:28
+msgid "New Image Post"
+msgstr ""
+
+#: account/templates/account/mypage.html:31
+msgid "New Channel Post"
+msgstr ""
