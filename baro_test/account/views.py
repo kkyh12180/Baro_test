@@ -129,19 +129,10 @@ class ChangeLanguageView(RedirectView):
     permanent = False
     
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('search:home')
-    
-    def get(self, request, *args, **kwargs):
-        language_code = translation.get_language()
-        #= request.session.get('LANGUAGE_CODE','en')
-        print(language_code)
-        
-        # Toggle the language
-        new_language_code = "ko" if language_code == "en" else "en"
-
-        translation.activate(new_language_code)
-
-        request.session["LANGUAGE_CODE"] = new_language_code
-        request.session.modified = True
-
-        return super().get(request, *args, **kwargs)
+        next_url = self.request.GET.get('next', '/')
+        # 언어 prefix 변경
+        if next_url.startswith('/en/'):
+            next_url = '/ko/' + next_url[4:]
+        elif next_url.startswith('/ko/'):
+            next_url = '/en/' + next_url[4:]
+        return next_url

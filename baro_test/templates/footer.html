@@ -10,11 +10,10 @@
         <span>{{_('서비스 소개')}}</span>
     </div>
     <div style="text-align: center">
-        <a href="{% url 'account:language' %}">
+        <a href="{% url 'account:language' %}?next={{request.path}}">
             <btn class="btn btn-outline-warning rounded-pill">
                 {% get_language_info for LANGUAGE_CODE as lang_info %}
                 {{ lang_info.name_local }} ({{ lang_info.code }})
-                {% comment %} {{request.session.LANGUAGE_CODE}} {% endcomment %}
             </btn>
         </a>
     </div>
