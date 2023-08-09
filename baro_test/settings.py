@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 import environ
 import os
 from pathlib import Path
@@ -164,3 +164,5 @@ AUTH_USER_MODEL = 'account.User'
 
 LOGOUT_REDIRECT_URL= reverse_lazy('search:home')
 LOGIN_REDIRECT_URL= reverse_lazy('search:home')
+
+LOGIN_URL = '/account/signin/'
