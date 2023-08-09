@@ -162,7 +162,7 @@ class ImagePostListView(ListView) :
     paginate_by = 20
     
     def get_queryset(self):
-        return ImagePost.objects.filter(subscribe_only=False).order_by('-post_time')
+        return ImagePost.objects.filter(subscribe_only=False,adult=False).order_by('-post_time')
 
 class ImagePostDetailView(DetailView, FormMixin) :
     model = ImagePost
