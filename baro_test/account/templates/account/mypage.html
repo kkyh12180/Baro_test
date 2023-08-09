@@ -65,8 +65,10 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
-                {% if subscription or target_user == user%}
+                {% if target_user == user%}
                     {% include 'snippets/images_fragment.html' with  image_post_list=object_list %}
+                {% elif subscription %}
+                    {% include 'snippets/images_fragment.html' with  image_post_list=image_list %}
                 {% else %}
                     {% include 'snippets/images_fragment.html' with  image_post_list=not_subscribe_image_list %}
                 {% endif %}

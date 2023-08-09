@@ -76,8 +76,10 @@ class AccountDetailView(DetailView, FormMixin) :
             following=None
         context["subscription"]=subscription
         context["following"]=following
-        image_post_list=ImagePost.objects.filter(user=uploader)
-        context["object_list"]=image_post_list
+        user_image_post_list=ImagePost.objects.filter(user=uploader)
+        context["object_list"]=user_image_post_list
+        image_post_list=user_image_post_list.filter(adult=False)
+        context["image_list"]=image_post_list
         not_subscribe_image_list = image_post_list.filter(subscribe_only=False)
         context["not_subscribe_image_list"]=not_subscribe_image_list
         post_list=ChannelPost.objects.filter(user=uploader)
