@@ -166,3 +166,4 @@ LOGOUT_REDIRECT_URL= reverse_lazy('search:home')
 LOGIN_REDIRECT_URL= reverse_lazy('search:home')
 
 LOGIN_URL = '/account/signin/'
+CSRF_TRUSTED_ORIGINS = ['https://barotest.azurewebsites.net']
