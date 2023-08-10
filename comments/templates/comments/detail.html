@@ -21,6 +21,7 @@
         &nbsp;&nbsp;&nbsp; <p>{{comment.comment_time}}<p>   
     </div>
     <div>{{comment.content}}</div>
+    <div style="text-align: right">{{_('좋아요')}} ({{ target_post.like_number }})</div>
     {% if comment.user == user %}
     <div style="text-align: right">
         <btn
@@ -41,7 +42,7 @@
                             href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }} "
                             class="btn btn-outline-danger rounded-pill"
                         >
-                            {{_('좋아요 해제')}} ({{ comment.like_number }})
+                            {{_('좋아요 해제')}}
                         </a>
                     </div>
                 {% endif %}
@@ -52,7 +53,7 @@
                         href="{% url 'comment:image_comment_like' %}?comment_pk={{ comment.pk }}"
                         class="btn btn-outline-success rounded-pill"
                     >
-                        {{_('좋아요')}} ({{ comment.like_number }})
+                        {{_('좋아요')}}
                     </a>
                 </div>
         {% endif %}
