@@ -155,6 +155,9 @@
                 <div class="content-container">
                     <p>{{ target_post.content }}</p>
                     <strong>{{ target_post.post_time }}</strong>
+                    <div style="text-align: right">
+                        <strong>{{_('좋아요')}} ({{ target_post.like_number }})</strong>
+                    </div>
                 </div>
                 <div class="button-container">
                     {% if target_post.user == user %}
@@ -195,7 +198,7 @@
                                         href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
                                     >
                                         <btn class="btn btn-outline-success rounded-pill"
-                                            >{{_('좋아요')}} ({{ target_post.like_number }})</btn
+                                            >{{_('좋아요')}}</btn
                                         >
                                     </a>
                                 </div>
@@ -205,7 +208,7 @@
                                         href="{% url 'images:like' %}?image_post_pk={{ target_post.pk }}"
                                     >
                                         <btn class="btn btn-outline-danger rounded-pill"
-                                            >{{_('좋아요 해제')}} ({{ target_post.like_number }})</btn
+                                            >{{_('좋아요 해제')}}</btn
                                         >
                                     </a>
                                 </div>
