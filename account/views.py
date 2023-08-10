@@ -67,13 +67,17 @@ class AccountDetailView(DetailView, FormMixin) :
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         uploader=self.object
+        subscribe_list = uploader.subscriber.all()
+        follow_list = uploader.follower.all()
         user=self.request.user
         if user.is_authenticated:
-            subscription=SubscribeUploader.objects.filter(user=user,uploader=uploader)
-            following=FollowUploader.objects.filter(user=user,uploader=uploader)
+            subscription=subscribe_list.filter(user=user)
+            following=follow_list.filter(user=user)
         else:
             subscription=None
             following=None
+        context["follow_list"]=follow_list
+        context["subscribe_list"]=subscribe_list
         context["subscription"]=subscription
         context["following"]=following
         user_image_post_list=ImagePost.objects.filter(user=uploader)

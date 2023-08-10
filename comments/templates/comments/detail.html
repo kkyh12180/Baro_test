@@ -21,7 +21,7 @@
         &nbsp;&nbsp;&nbsp; <p>{{comment.comment_time}}<p>   
     </div>
     <div>{{comment.content}}</div>
-    <div style="text-align: right">{{_('좋아요')}} ({{ target_post.like_number }})</div>
+    <div style="text-align: right">{{_('좋아요')}} ({{ comment.like_number }})</div>
     {% if comment.user == user %}
     <div style="text-align: right">
         <btn
