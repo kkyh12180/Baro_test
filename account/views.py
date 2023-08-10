@@ -88,7 +88,7 @@ class AccountDetailView(DetailView, FormMixin) :
         user_image_post_list=ImagePost.objects.filter(user=uploader)[:15]
         context["object_list"]=user_image_post_list
 
-        post_list=ChannelPost.objects.filter(user=uploader)
+        post_list=ChannelPost.objects.filter(user=uploader).order_by('-post_time')
         context["post_list"]=post_list
         not_subscribe_post_list = post_list.filter(subscribe_only=False)
         context["not_subscribe_post_list"]=not_subscribe_post_list
