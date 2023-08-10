@@ -18,7 +18,50 @@
         {% endif %}
 
         <h2>{{ target_user.username }}</h2>
-
+        <div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#subscribe">
+                {{_('Subscribe')}} ({{subscribe_list.count}})
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#follow">
+                {{_('Follow')}} ({{follow_list.count}})
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="subscribe" tabindex="-1" aria-labelledby="subscribeLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{_('Subscribe')}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% for subscriber in subscribe_list %}
+                                <a href="{% url 'account:detail' username=subscriber.user.username %}">
+                                    <strong>{{ subscriber.user.username }}</strong>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="follow" tabindex="-1" aria-labelledby="followLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{_('Follow')}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% for follower in follow_list %}
+                                <a href="{% url 'account:detail' username=follower.user.username %}">
+                                    <strong>{{ follower.user.username }}</strong>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% if target_user == user %}
             <a class="user-info-button" href="{% url 'account:edit' pk=user.user_id %}">
                 <btn class="btn btn-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('Change profile')}}</btn>
