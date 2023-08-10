@@ -29,9 +29,10 @@
         </a>
     </div>
     <div class="content-div">
-        <strong>{{ target_post.post_time }}</strong>
         <strong>{% if target_post.subscribe_only %}{{_('Subscribe')}}{% endif %}</strong>
         <p>{{ target_post.content }}</p>
+        <strong>{{ target_post.post_time }}</strong>
+        <div style="text-align: right">{{_('좋아요')}} ({{ target_post.like_number }})</div>
     </div>
     <div class="button-container">
         {% if target_post.user == user %}
@@ -62,7 +63,7 @@
                             <btn
                                 class="btn btn-outline-success rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
-                                >{{_('좋아요')}} ({{ target_post.like_number }})</btn
+                                >{{_('좋아요')}}</btn
                             >
                         </a>
                     </div>
@@ -72,7 +73,7 @@
                             <btn
                                 class="btn btn-outline-danger rounded-pill"
                                 style="font-family: 'GmarketSansMedium'"
-                                >{{_('좋아요 해제')}} ({{ target_post.like_number }})</btn
+                                >{{_('좋아요 해제')}}</btn
                             >
                         </a>
                     </div>
