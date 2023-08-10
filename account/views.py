@@ -102,7 +102,9 @@ class AccountImageListView(ListView):
     paginate_by = 20
     
     def get_queryset(self):
-        return ImagePost.objects.filter(subscribe_only=False,adult=False).order_by('-post_time')
+        username=self.kwargs['username']
+        user = User.objects.get(username=username)
+        return ImagePost.objects.filter(user_id=user.pk,subscribe_only=False,adult=False).order_by('-post_time')
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')

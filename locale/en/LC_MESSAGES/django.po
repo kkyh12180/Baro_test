@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-10 10:31+0900\n"
+"POT-Creation-Date: 2023-08-10 06:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: account/templates/account/edit_password.html:14
-#: account/templates/account/mypage.html:147
+#: account/templates/account/mypage.html:146
 #: channel/templates/channel/create.html:11
 #: channel/templates/channel/update.html:22
 #: comments/templates/comments/create.html:10
@@ -32,15 +32,12 @@ msgstr ""
 
 #: account/templates/account/mypage.html:23
 #: account/templates/account/mypage.html:34
-#: account/templates/account/mypage.html:82
-#: channel/templates/channel/detail.html:32 templates/header.html:44
-msgid "Subscribe"
+msgid "Subscriber"
 msgstr ""
 
 #: account/templates/account/mypage.html:26
 #: account/templates/account/mypage.html:51
-#: account/templates/account/mypage.html:91
-msgid "Follow"
+msgid "Follower"
 msgstr ""
 
 #: account/templates/account/mypage.html:67
@@ -48,7 +45,7 @@ msgid "Change profile"
 msgstr ""
 
 #: account/templates/account/mypage.html:69
-#: account/templates/account/mypage.html:138
+#: account/templates/account/mypage.html:137
 msgid "Delete account"
 msgstr ""
 
@@ -60,8 +57,17 @@ msgstr ""
 msgid "New Channel Post"
 msgstr ""
 
+#: account/templates/account/mypage.html:82
+#: channel/templates/channel/detail.html:32 templates/header.html:44
+msgid "Subscribe"
+msgstr ""
+
 #: account/templates/account/mypage.html:86
 msgid "Unsubscribe"
+msgstr ""
+
+#: account/templates/account/mypage.html:91
+msgid "Follow"
 msgstr ""
 
 #: account/templates/account/mypage.html:95
@@ -76,7 +82,11 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: account/templates/account/mypage.html:142
+#: account/templates/account/mypage.html:116
+msgid "View all"
+msgstr ""
+
+#: account/templates/account/mypage.html:141
 msgid "Are you sure you want to leave?"
 msgstr ""
 
@@ -93,52 +103,52 @@ msgstr ""
 msgid "New Post"
 msgstr ""
 
-#: channel/templates/channel/detail.html:35
-#: channel/templates/channel/detail.html:66
-#: comments/templates/comments/detail.html:24
-#: comments/templates/comments/detail.html:56
+#: channel/templates/channel/detail.html:36
+#: channel/templates/channel/detail.html:67
+#: comments/templates/comments/detail.html:21
+#: comments/templates/comments/detail.html:55
 #: images/templates/images/detail.html:160
-#: images/templates/images/detail.html:202 posts/templates/posts/detail.html:38
-#: posts/templates/posts/detail.html:77
+#: images/templates/images/detail.html:201 posts/templates/posts/detail.html:39
+#: posts/templates/posts/detail.html:78
 msgid "좋아요"
 msgstr "Like"
 
-#: channel/templates/channel/detail.html:44
+#: channel/templates/channel/detail.html:45
 #: channel/templates/channel/update.html:17
 #: images/templates/images/detail.html:62
 #: images/templates/images/detail.html:102
-#: images/templates/images/detail.html:167
+#: images/templates/images/detail.html:166
 #: images/templates/images/update.html:9
 #: posts/templates/posts/announce_update.html:17
-#: posts/templates/posts/detail.html:48 posts/templates/posts/detail.html:56
+#: posts/templates/posts/detail.html:49 posts/templates/posts/detail.html:57
 #: posts/templates/posts/update.html:17
 msgid "Modify"
 msgstr ""
 
-#: channel/templates/channel/detail.html:55
-#: channel/templates/channel/detail.html:109
-#: comments/templates/comments/detail.html:32
-#: comments/templates/comments/detail.html:67
-#: comments/templates/comments/detail.html:76
-#: images/templates/images/detail.html:172
-#: images/templates/images/detail.html:259
-#: images/templates/images/detail.html:268 posts/templates/posts/detail.html:68
-#: posts/templates/posts/detail.html:118
+#: channel/templates/channel/detail.html:56
+#: channel/templates/channel/detail.html:110
+#: comments/templates/comments/detail.html:31
+#: comments/templates/comments/detail.html:66
+#: comments/templates/comments/detail.html:75
+#: images/templates/images/detail.html:171
+#: images/templates/images/detail.html:258
+#: images/templates/images/detail.html:267 posts/templates/posts/detail.html:69
+#: posts/templates/posts/detail.html:119
 #: projects/templates/projects/list.html:24
 #: projects/templates/projects/list.html:53
 #: projects/templates/projects/list.html:68 search/templates/search/log.html:14
 msgid "Delete"
 msgstr ""
 
-#: channel/templates/channel/detail.html:76
-#: comments/templates/comments/detail.html:45
-#: images/templates/images/detail.html:212 posts/templates/posts/detail.html:87
+#: channel/templates/channel/detail.html:77
+#: comments/templates/comments/detail.html:44
+#: images/templates/images/detail.html:211 posts/templates/posts/detail.html:88
 msgid "좋아요 해제"
 msgstr "Unlike"
 
-#: channel/templates/channel/detail.html:104
-#: images/templates/images/detail.html:263
-#: posts/templates/posts/detail.html:113
+#: channel/templates/channel/detail.html:105
+#: images/templates/images/detail.html:262
+#: posts/templates/posts/detail.html:114
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
 
@@ -150,7 +160,7 @@ msgstr ""
 msgid "Sign in"
 msgstr ""
 
-#: comments/templates/comments/detail.html:71
+#: comments/templates/comments/detail.html:70
 msgid "삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
 
@@ -167,27 +177,27 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: images/templates/images/detail.html:181 templates/header.html:38
+#: images/templates/images/detail.html:180 templates/header.html:38
 msgid "Bookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:190
+#: images/templates/images/detail.html:189
 msgid "Unbookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:225
+#: images/templates/images/detail.html:224
 msgid "구독자 전용 해제"
 msgstr "For all memeber"
 
-#: images/templates/images/detail.html:227
+#: images/templates/images/detail.html:226
 msgid "구독자 전용 설정"
 msgstr "For subscriber"
 
-#: images/templates/images/detail.html:235
+#: images/templates/images/detail.html:234
 msgid "성인 전용 해제"
 msgstr "For all age"
 
-#: images/templates/images/detail.html:237
+#: images/templates/images/detail.html:236
 msgid "성인 전용 설정"
 msgstr "For adult"
 
