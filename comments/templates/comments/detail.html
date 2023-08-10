@@ -18,10 +18,9 @@
 <div class="comment-detail-container">
     <div>
         <strong> {{comment.user.username}}</strong>
-        &nbsp;&nbsp;&nbsp; <p>{{comment.comment_time}}<p>   
+        &nbsp;&nbsp;&nbsp; <p>{{comment.comment_time}}&nbsp;&nbsp;|&nbsp;&nbsp; {{_('좋아요')}} ({{ comment.like_number }})<p>   
     </div>
     <div>{{comment.content}}</div>
-    <div style="text-align: right">{{_('좋아요')}} ({{ comment.like_number }})</div>
     {% if comment.user == user %}
     <div style="text-align: right">
         <btn

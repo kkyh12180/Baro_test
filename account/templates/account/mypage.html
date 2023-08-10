@@ -19,11 +19,11 @@
 
         <h2>{{ target_user.username }}</h2>
         <div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#subscribe">
-                {{_('Subscribe')}} ({{subscribe_list.count}})
-            </button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#follow">
-                {{_('Follow')}} ({{follow_list.count}})
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#subscribe">
+                {{_('Subscriber')}} ({{subscribe_list.count}})
+            </button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#follow">
+                {{_('Follower')}} ({{follow_list.count}})
             </button>
             
             <!-- Modal -->
@@ -109,9 +109,11 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
                 {% include 'snippets/images_fragment.html' with  image_post_list=object_list %}
-                <a class="user-info-button" href="{% url 'account:image' username=target_user.username%}">
-                    <btn class="btn btn-outline-danger rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('See All')}}</btn>
-                </a>
+                <div class="view-all-button">
+                    <a href="{% url 'account:image' username=target_user.username%}">
+                        <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('View all')}}</btn>
+                    </a>
+                </div>
             </div>
             <div class="tab-pane fade" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
                 {% if subscription or target_user == user%}

@@ -155,9 +155,8 @@
                 <div class="content-container">
                     <p>{{ target_post.content }}</p>
                     <strong>{{ target_post.post_time }}</strong>
-                    <div style="text-align: right">
-                        <strong>{{_('좋아요')}} ({{ target_post.like_number }})</strong>
-                    </div>
+                    &nbsp;&nbsp;<strong>|</strong>&nbsp;&nbsp;
+                    <strong>{{_('좋아요')}} ({{ target_post.like_number }})</strong>
                 </div>
                 <div class="button-container">
                     {% if target_post.user == user %}

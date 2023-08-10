@@ -31,6 +31,9 @@ msgid "Submit"
 msgstr "등록"
 
 #: account/templates/account/mypage.html:23
+msgid "Subscriber"
+msgstr "구독자"
+
 #: account/templates/account/mypage.html:34
 #: account/templates/account/mypage.html:82
 #: channel/templates/channel/detail.html:32 templates/header.html:44
@@ -38,6 +41,9 @@ msgid "Subscribe"
 msgstr "구독"
 
 #: account/templates/account/mypage.html:26
+msgid "Follower"
+msgstr "팔로워"
+
 #: account/templates/account/mypage.html:51
 #: account/templates/account/mypage.html:91
 msgid "Follow"
