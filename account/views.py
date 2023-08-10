@@ -1,7 +1,7 @@
 from typing import Any, Optional
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, RedirectView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, RedirectView, ListView
 from django.views.generic.list import MultipleObjectMixin
 from django.views.generic.edit import FormMixin
 from django.contrib import auth
@@ -67,30 +67,42 @@ class AccountDetailView(DetailView, FormMixin) :
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         uploader=self.object
+
         subscribe_list = uploader.subscriber.all()
         follow_list = uploader.follower.all()
         user=self.request.user
+
         if user.is_authenticated:
             subscription=subscribe_list.filter(user=user)
             following=follow_list.filter(user=user)
         else:
             subscription=None
             following=None
+        
         context["follow_list"]=follow_list
         context["subscribe_list"]=subscribe_list
+
         context["subscription"]=subscription
         context["following"]=following
-        user_image_post_list=ImagePost.objects.filter(user=uploader)
+
+        user_image_post_list=ImagePost.objects.filter(user=uploader)[:15]
         context["object_list"]=user_image_post_list
-        image_post_list=user_image_post_list.filter(adult=False)
-        context["image_list"]=image_post_list
-        not_subscribe_image_list = image_post_list.filter(subscribe_only=False)
-        context["not_subscribe_image_list"]=not_subscribe_image_list
+
         post_list=ChannelPost.objects.filter(user=uploader)
         context["post_list"]=post_list
         not_subscribe_post_list = post_list.filter(subscribe_only=False)
         context["not_subscribe_post_list"]=not_subscribe_post_list
         return context
+
+class AccountImageListView(ListView):
+    model = ImagePost
+    context_object_name = 'image_post_list'
+    template_name = 'images/list.html'
+    ordering = ['-post_time']
+    paginate_by = 20
+    
+    def get_queryset(self):
+        return ImagePost.objects.filter(subscribe_only=False,adult=False).order_by('-post_time')
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')
