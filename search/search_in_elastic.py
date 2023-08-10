@@ -123,7 +123,7 @@ class QueryMake():
 
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
-        result = self.es.search(index="test_image", body= fin_query, size = 1000)
+        result = self.es.search(index="test_image", body= fin_query, size = 300)
         id_list=[]
         for hit in result["hits"]["hits"]:
             id_list.append(hit["_source"])
