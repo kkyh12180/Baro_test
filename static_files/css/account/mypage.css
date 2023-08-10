@@ -42,3 +42,9 @@ h2 {
 .tab-content {
     margin-top: 2rem;
 }
+
+.view-all-button {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+}
