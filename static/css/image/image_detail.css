@@ -44,7 +44,24 @@
     left: 0%;
     color: #fff;
     text-align: center;
-    padding: 7rem 4rem 1rem;
+    padding: 3rem 4rem;
+    overflow-y: scroll;
+}
+
+.carousel-caption::-webkit-scrollbar {
+    width: 3px;
+}
+
+.carousel-caption::-webkit-scrollbar-thumb {
+    height: 5%;
+    background: rgba(255, 255, 255);
+    
+    border-radius: 1rem;
+    background-clip: padding-box;
+}
+
+.carousel-caption::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255);
 }
 
 .btn {
