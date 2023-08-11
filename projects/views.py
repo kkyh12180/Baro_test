@@ -44,18 +44,27 @@ class ProjectCrateView(CreateView):
     def get_success_url(self):
         return reverse('projects:list',kwargs={'pk':self.object.pk})
 
-class ProjectDetailView(DetailView):
-    model = Project
-    context_object_name = 'target_project'
+class ProjectDetailView(ListView):
+    model = Post
+    context_object_name = 'post_list'
     template_name = 'projects/list.html'
+    ordering = ['-post_time']
+    paginate_by = 20
+
+    def get_queryset(self):
+        project_id = self.kwargs['pk']
+        project = Project.objects.get(pk=project_id)
+        project_list = Post.objects.filter(project=project).order_by('-post_time')
+        return project_list
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         project_list = Project.objects.values('pk', 'title')
         context["project_list"] = project_list
-        post_list = Post.objects.filter(project_id=self.object.pk).order_by('-post_time')
-        context["post_list"] = post_list
+        project_id = self.kwargs['pk']
+        project = Project.objects.get(pk=project_id)
+        context["target_project"] = project
         return context
 
 class ProjectDeleteView(DeleteView):
