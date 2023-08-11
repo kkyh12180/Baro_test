@@ -52,7 +52,7 @@ class CommentCreateView(CreateView):
             temp_image_comment.save()
             return super().form_valid(form)
         
-        if temp_pk[0]=="C":
+        if temp_pk[0]=="H":
             temp_channel_comment = ChannelPostComment()
             temp_channel_comment.comment=temp_comment
             temp_channel_comment.channel_post=ChannelPost.objects.get(pk=temp_pk)

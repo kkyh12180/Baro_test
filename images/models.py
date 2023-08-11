@@ -5,7 +5,7 @@ from django.utils import timezone
 # Create your models here.
 
 class ImagePost(models.Model):
-    image_post_id = models.CharField(primary_key=True, max_length=11)
+    image_post_id = models.CharField(primary_key=True, max_length=10)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='image_post')
     thumbnail_image = models.TextField()
     title = models.CharField(max_length=255)

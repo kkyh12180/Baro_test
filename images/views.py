@@ -38,7 +38,7 @@ class ImagePostCreateView(CreateView) :
             letters_set = string.ascii_letters
             num = random.randrange(1, 10) # 1부터 9 사이의 난수 생성
             random_list = random.sample(letters_set, num)
-            random_str = f"IP{''.join(random_list)}"
+            random_str = f"I{''.join(random_list)}"
 
             try :
                 ImagePost.objects.get(image_post_id=random_str)

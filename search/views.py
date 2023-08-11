@@ -33,9 +33,9 @@ class SearchListView(ListView):
                 plid = ""
                 while True:
                     letters_set = string.ascii_letters
-                    num = random.randrange(1, 9)
+                    num = random.randrange(1, 10)
                     random_list = random.sample(letters_set, num)
-                    random_str = f"PL{''.join(random_list)}"
+                    random_str = f"L{''.join(random_list)}"
                     try:
                         Prompt_log.objects.get(prompt_log_id=random_str)
                     except Prompt_log.DoesNotExist:

@@ -29,7 +29,7 @@ class PostCrateView(CreateView):
             letters_set = string.ascii_letters
             num = random.randrange(1, 10) # 1부터 9 사이의 난수 생성
             random_list = random.sample(letters_set, num)
-            random_str = f"P{''.join(random_list)}"
+            random_str = f"B{''.join(random_list)}"
 
             try :
                 Post.objects.get(post_id=random_str)
