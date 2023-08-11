@@ -7,7 +7,7 @@ from projects.models import Project
 class Post(models.Model):
     post_id = models.CharField(primary_key=True, max_length=10)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='post')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='post')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=False, related_name='post')
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
     post_time = models.DateTimeField(auto_now_add=True)

@@ -48,7 +48,6 @@ class ProjectDetailView(ListView):
     model = Post
     context_object_name = 'post_list'
     template_name = 'projects/list.html'
-    ordering = ['-post_time']
     paginate_by = 20
 
     def get_queryset(self):
