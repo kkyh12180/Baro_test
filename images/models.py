@@ -6,7 +6,7 @@ from django.utils import timezone
 
 class ImagePost(models.Model):
     image_post_id = models.CharField(primary_key=True, max_length=10)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='image_post')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='image_post')
     thumbnail_image = models.TextField()
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
@@ -19,8 +19,9 @@ class ImagePost(models.Model):
         db_table = 'image_post'
 
 class ImageTable(models.Model):
-    image_id = models.CharField(primary_key=True, max_length=10)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='image')
+    image_id = models.CharField(max_length=10)
+    image_post_id = models.ForeignKey(ImagePost, on_delete=models.CASCADE, related_name='image')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='image')
     image_file = models.TextField()
     seed = models.CharField(default=None, max_length=30, blank=True, null=True)
     steps = models.IntegerField(default=None, blank=True, null=True)
@@ -34,6 +35,7 @@ class ImageTable(models.Model):
 
     class Meta:
         db_table = 'image_table'
+        unique_together = ('image_id', 'image_post_id')
 
 class ImagePrompt(models.Model):
     image = models.ForeignKey(ImageTable, default=None, on_delete=models.CASCADE, related_name='prompt', null=True)
