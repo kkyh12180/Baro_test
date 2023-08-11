@@ -66,7 +66,7 @@ def get_exif(file) :
 def tokenizer(prompt,negative_prompt):
     #positive
     prompt=re.sub(r'[()\[\]{}]',',',prompt)
-    tok = prompt.split(',')
+    tok = prompt.lower().split(',')
     for tk in tok:
         tk=make_tokenizer(tk)
         if not tk:
@@ -86,7 +86,7 @@ def tokenizer(prompt,negative_prompt):
 
     #negative
     negative_prompt = re.sub(r'[()\[\]{}]',',',negative_prompt)
-    tok = negative_prompt.split(',')
+    tok = negative_prompt.lower().split(',')
     for tk in tok:
         tk=make_tokenizer(tk)
         if not tk:

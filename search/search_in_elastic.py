@@ -75,7 +75,7 @@ class QueryMake():
         negative_phrase_list = []
 
         #positive
-        tok = prompt.split(',')
+        tok = prompt.lower().split(',')
         words = ""
         for tk in tok:
             if not tk:
@@ -89,7 +89,7 @@ class QueryMake():
         prompt_match_action = self.match("prompt",words)
 
         #negative
-        tok = negative_prompt.split(',')
+        tok = negative_prompt.lower().split(',')
         words = ""
         for tk in tok:
             if not tk:
