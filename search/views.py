@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 
 from search.search_in_elastic import *
 from search.models import *
+from images.models import *
 
 import string
 import random

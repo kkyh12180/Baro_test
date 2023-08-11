@@ -45,14 +45,16 @@
 
 {% if data_list %}
     <div class="container">
-        {% for data in data_list %}
-        <div>
-            <img src={{data.name}}>
-        </div>  
+        {% for image_in_post in data_list %}
+            <a href="{% url 'images:detail' pk=image_in_post.image_post.pk %}">
+                <div>
+                    <img src="data:image/jpeg;base64,{{ image_in_post.image.image_file }}" alt="">
+                </div>                
+            </a>
         {% endfor %}
     </div>
-    <script src="{% static 'js/magicgrid.js' %}"></script>
     {% include 'snippets/pagination.html' with page_obj=page_obj %}
+    <script src="{% static 'js/magicgrid.js' %}"></script>
 {% else %}
     <div style="text-align: center;">
         <h1>{{_('No Image Post Yet.')}}</h1>
