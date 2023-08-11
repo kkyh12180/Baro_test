@@ -22,6 +22,8 @@ class QueryMake():
             http_auth=(es_username, es_password),
         )
 
+        self.index_name = "test_image"
+
     def match_phrase(self,positive,phrase):
         actions = {
             "match_phrase": {
@@ -123,7 +125,7 @@ class QueryMake():
 
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
-        result = self.es.search(index="test_image", body= fin_query, size = 300)
+        result = self.es.search(index=self.index_name, body= fin_query, size = 300)
         id_list=[]
         for hit in result["hits"]["hits"]:
             id_list.append(hit["_source"])
