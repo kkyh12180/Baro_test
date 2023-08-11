@@ -107,9 +107,6 @@ class QueryMake():
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
         result = self.es.search(index=self.index_name, body= fin_query, size = 300)
-        id_list=[]
-        for hit in result["hits"]["hits"]:
-            image_id = hit["_id"]
-            image_in_post = ImageInPost.objects.get(image_id=image_id)
-            id_list.append(image_in_post)
-        return id_list
+        id_list = [hit["_id"] for hit in result["hits"]["hits"]]
+        data_list = ImageInPost.objects.filter(image_id__in=id_list)
+        return data_list
