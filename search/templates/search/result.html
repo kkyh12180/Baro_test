@@ -45,10 +45,10 @@
 
 {% if data_list %}
     <div class="container">
-        {% for image_in_post in data_list %}
-            <a href="{% url 'images:detail' pk=image_in_post.image_post.pk %}">
+        {% for image in data_list %}
+            <a href="{% url 'images:detail' pk=image.image_post.pk %}">
                 <div>
-                    <img src="data:image/jpeg;base64,{{ image_in_post.image.image_file }}" alt="">
+                    <img src="data:image/jpeg;base64,{{ image.image_file }}" alt="">
                 </div>                
             </a>
         {% endfor %}
