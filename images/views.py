@@ -7,7 +7,7 @@ from django.views.generic.edit import FormMixin
 from django.db import connection
 from django.shortcuts import get_object_or_404
 
-from images.models import ImagePost, ImageTable, ImageInPost, ImagePrompt
+from images.models import ImagePost, ImageTable, ImagePrompt
 from images.forms import ImagePostCreationForm, ExifForm
 from images.Clear_EXIF import get_exif
 from images.decorators import image_post_ownership_required
@@ -57,7 +57,7 @@ class ImagePostCreateView(CreateView) :
             new_image = ImageTable()
             new_prompt_pos = ImagePrompt()
             new_prompt_neg = ImagePrompt()
-            new_image_in_post = ImageInPost()
+            #new_image_in_post = ImageInPost()
             taglabel = get_exif(image)
 
             # 이미지 키 생성
@@ -142,12 +142,12 @@ class ImagePostCreateView(CreateView) :
                 pass
             new_prompt_neg.is_positive = False
             
-            new_image_in_post.image_post = new_image_post_instance
-            new_image_in_post.image = new_image_instance
+            #new_image_in_post.image_post = new_image_post_instance
+            #new_image_in_post.image = new_image_instance
 
             new_prompt_pos.save()
             new_prompt_neg.save()
-            new_image_in_post.save()
+            #new_image_in_post.save()
 
         return super().form_valid(form)
 
@@ -249,13 +249,13 @@ class ImagePostUpdateView(UpdateView) :
         ipid = temp_post.image_post_id
 
         # 기존 이미지 삭제 처리 필요
-        connected_images = ImageInPost.objects.filter(image_post=temp_post)
+        #connected_images = ImageInPost.objects.filter(image_post=temp_post)
         # print(connected_images)
 
-        for connected_image in connected_images :
-            image = ImageTable.objects.get(image_id=connected_image.image.image_id)
+        #for connected_image in connected_images :
+            #image = ImageTable.objects.get(image_id=connected_image.image.image_id)
             # print(image)
-            image.delete()
+            #image.delete()
         
         # 이미지 처리
         uploaded_images = self.request.FILES.getlist('images')
@@ -267,7 +267,7 @@ class ImagePostUpdateView(UpdateView) :
             new_image = ImageTable()
             new_prompt_pos = ImagePrompt()
             new_prompt_neg = ImagePrompt()
-            new_image_in_post = ImageInPost()
+            #new_image_in_post = ImageInPost()
             taglabel = get_exif(image)
 
             # 이미지 키 생성
@@ -352,12 +352,12 @@ class ImagePostUpdateView(UpdateView) :
                 pass
             new_prompt_neg.is_positive = False
             
-            new_image_in_post.image_post = new_image_post_instance
-            new_image_in_post.image = new_image_instance
+            #new_image_in_post.image_post = new_image_post_instance
+            #new_image_in_post.image = new_image_instance
 
             new_prompt_pos.save()
             new_prompt_neg.save()
-            new_image_in_post.save()
+            #new_image_in_post.save()
 
         return super().form_valid(form)
 
@@ -470,5 +470,5 @@ class InputExifInfo(FormView) :
     
     def get_success_url(self) :
         image = ImageTable.objects.get(image_id = self.kwargs.get('pk'))
-        ipid = ImageInPost.objects.get(image=image).image_post
-        return reverse('images:detail', kwargs={'pk': ipid.pk})
+        #ipid = ImageInPost.objects.get(image=image).image_post
+        #return reverse('images:detail', kwargs={'pk': ipid.pk})
