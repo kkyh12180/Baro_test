@@ -3,6 +3,7 @@ from elasticsearch.helpers import bulk
 
 from search.pocket import pocket
 from search.models import Prompt
+from images.models import *
 import re
 
 class QueryMake():
@@ -22,7 +23,7 @@ class QueryMake():
             http_auth=(es_username, es_password),
         )
 
-        self.index_name = "test_image"
+        self.index_name = "test_image_prompt"
 
     def match_phrase(self,positive,phrase):
         actions = {
@@ -128,5 +129,7 @@ class QueryMake():
         result = self.es.search(index=self.index_name, body= fin_query, size = 300)
         id_list=[]
         for hit in result["hits"]["hits"]:
-            id_list.append(hit["_source"])
+            image_id = hit["_id"]
+            image_in_post = ImageInPost.objects.get(image_id=image_id)
+            id_list.append(image_in_post)
         return id_list
