@@ -136,6 +136,16 @@ def tokenizer(prompt,negative_prompt):
             continue
         if "<" in tk or ">" in tk :
             continue
+        prompt = Prompt.objects.filter(prompt=tk)
+        if not prompt:
+            prompt=Prompt()
+            prompt.prompt=tk
+            prompt.positive_weight=1
+            prompt.save()
+        else:
+            prompt_temp = prompt[0]
+            prompt_temp.positive_weight=prompt_temp.positive_weight+1
+            prompt_temp.save()
         if temp_prompt:
             temp_prompt=temp_prompt+","+tk
         else :
@@ -151,6 +161,16 @@ def tokenizer(prompt,negative_prompt):
             continue
         if "<" in tk or ">" in tk :
             continue
+        prompt = Prompt.objects.filter(prompt=tk)
+        if not prompt:
+            prompt=Prompt()
+            prompt.prompt=tk
+            prompt.negative_weight=1
+            prompt.save()
+        else:
+            prompt_temp = prompt[0]
+            prompt_temp.negative_weight=prompt_temp.negative_weight+1
+            prompt_temp.save()
         if temp_negative_prompt:
             temp_negative_prompt=temp_negative_prompt+","+tk
         else :
