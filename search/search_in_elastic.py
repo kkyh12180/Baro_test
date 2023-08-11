@@ -80,16 +80,6 @@ class QueryMake():
         for tk in tok:
             if not tk:
                 continue
-            prompt = Prompt.objects.filter(prompt=tk)
-            if not prompt:
-                prompt=Prompt()
-                prompt.prompt=tk
-                prompt.positive_weight=1
-                prompt.save()
-            else:
-                prompt_temp = prompt[0]
-                prompt_temp.positive_weight=prompt_temp.positive_weight+1
-                prompt_temp.save()
             
             if " " in tk:
                 phrase = self.match_phrase("prompt",tk)
@@ -104,16 +94,6 @@ class QueryMake():
         for tk in tok:
             if not tk:
                 continue
-            prompt = Prompt.objects.filter(prompt=tk)
-            if not prompt:
-                prompt=Prompt()
-                prompt.prompt=tk
-                prompt.negative_weight=1
-                prompt.save()
-            else:
-                prompt_temp = prompt[0]
-                prompt_temp.negative_weight=prompt_temp.negative_weight+1
-                prompt_temp.save()
             
             if " " in tk:
                 phrase = self.match_phrase("negative_prompt",tk)
