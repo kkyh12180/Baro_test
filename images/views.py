@@ -158,7 +158,6 @@ class ImagePostListView(ListView) :
     model = ImagePost
     context_object_name = 'image_post_list'
     template_name = 'images/list.html'
-    ordering = ['-post_time']
     paginate_by = 20
     
     def get_queryset(self):
