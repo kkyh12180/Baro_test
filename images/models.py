@@ -19,7 +19,7 @@ class ImagePost(models.Model):
         db_table = 'image_post'
 
 class ImageTable(models.Model):
-    image_id = models.CharField(max_length=10)
+    image_id = models.CharField(unique=True, max_length=10)
     image_post_id = models.ForeignKey(ImagePost, on_delete=models.CASCADE, related_name='image')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='image')
     image_file = models.TextField()
@@ -45,10 +45,3 @@ class ImagePrompt(models.Model):
 
     class Meta:
         db_table = 'image_prompt'
-
-class ImageInPost(models.Model):
-    image_post = models.ForeignKey(ImagePost, on_delete=models.CASCADE, blank=True, null=True, related_name='image_in_post')
-    image = models.ForeignKey(ImageTable, on_delete=models.CASCADE, blank=True, null=True, related_name='image_in_post')
-
-    class Meta:
-        db_table = 'image_in_post'
