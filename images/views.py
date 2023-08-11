@@ -57,7 +57,7 @@ class ImagePostCreateView(CreateView) :
             new_image = ImageTable()
             new_prompt_pos = ImagePrompt()
             new_prompt_neg = ImagePrompt()
-            #new_image_in_post = ImageInPost()
+
             taglabel = get_exif(image)
 
             # 이미지 키 생성
@@ -121,13 +121,11 @@ class ImagePostCreateView(CreateView) :
                 first_image_counter = first_image_counter + 1
 
             # 이미지 저장
+            new_image.image_post_id = temp_post
             new_image.save()
 
-            # FK를 위한 인스턴스 가져오기
-            new_image_instance = ImageTable.objects.get(image_id=pid)
-            new_image_post_instance = ImagePost.objects.get(image_post_id=ipid)
             # 긍정 프롬프트 처리
-            new_prompt_pos.image = new_image_instance
+            new_prompt_pos.image = new_image
             try :
                 new_prompt_pos.prompt = taglabel['parameters']
             except :
@@ -135,19 +133,15 @@ class ImagePostCreateView(CreateView) :
             new_prompt_pos.is_positive = True
 
             # 부정 프롬프트 처리
-            new_prompt_neg.image = new_image_instance
+            new_prompt_neg.image = new_image
             try :
                 new_prompt_neg.prompt = taglabel['Negative prompt']
             except :
                 pass
             new_prompt_neg.is_positive = False
-            
-            #new_image_in_post.image_post = new_image_post_instance
-            #new_image_in_post.image = new_image_instance
 
             new_prompt_pos.save()
             new_prompt_neg.save()
-            #new_image_in_post.save()
 
         return super().form_valid(form)
 
@@ -172,47 +166,6 @@ class ImagePostDetailView(DetailView, FormMixin) :
     # 이미지 리스트 보내기
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
-        cursor = connection.cursor()
-
-        ipid = self.kwargs.get('pk')
-
-        post_list_sql = f'SELECT image_id FROM image_in_post WHERE image_post_id="{ipid}";'
-        cursor.execute(post_list_sql)
-        img_id_tuple = cursor.fetchall()
-        # print(img_id_tuple)
-        img_list = []
-
-        first_img = 0
-        for img_id in img_id_tuple :
-            info_list = []
-            if (first_img == 0) :
-                first_image_obj = ImageTable.objects.get(image_id=img_id[0])
-                context['first_image'] = first_image_obj
-                first_img = first_img + 1
-
-                prompts = ImagePrompt.objects.filter(image=first_image_obj)
-                for prompt in prompts :
-                    if (prompt.is_positive) :
-                        context['first_image_pos'] = prompt.prompt
-                    else :
-                        context['first_image_neg'] = prompt.prompt
-
-                continue
-            img_obj = ImageTable.objects.get(image_id=img_id[0])
-            info_list.append(img_obj)
-
-            prompts = ImagePrompt.objects.filter(image=img_obj)
-            
-            for prompt in prompts :
-                if (prompt.is_positive) :
-                    info_list.append(prompt.prompt)
-            for prompt in prompts :
-                if (not prompt.is_positive) :
-                    info_list.append(prompt.prompt)
-
-            img_list.append(info_list)
-
-        context['image_list'] = img_list
 
         # 좋아요 정보 보내기
         image_post = self.object
@@ -267,7 +220,6 @@ class ImagePostUpdateView(UpdateView) :
             new_image = ImageTable()
             new_prompt_pos = ImagePrompt()
             new_prompt_neg = ImagePrompt()
-            #new_image_in_post = ImageInPost()
             taglabel = get_exif(image)
 
             # 이미지 키 생성
@@ -331,13 +283,13 @@ class ImagePostUpdateView(UpdateView) :
                 first_image_counter = first_image_counter + 1
 
             # 이미지 저장
+            new_image.image_post_id = temp_post
             new_image.save()
 
             # FK를 위한 인스턴스 가져오기
-            new_image_instance = ImageTable.objects.get(image_id=pid)
-            new_image_post_instance = ImagePost.objects.get(image_post_id=ipid)
+
             # 긍정 프롬프트 처리
-            new_prompt_pos.image = new_image_instance
+            new_prompt_pos.image = new_image
             try :
                 new_prompt_pos.prompt = taglabel['parameters']
             except :
@@ -345,19 +297,15 @@ class ImagePostUpdateView(UpdateView) :
             new_prompt_pos.is_positive = True
 
             # 부정 프롬프트 처리
-            new_prompt_neg.image = new_image_instance
+            new_prompt_neg.image = new_image
             try :
                 new_prompt_neg.prompt = taglabel['Negative prompt']
             except :
                 pass
             new_prompt_neg.is_positive = False
-            
-            #new_image_in_post.image_post = new_image_post_instance
-            #new_image_in_post.image = new_image_instance
 
             new_prompt_pos.save()
             new_prompt_neg.save()
-            #new_image_in_post.save()
 
         return super().form_valid(form)
 
