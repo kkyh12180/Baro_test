@@ -4,7 +4,7 @@ from account.models import User
 
 class Project(models.Model) : 
     project_id = models.CharField(primary_key=True, max_length=10)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='project')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='project')
     title = models.CharField(max_length=20, null=False, unique=True)
     description = models.CharField(max_length=200, null=True)
     project_time = models.DateTimeField(auto_now=True)

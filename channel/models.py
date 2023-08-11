@@ -5,7 +5,7 @@ from django.utils import timezone
 # Create your models here.
 class ChannelPost(models.Model):
     channel_post_id = models.CharField(primary_key=True, max_length=10)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='channel_post')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='channel_post')
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
     post_time = models.DateTimeField(auto_now_add=True)

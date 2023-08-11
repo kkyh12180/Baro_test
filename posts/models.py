@@ -6,7 +6,7 @@ from projects.models import Project
 # Create your models here.
 class Post(models.Model):
     post_id = models.CharField(primary_key=True, max_length=10)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='post')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='post')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=False, related_name='post')
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
