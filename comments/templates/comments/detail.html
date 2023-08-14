@@ -26,7 +26,7 @@
         <btn
             class="btn btn-danger rounded-pill"
             data-bs-toggle="modal"
-            data-bs-target="#commentModal"
+            data-bs-target="#commentModal-{{ comment.pk }}"
         >
             {{_('Delete')}}
         </btn>
@@ -59,7 +59,7 @@
     {% endif %}
 </div>
 <!-- Modal -->
-<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+<div class="modal fade" id="commentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
