@@ -103,7 +103,7 @@
                     {% if target_post.user.profile_image %}
                     <img
                         class="user-img"
-                        src="data:image/jpeg;base64,{{ target_post.user.profile_image }}"
+                        src="{{ target_post.user.profile_image }}"
                         alt=""
                     />
                     {% else %}

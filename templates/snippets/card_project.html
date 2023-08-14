@@ -1,7 +1,7 @@
 {% load static %}
 <div style="display: block; text-align: center;">
     {% if project.profile_image %}
-        <img src="data:image/jpeg;base64,{{ project.profile_image }}" alt="">
+        <img src="{{ project.profile_image }}" alt="">
     {% else %}
         <img src="{% static 'images/no_profile.png'%}" alt="" >
     {% endif %}
