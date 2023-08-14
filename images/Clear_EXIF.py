@@ -4,22 +4,17 @@ from PIL.ExifTags import TAGS
 
 import os
 import re
+from urllib import parse
 
 from search.models import Prompt
 
 def get_exif(file) :
-
     taglabel = {}
-
-    # base64 데이터 저장
-    content = file.read()
-    image_binary = base64.b64encode(content).decode('UTF-8')
-    taglabel['image_base64'] = image_binary
 
     # EXIF 추출
     image = Image.open(file)
     img_info = image._getexif()
-    image.close()
+
     # print(img_info)
 
     '''
@@ -38,8 +33,7 @@ def get_exif(file) :
                 # print(dec_string)
                 info_tmp = dec_string.split('\n')
     
-    # prompt 넣어주기
-        
+        # prompt 넣어주기
         prompt = info_tmp[0].replace('\x00', '')
 
         # negative_prompt 넣어주기

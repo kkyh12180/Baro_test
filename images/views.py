@@ -1,11 +1,13 @@
-from typing import Any, Dict
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView, FormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormMixin
-from django.db import connection
 from django.shortcuts import get_object_or_404
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
 
 from images.models import ImagePost, ImageTable, ImagePrompt
 from images.forms import ImagePostCreationForm, ExifForm
@@ -14,9 +16,13 @@ from images.decorators import image_post_ownership_required
 from comments.forms import CommentCreationForm
 from follows.models import LikeImagePost, BookmarkImagePost
 
+from synology_api import filestation
+
 import string
 import random
+import os
 # Create your views here.
+IMG_URL = "https://vanecompany.synology.me/ai_image/image/"
 
 @method_decorator(login_required, 'get')
 @method_decorator(login_required, 'post')
@@ -27,6 +33,7 @@ class ImagePostCreateView(CreateView) :
     
     # TODO 예외 처리 코드 필요
     def form_valid(self, form) :
+        fl = filestation.FileStation('14.45.111.226', '5000', 'vane23', 'Syn_vane2023', secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
         temp_post = form.save(commit=False)
 
         # UID 연결
@@ -58,8 +65,6 @@ class ImagePostCreateView(CreateView) :
             new_prompt_pos = ImagePrompt()
             new_prompt_neg = ImagePrompt()
 
-            taglabel = get_exif(image)
-
             # 이미지 키 생성
             pid = ""
             while (True) :
@@ -73,12 +78,22 @@ class ImagePostCreateView(CreateView) :
                 except :
                     pid = random_str
                     break
-            
+
+            # 이미지 업로드
+            ext = image.name.split('.')[-1]
+            image.name = f"{pid}.{ext}"
+            path = default_storage.save(f"tmp/{image.name}", ContentFile(image.read()))
+            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+
+            fl.upload_file(f"/web/ai_image/image", tmp_file)
+            os.remove(tmp_file)
+
+            taglabel = get_exif(image)
             # 이미지 처리
             new_image.image_id = pid
             new_image.user = self.request.user
             try : 
-                new_image.image_file = taglabel['image_base64']
+                new_image.image_file = f"{IMG_URL}{pid}.{ext}"
             except :
                 pass
             try : 
@@ -116,7 +131,7 @@ class ImagePostCreateView(CreateView) :
 
             # 썸네일 이미지 처리
             if (first_image_counter == 0) :
-                temp_post.thumbnail_image = taglabel['image_base64']
+                temp_post.thumbnail_image = new_image.image_file
                 temp_post.save()
                 first_image_counter = first_image_counter + 1
 
@@ -198,6 +213,7 @@ class ImagePostUpdateView(UpdateView) :
     template_name = 'images/update.html'
 
     def form_valid(self, form) :
+        fl = filestation.FileStation('14.45.111.226', '5000', 'vane23', 'Syn_vane2023', secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
         temp_post = form.save(commit=False)
         ipid = temp_post.image_post_id
 
@@ -236,11 +252,19 @@ class ImagePostUpdateView(UpdateView) :
                     pid = random_str
                     break
             
+            # 확장자명 가져오기
+            ext = image.name.split('.')[-1]
+
+            # 이미지 업로드
+            new_name = f"{pid}.{ext}"
+            new_file = SimpleUploadedFile(new_name, image.read(), content_type=image.content_type)
+            fl.upload_file("/web/ai_image", new_file)
+
             # 이미지 처리
             new_image.image_id = pid
             new_image.user = self.request.user
             try : 
-                new_image.image_file = taglabel['image_base64']
+                new_image.image_file = f"{IMG_URL}{pid}.{ext}"
             except :
                 pass
             try : 
@@ -278,7 +302,7 @@ class ImagePostUpdateView(UpdateView) :
 
             # 썸네일 이미지 처리
             if (first_image_counter == 0) :
-                temp_post.thumbnail_image = taglabel['image_base64']
+                temp_post.thumbnail_image = new_image.image_file
                 temp_post.save()
                 first_image_counter = first_image_counter + 1
 
