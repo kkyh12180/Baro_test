@@ -1,4 +1,5 @@
 from typing import Any, Optional
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, RedirectView, ListView
@@ -138,10 +139,7 @@ class AccountUpdateView(UpdateView) :
             temp = temp["data"]["files"]
             uid = self.kwargs['pk']
             user = User.objects.get(user_id = uid)
-            for te in temp:
-                if user.username in te['name']:
-                    path_to_delete="/web/ai_image/user/"+te['name']
-            
+            path_to_delete="/web/ai_image/user/"+user.username+".png"
             try:
                 fl.delete_blocking_function(path_to_delete)
                 print(f"Deleted: {path_to_delete}")
@@ -163,8 +161,19 @@ class AccountPasswordUpdateView(UpdateView) :
 class AccountDeleteView(DeleteView) :
     model = User
     context_object_name = 'target_user'
-    success_url = reverse_lazy('account:test')
+    success_url = reverse_lazy('search:home')
     template_name = 'account/mypage.html'
+    
+    def post(self, request, *args, **kwargs):
+        uid = self.kwargs['pk']
+        user = User.objects.get(user_id = uid)
+        path_to_delete="/web/ai_image/user/"+user.username+".png"
+        try:
+            fl.delete_blocking_function(path_to_delete)
+            print(f"Deleted: {path_to_delete}")
+        except Exception as e:
+            print(f"An error occurred while deleting: {e}")
+        return super().post(request, *args, **kwargs)
 
 class ChangeLanguageView(RedirectView):
     permanent = False

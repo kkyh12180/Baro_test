@@ -1,3 +1,5 @@
+from typing import Any
+from django.http import HttpRequest, HttpResponse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView, FormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -24,6 +26,7 @@ import random
 import os
 # Create your views here.
 IMG_URL = "https://vanecompany.synology.me/ai_image/image/"
+IMG_DICT = "/web/ai_image/image/"
 info = pocket()
 fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas_password, secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
 
@@ -203,6 +206,23 @@ class ImagePostDeleteView(DeleteView) :
     context_object_name = 'target_post'
     template_name = 'images/detail.html'
 
+    def post(self, request, *args, **kwargs):
+        image_post_id = self.kwargs['pk']
+        print(image_post_id)
+        image_post = ImagePost.objects.get(pk=image_post_id)
+        print(image_post)
+        image_list = ImageTable.objects.filter(image_post=image_post)
+        print(len(image_list))
+        for image in image_list:
+            path = image.image_file.split('/')[-1]
+            print(path)
+            path_to_delete="/web/ai_image/image/"+path
+            try:
+                fl.delete_blocking_function(path_to_delete)
+                print(f"Deleted: {path_to_delete}")
+            except Exception as e:
+                print(f"An error occurred while deleting: {e}")
+        return super().post(request, *args, **kwargs)
     def get_success_url(self) :
         return reverse_lazy('images:list')
 
@@ -219,7 +239,7 @@ class ImagePostUpdateView(UpdateView) :
         ipid = temp_post.image_post_id
 
         # 기존 이미지 삭제 처리 필요
-        #connected_images = ImageInPost.objects.filter(image_post=temp_post)
+        # connected_images = ImageInPost.objects.filter(image_post=temp_post)
         # print(connected_images)
 
         #for connected_image in connected_images :
