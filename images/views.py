@@ -258,7 +258,6 @@ class ImagePostUpdateView(UpdateView) :
             new_image = ImageTable()
             new_prompt_pos = ImagePrompt()
             new_prompt_neg = ImagePrompt()
-            taglabel = get_exif(image)
 
             # 이미지 키 생성
             pid = ""
@@ -274,14 +273,16 @@ class ImagePostUpdateView(UpdateView) :
                     pid = random_str
                     break
             
-            # 확장자명 가져오기
-            ext = image.name.split('.')[-1]
-
             # 이미지 업로드
-            new_name = f"{pid}.{ext}"
-            new_file = SimpleUploadedFile(new_name, image.read(), content_type=image.content_type)
-            fl.upload_file("/web/ai_image", new_file)
+            ext = image.name.split('.')[-1]
+            image.name = f"{pid}.{ext}"
+            path = default_storage.save(f"tmp/{image.name}", ContentFile(image.read()))
+            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 
+            fl.upload_file(f"/web/ai_image/image", tmp_file)
+            os.remove(tmp_file)
+
+            taglabel = get_exif(image)
             # 이미지 처리
             new_image.image_id = pid
             new_image.user = self.request.user
