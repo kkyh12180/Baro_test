@@ -7,7 +7,7 @@ from django.utils import timezone
 class ImagePost(models.Model):
     image_post_id = models.CharField(primary_key=True, max_length=10)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='image_post')
-    thumbnail_image = models.TextField()
+    thumbnail_image = models.CharField(max_length=512)
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
     post_time = models.DateTimeField(auto_now_add=True)
@@ -22,7 +22,7 @@ class ImageTable(models.Model):
     image_id = models.CharField(unique=True, max_length=10)
     image_post_id = models.ForeignKey(ImagePost, on_delete=models.CASCADE, related_name='image')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='image')
-    image_file = models.TextField()
+    image_file = models.CharField(max_length=512)
     seed = models.CharField(default=None, max_length=30, blank=True, null=True)
     steps = models.IntegerField(default=None, blank=True, null=True)
     sampler = models.CharField(default=None, max_length=30, blank=True, null=True)
