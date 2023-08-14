@@ -120,8 +120,8 @@ class AccountUpdateView(UpdateView) :
 
     def get_success_url(self):
         uid=self.kwargs['pk']
-        username=self.kwargs['username']
-        return reverse_lazy('account:detail', kwargs={'username': username})
+        user=User.objects.get(user_id=uid)
+        return reverse_lazy('account:detail', kwargs={'username': user.username})
 
     def form_valid(self, form) :
         form.save()
