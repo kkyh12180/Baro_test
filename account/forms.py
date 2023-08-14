@@ -8,8 +8,11 @@ from django.conf import settings
 import os
 
 from synology_api import filestation
+from search.pocket import pocket
 
 PROFILE_URL = "https://vanecompany.synology.me/ai_image/user/"
+info = pocket()
+fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas_password, secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -29,7 +32,6 @@ class AccountUpdateForm(forms.ModelForm):
         self.fields['e_mail'].disabled = True
 
     def clean_profile(self):
-        fl = filestation.FileStation('14.45.111.226', '5000', 'vane23', 'Syn_vane2023', secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
         uid = self.cleaned_data.get('username')
         print(uid)
         image = self.cleaned_data.get('profile')

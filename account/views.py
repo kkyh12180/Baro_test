@@ -23,8 +23,16 @@ from account.models import User
 from follows.models import *
 from comments.forms import CommentCreationForm
 from channel.models import ChannelPost
+from search.pocket import pocket
+
+from synology_api import filestation
 
 has_ownership = [account_ownership_required, login_required]
+PROFILE_URL = "https://vanecompany.synology.me/ai_image/user/"
+
+info = pocket()
+fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas_password, secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
+
 
 class AccountCreateView(CreateView) :
     model = User
@@ -124,7 +132,21 @@ class AccountUpdateView(UpdateView) :
         return reverse_lazy('account:detail', kwargs={'username': user.username})
 
     def form_valid(self, form) :
-        form.save()
+        temp_form = form.save()
+        if not temp_form.profile_image :
+            temp = fl.get_file_list("/web/ai_image/user")
+            temp = temp["data"]["files"]
+            uid = self.kwargs['pk']
+            user = User.objects.get(user_id = uid)
+            for te in temp:
+                if user.username in te['name']:
+                    path_to_delete="/web/ai_image/user/"+te['name']
+            
+            try:
+                fl.delete_blocking_function(path_to_delete)
+                print(f"Deleted: {path_to_delete}")
+            except Exception as e:
+                print(f"An error occurred while deleting: {e}")
         return super().form_valid(form)
     
 @method_decorator(has_ownership, 'get')

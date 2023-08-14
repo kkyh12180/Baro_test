@@ -15,6 +15,7 @@ from images.Clear_EXIF import get_exif
 from images.decorators import image_post_ownership_required
 from comments.forms import CommentCreationForm
 from follows.models import LikeImagePost, BookmarkImagePost
+from search.pocket import pocket
 
 from synology_api import filestation
 
@@ -23,6 +24,8 @@ import random
 import os
 # Create your views here.
 IMG_URL = "https://vanecompany.synology.me/ai_image/image/"
+info = pocket()
+fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas_password, secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
 
 @method_decorator(login_required, 'get')
 @method_decorator(login_required, 'post')
@@ -33,7 +36,6 @@ class ImagePostCreateView(CreateView) :
     
     # TODO 예외 처리 코드 필요
     def form_valid(self, form) :
-        fl = filestation.FileStation('14.45.111.226', '5000', 'vane23', 'Syn_vane2023', secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
         temp_post = form.save(commit=False)
 
         # UID 연결
@@ -213,7 +215,6 @@ class ImagePostUpdateView(UpdateView) :
     template_name = 'images/update.html'
 
     def form_valid(self, form) :
-        fl = filestation.FileStation('14.45.111.226', '5000', 'vane23', 'Syn_vane2023', secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
         temp_post = form.save(commit=False)
         ipid = temp_post.image_post_id
 
