@@ -108,5 +108,5 @@ class QueryMake():
         fin_query=self.tokenizequery(prompt,negative_prompt)
         result = self.es.search(index=self.index_name, body= fin_query, size = 300)
         id_list = [hit["_id"] for hit in result["hits"]["hits"]]
-        data_list = ImageTable.objects.filter(image_id__in=id_list).order_by('-image_time')
+        data_list = ImageTable.objects.filter(image_id__in=id_list)
         return data_list
