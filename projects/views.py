@@ -71,12 +71,5 @@ class ProjectDeleteView(DeleteView):
     context_object_name = "target_project"
     template_name = 'projects/list.html'
 
-    def form_vaild(self, form) :
-        project_id = self.request.POST.get('project')
-        if project_id :
-            Project.objects.filter(project_id=project_id).delete()
-        
-        return super().form_valid(form)
-
     def get_success_url(self):
         return reverse('projects:list',kwargs={'pk':'A_Announce'})
