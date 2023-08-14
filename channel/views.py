@@ -15,7 +15,7 @@ import random
 
 @method_decorator(login_required,'get')
 @method_decorator(login_required,'post')
-class ChannelCrateView(CreateView):
+class ChannelCreateView(CreateView):
     model = ChannelPost
     form_class = ChannelCreationForm
     template_name = 'channel/create.html'

@@ -16,7 +16,7 @@ import random
 
 @method_decorator(login_required,'get')
 @method_decorator(login_required,'post')
-class ProjectCrateView(CreateView):
+class ProjectCreateView(CreateView):
     model = Project
     form_class = ProjectCreationForm
     template_name = 'projects/create.html'
