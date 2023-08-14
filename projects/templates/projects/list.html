@@ -70,9 +70,10 @@
             </form>
 
             <script>
+                const projectDeleteLink = document.getElementById('projectDeleteForm').action.replace('nothing', '')
                 function setProjectId() {
                     var selectedProjectId = document.getElementById('id_project').value;
-                    document.getElementById('projectDeleteForm').action = "/project/delete/" + selectedProjectId;   
+                    document.getElementById('projectDeleteForm').action = projectDeleteLink + selectedProjectId;   
                 }
             </script>
         </div>
