@@ -208,14 +208,11 @@ class ImagePostDeleteView(DeleteView) :
 
     def post(self, request, *args, **kwargs):
         image_post_id = self.kwargs['pk']
-        print(image_post_id)
         image_post = ImagePost.objects.get(pk=image_post_id)
-        print(image_post)
         image_list = ImageTable.objects.filter(image_post=image_post)
         print(len(image_list))
         for image in image_list:
             path = image.image_file.split('/')[-1]
-            print(path)
             path_to_delete="/web/ai_image/image/"+path
             try:
                 fl.delete_blocking_function(path_to_delete)
@@ -223,6 +220,7 @@ class ImagePostDeleteView(DeleteView) :
             except Exception as e:
                 print(f"An error occurred while deleting: {e}")
         return super().post(request, *args, **kwargs)
+
     def get_success_url(self) :
         return reverse_lazy('images:list')
 
@@ -236,16 +234,19 @@ class ImagePostUpdateView(UpdateView) :
 
     def form_valid(self, form) :
         temp_post = form.save(commit=False)
-        ipid = temp_post.image_post_id
 
         # 기존 이미지 삭제 처리 필요
-        # connected_images = ImageInPost.objects.filter(image_post=temp_post)
-        # print(connected_images)
-
-        #for connected_image in connected_images :
-            #image = ImageTable.objects.get(image_id=connected_image.image.image_id)
-            # print(image)
-            #image.delete()
+        image_list = ImageTable.objects.filter(image_post=temp_post)
+        
+        for image in image_list:
+            path = image.image_file.split('/')[-1]
+            path_to_delete="/web/ai_image/image/"+path
+            try:
+                fl.delete_blocking_function(path_to_delete)
+                print(f"Deleted: {path_to_delete}")
+            except Exception as e:
+                print(f"An error occurred while deleting: {e}")
+            image.delete()
         
         # 이미지 처리
         uploaded_images = self.request.FILES.getlist('images')
@@ -463,5 +464,5 @@ class InputExifInfo(FormView) :
     
     def get_success_url(self) :
         image = ImageTable.objects.get(image_id = self.kwargs.get('pk'))
-        #ipid = ImageInPost.objects.get(image=image).image_post
-        #return reverse('images:detail', kwargs={'pk': ipid.pk})
+        ipid = image.image_post
+        return reverse('images:detail', kwargs={'pk': ipid.pk})
