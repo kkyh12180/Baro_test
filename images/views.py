@@ -136,7 +136,7 @@ class ImagePostCreateView(CreateView) :
                 first_image_counter = first_image_counter + 1
 
             # 이미지 저장
-            new_image.image_post_id = temp_post
+            new_image.image_post = temp_post
             new_image.save()
 
             # 긍정 프롬프트 처리
@@ -307,7 +307,7 @@ class ImagePostUpdateView(UpdateView) :
                 first_image_counter = first_image_counter + 1
 
             # 이미지 저장
-            new_image.image_post_id = temp_post
+            new_image.image_post = temp_post
             new_image.save()
 
             # FK를 위한 인스턴스 가져오기
