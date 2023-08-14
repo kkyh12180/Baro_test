@@ -30,7 +30,7 @@ class AccountUpdateForm(forms.ModelForm):
 
     def clean_profile(self):
         fl = filestation.FileStation('14.45.111.226', '5000', 'vane23', 'Syn_vane2023', secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
-        uid = self.cleaned_data.get('user_id')
+        uid = self.cleaned_data.get('username')
         print(uid)
         image = self.cleaned_data.get('profile')
         if image:
