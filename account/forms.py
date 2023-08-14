@@ -1,7 +1,15 @@
 from django import forms
 from account.models import User
 from django.contrib.auth.forms import UserCreationForm
-import base64
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
+import os
+
+from synology_api import filestation
+
+PROFILE_URL = "https://vanecompany.synology.me/ai_image/user/"
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -21,11 +29,18 @@ class AccountUpdateForm(forms.ModelForm):
         self.fields['e_mail'].disabled = True
 
     def clean_profile(self):
+        fl = filestation.FileStation('14.45.111.226', '5000', 'vane23', 'Syn_vane2023', secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
+        uid = self.cleaned_data.get('user_id')
+        print(uid)
         image = self.cleaned_data.get('profile')
         if image:
-            content = image.read()
-            image_binary = base64.b64encode(content).decode('UTF-8')
-            self.cleaned_data['profile_image'] = image_binary
+            ext = image.name.split('.')[-1]
+            image.name = f"{uid}.{ext}"
+            path = default_storage.save(f"tmp/{image.name}", ContentFile(image.read()))
+            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+            fl.upload_file(f"/web/ai_image/user", tmp_file)
+            os.remove(tmp_file)
+            self.cleaned_data['profile_image'] = f"{PROFILE_URL}{uid}.{ext}"
         return image
 
     def save(self, commit=True):
