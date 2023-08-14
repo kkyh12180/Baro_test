@@ -33,7 +33,6 @@ class AccountUpdateForm(forms.ModelForm):
 
     def clean_profile(self):
         uid = self.cleaned_data.get('username')
-        print(uid)
         image = self.cleaned_data.get('profile')
         if image:
             ext = "png"

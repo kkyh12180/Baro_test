@@ -134,12 +134,16 @@ class AccountUpdateView(UpdateView) :
 
     def form_valid(self, form) :
         temp_form = form.save()
-        if not temp_form.profile_image :
+        username = form.cleaned_data['username']
+        initial_username = self.get_initial()['username']
+        check = False
+        if username != initial_username:
+            username = initial_username
+            check = True
+        if not temp_form.profile_image or check:
             temp = fl.get_file_list("/web/ai_image/user")
             temp = temp["data"]["files"]
-            uid = self.kwargs['pk']
-            user = User.objects.get(user_id = uid)
-            path_to_delete="/web/ai_image/user/"+user.username+".png"
+            path_to_delete="/web/ai_image/user/"+username+".png"
             try:
                 fl.delete_blocking_function(path_to_delete)
                 print(f"Deleted: {path_to_delete}")

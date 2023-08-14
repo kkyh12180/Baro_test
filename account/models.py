@@ -31,7 +31,6 @@ class UserManager(BaseUserManager) :
                           e_mail=self.normalize_email(e_mail), 
                           **extra_fields)
         user.set_password(password)  # 비밀번호를 해싱하여 저장
-        # print(uid)
         user.save(using=self._db)
         return user
     

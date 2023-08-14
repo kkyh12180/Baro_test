@@ -210,7 +210,6 @@ class ImagePostDeleteView(DeleteView) :
         image_post_id = self.kwargs['pk']
         image_post = ImagePost.objects.get(pk=image_post_id)
         image_list = ImageTable.objects.filter(image_post=image_post)
-        print(len(image_list))
         for image in image_list:
             path = image.image_file.split('/')[-1]
             path_to_delete="/web/ai_image/image/"+path
