@@ -36,7 +36,7 @@ class AccountUpdateForm(forms.ModelForm):
         print(uid)
         image = self.cleaned_data.get('profile')
         if image:
-            ext = image.name.split('.')[-1]
+            ext = "png"
             image.name = f"{uid}.{ext}"
             path = default_storage.save(f"tmp/{image.name}", ContentFile(image.read()))
             tmp_file = os.path.join(settings.MEDIA_ROOT, path)
