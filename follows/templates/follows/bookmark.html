@@ -20,5 +20,5 @@
 </style>
 
 {% include 'snippets/images_fragment.html' with image_post_list=bookmark_list%}
-
+{% include 'snippets/pagination.html' with page_obj=page_obj %}
 {% endblock  %}
