@@ -12,7 +12,7 @@
 <div class="container-sm">
     <div class="user-info-container">
         {% if target_user.profile_image %}
-            <img class="profile-image" src="data:image/jpeg;base64,{{ target_user.profile_image }}" alt="">
+            <img class="profile-image" src="{{ target_user.profile_image }}" alt="">
         {% else %}
             <img class="profile-image" src="{% static 'images/no_profile.png'%}" alt="">
         {% endif %}
