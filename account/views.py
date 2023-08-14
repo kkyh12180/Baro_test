@@ -94,7 +94,7 @@ class AccountDetailView(DetailView, FormMixin) :
         context["subscription"]=subscription
         context["following"]=following
 
-        user_image_post_list=ImagePost.objects.filter(user=uploader).order_by('-post_time')
+        user_image_post_list=ImagePost.objects.filter(user=uploader,subscribe_only=False).order_by('-post_time')
         context["object_list"]=user_image_post_list[:15]
 
         post_list=ChannelPost.objects.filter(user=uploader).order_by('-post_time')
