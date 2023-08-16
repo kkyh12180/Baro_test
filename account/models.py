@@ -40,6 +40,7 @@ class UserManager(BaseUserManager) :
         user.is_admin = True    
         user.is_superuser = True
         user.is_staff = True
+        user.is_adult = True
         user.save(using=self._db)
         return user
 
@@ -52,6 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     profile_image = models.CharField(max_length=512, null=True)
     e_mail = models.CharField(max_length=255, unique=True)
     verified = models.BooleanField(blank=True, null=True, default=False)
+    is_adult = is_admin = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
