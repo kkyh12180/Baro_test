@@ -19,6 +19,9 @@ def image_get_required(func):
         if image_post.subscribe_only :
             if not SubscribeUploader.objects.filter(user=user,uploader=uploader):
                 return HttpResponseForbidden()
+        if image_post.adult:
+            if not user.is_adult :
+                return HttpResponseForbidden()
         return func(request,*args, **kwargs)
     
     return decorated
