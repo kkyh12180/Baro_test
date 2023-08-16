@@ -14,7 +14,7 @@ from django.conf import settings
 from images.models import ImagePost, ImageTable, ImagePrompt
 from images.forms import ImagePostCreationForm, ExifForm
 from images.Clear_EXIF import get_exif
-from images.decorators import image_post_ownership_required
+from images.decorators import *
 from comments.forms import CommentCreationForm
 from follows.models import LikeImagePost, BookmarkImagePost
 from search.pocket import pocket
@@ -177,6 +177,7 @@ class ImagePostListView(ListView) :
     def get_queryset(self):
         return ImagePost.objects.filter(subscribe_only=False,adult=False).order_by('-post_time')
 
+@method_decorator(image_get_required, 'get')
 class ImagePostDetailView(DetailView, FormMixin) :
     model = ImagePost
     form_class = CommentCreationForm
