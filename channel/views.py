@@ -44,7 +44,7 @@ class ChannelCreateView(CreateView):
     def get_success_url(self):
         return reverse('channel:detail',kwargs={'pk':self.object.pk})
 
-
+@method_decorator(channel_get_required, 'get')
 class ChannelDetailView(DetailView, FormMixin):
     model = ChannelPost
     form_class = CommentCreationForm
