@@ -107,7 +107,7 @@ class QueryMake():
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)
         try:
-            result = self.es.search(index=self.index_name, body= fin_query, size = 300)
+            result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
             data_list = ImageTable.objects.filter(image_id__in=id_list)
         except:
