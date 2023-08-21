@@ -167,3 +167,14 @@ LOGIN_REDIRECT_URL= reverse_lazy('search:home')
 
 LOGIN_URL = '/account/signin/'
 CSRF_TRUSTED_ORIGINS = ['https://barotest.azurewebsites.net']
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.naver.com'
+EMAIL_PORT = 587
+
+EMAIL_HOST_USER = env('EMAIL_HOST')
+EMAIL_HOST_PASSWORD = env('EMAIL_PASS')
+
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

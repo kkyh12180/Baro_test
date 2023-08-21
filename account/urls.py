@@ -19,4 +19,7 @@ urlpatterns = [
     path('edit_password/<str:pk>', AccountPasswordUpdateView.as_view(), name='edit_password'),
     path('quit/<str:pk>', AccountDeleteView.as_view(), name='quit'),
     path('image/<str:username>',AccountImageListView.as_view(),name='image'),
+    path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset_done/', CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
