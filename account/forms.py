@@ -9,6 +9,7 @@ import os
 
 from synology_api import filestation
 from search.pocket import pocket
+from datetime import date
 
 PROFILE_URL = "https://vanecompany.synology.me/ai_image/user/"
 info = pocket()
@@ -17,15 +18,35 @@ fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['user_id', 'e_mail','username', 'password1','password2']
+        fields = ['user_id', 'e_mail','username', 'birthday', 'password1','password2']
         widgets = {'user_id': forms.HiddenInput()}
+
+    birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    def save(self, commit=True) :
+        instance = super().save(commit=False)
+        
+        # 성인 처리
+        birthdate = self.cleaned_data.get('birthday', '')
+        today = date.today()
+        age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+
+        if (age < 18) :
+            instance.is_adult = False
+        else :
+            instance.is_adult = True
+
+        if commit:
+            instance.save()
+        return instance
 
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['e_mail', 'username', 'profile']
+        fields = ['e_mail', 'username', 'birthday', 'profile']
 
     profile = forms.ImageField(required=False)
+    birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -47,6 +68,17 @@ class AccountUpdateForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
         instance.profile_image = self.cleaned_data.get('profile_image', '')
+
+        # 성인 처리
+        birthdate = self.cleaned_data.get('birthday', '')
+        today = date.today()
+        age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+
+        if (age < 18) :
+            instance.is_adult = False
+        else :
+            instance.is_adult = True
+
         if commit:
             instance.save()
         return instance
