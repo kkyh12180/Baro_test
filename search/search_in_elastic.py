@@ -44,26 +44,8 @@ class QueryMake():
             }
         }
         return actions
-
-    def match(self,positive,words):    
-        actions = {
-            "match": {
-                positive: {
-                    "query": words                
-                }
-            }
-        }
-        if words == "":
-           actions = {
-                "match": {
-                    positive: {
-                        "query": "blank"                 
-                    }
-                }
-            }
-        return actions
-
-    def make_query(self,match_action,negative_match_action,prompt_match,negative_match):
+    
+    def make_query(self,match_action,negative_match_action):
         easy_negative={
             "match":{
                 'negative_prompt':{
@@ -93,7 +75,7 @@ class QueryMake():
         }
         
         query = {"query": {"bool": {"must": [], "must_not" :[], "should":[]}} }
-        query["query"]["bool"]["must_not"].append(easy_negative)       
+        query["query"]["bool"]["must"].append(easy_negative)       
         query["query"]["bool"]["should"].append(low_boost)
         
         ln = len(match_action)
@@ -108,11 +90,6 @@ class QueryMake():
                 continue                       
             query["query"]["bool"]["must_not"].append(negative_match_action[i])
 
-        if prompt_match["match"]["prompt"]["query"] != "blank":            
-            query["query"]["bool"]["must"].append(prompt_match)
-        if negative_match["match"]["negative_prompt"]["query"] != "blank":            
-            query["query"]["bool"]["must_not"].append(negative_match)
-
         return query
 
     def tokenizequery(self,prompt,negative_prompt):
@@ -120,39 +97,26 @@ class QueryMake():
         negative_phrase_list = []
 
         #positive
-        tok = prompt.lower().split(',')
-        words = ""
+        tok = prompt.lower().split(',')        
         for tk in tok:
             if not tk:
-                continue
-            
-            if " " in tk:
-                phrase = self.match_phrase("prompt",tk)
-                phrase_list.append(phrase)
-            else:
-                words = words + " " + tk        
-        
-        prompt_match_action = self.match("prompt",words)
+                continue    
+            phrase = self.match_phrase("prompt",tk)
+            phrase_list.append(phrase)                            
 
         #negative
-        tok = negative_prompt.lower().split(',')
-        words = ""
+        tok = negative_prompt.lower().split(',')        
         for tk in tok:
             if not tk:
-                continue
-            
-            if " " in tk:
-                phrase = self.match_phrase("negative_prompt",tk)
-                negative_phrase_list.append(phrase)
-            else:
-                words = words + " " + tk
-        negative_match_action = self.match("negative_prompt",words)
+                continue         
+            phrase = self.match_phrase("negative_prompt",tk)
+            negative_phrase_list.append(phrase)           
+        
 
-        return self.make_query(phrase_list, negative_phrase_list,prompt_match_action,negative_match_action)
+        return self.make_query(phrase_list, negative_phrase_list)
 
     def query_to_elastic(self,prompt,negative_prompt):
-        fin_query=self.tokenizequery(prompt,negative_prompt)
-        print(f'query is {fin_query}')
+        fin_query=self.tokenizequery(prompt,negative_prompt)        
         try:
             result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
