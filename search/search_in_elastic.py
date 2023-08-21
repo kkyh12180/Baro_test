@@ -74,7 +74,7 @@ class QueryMake():
             }
         }
         
-        query = {"query": {"bool": {"must": [], "must_not" :[], "should":[]}} }
+        query = {"query": {"bool": {"must": [], "should":[]}} }
         query["query"]["bool"]["must"].append(easy_negative)       
         query["query"]["bool"]["should"].append(low_boost)
         
@@ -88,7 +88,7 @@ class QueryMake():
         for i in range(n_ln): 
             if negative_match_action[i]["match_phrase"]["negative_prompt"]["query"] == "blank":
                 continue                       
-            query["query"]["bool"]["must_not"].append(negative_match_action[i])
+            query["query"]["bool"]["must"].append(negative_match_action[i])
 
         return query
 
@@ -116,7 +116,7 @@ class QueryMake():
         return self.make_query(phrase_list, negative_phrase_list)
 
     def query_to_elastic(self,prompt,negative_prompt):
-        fin_query=self.tokenizequery(prompt,negative_prompt)        
+        fin_query=self.tokenizequery(prompt,negative_prompt)                
         try:
             result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
