@@ -7,8 +7,9 @@ from django.core.paginator import Paginator
 
 from search.search_in_elastic import *
 from search.models import *
-from images.models import *
+from search.elastic import *
 from search.pocket import pocket
+from images.models import *
 
 import string
 import random
@@ -207,3 +208,9 @@ def chat_view(request):
         return render(request,"search/chat.html", {"chat_history":chat_history})
 
     return render(request, "search/chat.html")
+
+def rank(request):
+    rank = QueryRank()
+    prompt_list = rank.index_data_to_elasticsearch("prompt")
+    negative_prompt_list = rank.index_data_to_elasticsearch("negative_prompt")
+    return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})

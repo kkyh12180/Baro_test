@@ -6,7 +6,7 @@ from search.models import Prompt
 from images.models import *
 import re
 
-class QueryMake():
+class QueryRank():
     def __init__(self):
         #정보저장
         info = pocket()
@@ -25,8 +25,15 @@ class QueryMake():
 
         self.index_name = "test_image_prompt"
 
+    def is_float(self,str):
+        try:
+            float(str)
+            return True
+        except ValueError:
+            return False
+    
     # Elasticsearch에 bulk로 데이터 색인
-    def index_data_to_elasticsearch(self):
+    def index_data_to_elasticsearch(self,prompt):
         #frequency 담을 dictionary 생성
         term_freq_dic ={}
 
@@ -52,7 +59,7 @@ class QueryMake():
                 "docs": [
                     {
                         "_id": doc_id,
-                        "fields": ["prompt"]
+                        "fields": [str(prompt)]
                     }
                     for doc_id in recent_ids
                 ]
@@ -64,9 +71,9 @@ class QueryMake():
             for doc in response['docs']:
                 if 'term_vectors' in doc:
                     term_vectors = doc['term_vectors']
-                    if "prompt" in term_vectors:
+                    if str(prompt) in term_vectors:
                         # 역색인 정보를 사용하여 원하는 작업을 수행합니다.
-                        for term, info in term_vectors["prompt"]['terms'].items():                                                                  
+                        for term, info in term_vectors[str(prompt)]['terms'].items():                                                                  
                             if term in term_freq_dic:
                                 temp = term_freq_dic.get(term)
                                 term_freq_dic[term] = temp + info['term_freq']
@@ -85,35 +92,24 @@ class QueryMake():
         
         # frequency 값을 기준으로 딕셔너리를 빈도 값이 높은 순으로 정렬합니다.
         sorted_frequency = sorted(term_freq_dic.items(), key=lambda x: x[1], reverse=True)
-        print(len(term_freq_dic.keys()))
+        
+        no_dic = ['detailed','and','best','a','the','of','in','detail','masterpiece','with','at','up','by','very','perfect','to','is','on',]
+        data_list = []
         # 상위 100개의 아이템을 출력합니다.
-        i = 0 
-        for sf in sorted_frequency[:100]:
-            print(sf)
-            '''if i % 10 == 0:
-                print(sf[0])
-            else:
-                print(sf[0], end = " ")'''
-            i = i+1
+        n = 100
+        count = 0
+        i = 0
 
-    def query_to_elastic(self,prompt,negative_prompt):
-        fin_query=self.tokenizequery(prompt,negative_prompt)
-        print(f'query is {fin_query}')
-        try:
-            result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
-            id_list = [hit["_id"] for hit in result["hits"]["hits"]]
-            data_list = ImageTable.objects.filter(image_id__in=id_list)
-        except:
-            data_list = ImageTable.objects.filter(image_id="I")
-        return data_list
-    
-    def delete_document(self, doc_id):
-        index_name = self.index_name
-        try:
-            response = self.es.delete(index=index_name, id=doc_id)
-            if response['result'] == 'deleted':
-                print("delete")
-            else:
-                print("failed")
-        except Exception as e:
-            print("error")
+        while count < n and i < len(sorted_frequency):
+            sf = sorted_frequency[i]
+            if sf[0] in no_dic or self.is_float(sf[0]):
+                i += 1
+                continue
+            
+            data_list.append(sf)
+            count += 1
+            i += 1
+
+        # print(top_100_items)
+        print(data_list)
+        return data_list[:10]
