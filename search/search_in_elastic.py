@@ -160,3 +160,14 @@ class QueryMake():
         except:
             data_list = ImageTable.objects.filter(image_id="I")
         return data_list
+    
+    def delete_document(self, doc_id):
+        index_name = self.index_name
+        try:
+            response = self.es.delete(index=index_name, id=doc_id)
+            if response['result'] == 'deleted':
+                print("delete")
+            else:
+                print("failed")
+        except Exception as e:
+            print("error")
