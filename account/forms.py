@@ -1,3 +1,4 @@
+from typing import Any, Iterator
 from django import forms
 from account.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -5,11 +6,15 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
+import django.contrib.auth.forms as auth_forms
+from django.core.exceptions import ValidationError
+from account.models import User
+
 import os
+from datetime import date
 
 from synology_api import filestation
 from search.pocket import pocket
-from datetime import date
 
 PROFILE_URL = "https://vanecompany.synology.me/ai_image/user/"
 info = pocket()
@@ -87,3 +92,22 @@ class AccountPasswordUpdateForm(UserCreationForm) :
     class Meta:
         model = User
         fields = ['password1','password2']
+
+class CustomPasswordResetForm(auth_forms.PasswordResetForm) :
+    def clean(self) :
+        cleaned_data = super().clean()
+        e_mail = cleaned_data.get("email")
+
+        # 유저 존재 체크
+        user = User.objects.filter(e_mail=e_mail)
+
+        if not user :
+            raise ValidationError("사용자의 이메일 주소가 존재하지 않습니다.")
+        
+    def get_users(self, email=''):
+        e_mail = self.cleaned_data.get('e_mail')
+        active_users = User.objects.filter(e_mail=e_mail)
+        return (
+            u for u in active_users
+            if u.has_usable_password()
+        )

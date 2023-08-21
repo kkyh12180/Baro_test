@@ -13,13 +13,15 @@ from account.decorators import account_ownership_required
 from django.db import connection
 from django.shortcuts import get_object_or_404
 from django.utils import translation
+from django.contrib.auth import views as auth_views
+import django.contrib.auth.forms as auth_forms
 
 import string
 import random
 
 from django.utils.translation import gettext as _
 
-from account.forms import RegisterForm, AccountUpdateForm, AccountPasswordUpdateForm
+from account.forms import *
 from account.models import User
 from follows.models import *
 from comments.forms import CommentCreationForm
@@ -191,3 +193,15 @@ class ChangeLanguageView(RedirectView):
         elif next_url.startswith('/ko/'):
             next_url = '/en/' + next_url[4:]
         return next_url
+    
+class CustomPasswordResetView(auth_views.PasswordResetView) :
+    template_name = 'account/password_reset.html'
+    success_url = reverse_lazy('account:password_reset_done')
+    form_class = CustomPasswordResetForm
+
+class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView) :
+    template_name = 'account/password_reset_done.html'
+
+class CustomPasswordResetConfirmView(auth_views.PasswordResetConfirmView) :
+    template_name = 'account/password_reset_confirm.html'
+    success_url = reverse_lazy('account:signin')
