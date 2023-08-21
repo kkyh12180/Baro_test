@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView, View
@@ -7,10 +7,15 @@ from django.core.paginator import Paginator
 
 from search.search_in_elastic import *
 from search.models import *
+from search.elastic import *
+from search.pocket import pocket
 from images.models import *
 
 import string
 import random
+import openai
+
+openai.api_key = pocket().chat_key
 
 class SearchListView(ListView):
     template_name = 'search/main.html'
@@ -182,3 +187,30 @@ def make_tokenizer(tk):
         i=tk.find(":")
         tk=tk[:i]
     return tk.strip()
+
+def chat_view(request):
+    if request.method == "POST":
+        user_input = request.POST.get("user_input")
+        chat_history = []  # 사용자와 ChatGPT 사이의 대화 내용을 저장
+        print(openai.api_key)
+        # ChatGPT와 대화 진행
+        response = openai.Completion.create(
+            model = "gpt-3.5-turbo",
+            messages=[
+                {"role":"user","content":user_input}
+            ]
+        )
+        
+        # ChatGPT 응답을 대화 내역에 추가
+        chat_history.append(user_input)
+        chat_history.append(response.choices[0].message.content)
+        print("ChatGPT Response:",response.choices[0].message.content)
+        return render(request,"search/chat.html", {"chat_history":chat_history})
+
+    return render(request, "search/chat.html")
+
+def rank(request):
+    rank = QueryRank()
+    prompt_list = rank.index_data_to_elasticsearch("prompt")
+    negative_prompt_list = rank.index_data_to_elasticsearch("negative_prompt")
+    return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})

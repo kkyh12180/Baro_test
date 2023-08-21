@@ -18,6 +18,7 @@ from images.decorators import *
 from comments.forms import CommentCreationForm
 from follows.models import LikeImagePost, BookmarkImagePost
 from search.pocket import pocket
+from search.search_in_elastic import QueryMake
 
 from synology_api import filestation
 
@@ -211,14 +212,17 @@ class ImagePostDeleteView(DeleteView) :
         image_post_id = self.kwargs['pk']
         image_post = ImagePost.objects.get(pk=image_post_id)
         image_list = ImageTable.objects.filter(image_post=image_post)
+        qu=QueryMake()
         for image in image_list:
             path = image.image_file.split('/')[-1]
             path_to_delete="/web/ai_image/image/"+path
+            image_id = path.split('.')[0]
             try:
                 fl.delete_blocking_function(path_to_delete)
                 print(f"Deleted: {path_to_delete}")
             except Exception as e:
                 print(f"An error occurred while deleting: {e}")
+            qu.delete_document(image_id)
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self) :
@@ -237,16 +241,18 @@ class ImagePostUpdateView(UpdateView) :
 
         # 기존 이미지 삭제 처리 필요
         image_list = ImageTable.objects.filter(image_post=temp_post)
-        
+        qu = QueryMake()
         for image in image_list:
             path = image.image_file.split('/')[-1]
             path_to_delete="/web/ai_image/image/"+path
+            image_id = path.split('.')[0]
             try:
                 fl.delete_blocking_function(path_to_delete)
                 print(f"Deleted: {path_to_delete}")
             except Exception as e:
                 print(f"An error occurred while deleting: {e}")
             image.delete()
+            qu.delete_document(image_id)
         
         # 이미지 처리
         uploaded_images = self.request.FILES.getlist('images')
