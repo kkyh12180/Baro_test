@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/search/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th class="name" scope="col">prompt</th>
+                <th class="negative" scope="col">negative</th>
+                <th class="value" scope="col">value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rank in prompt_list %}
+            <tr>
+                <td class="name">{{rank.0}}</td>
+                <td class="negative">Positive</td>
+                <td class="value">{{rank.1}}</td>
+            </tr>
+            {% endfor %}
+            {% for rank in negative_list %}
+            <tr>
+                <td class="name">{{rank.0}}</td>
+                <td class="negative">Negative</td>
+                <td class="value">{{rank.1}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

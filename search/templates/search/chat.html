@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/search/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-sm search-div">
+    <form method="post" class="search-form">
+        {% csrf_token %}
+        <div class="input-group">
+            <div class="form-outline">
+                <label class="form-label" for="chat">Chat with ChatGPT</label>
+                <input type="text" name="chat" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-outline-dark search-btn">{{_('Search')}}</button>
+        </div>
+    </form>
+</div>
+
+{% if chat_history %}
+<div>
+    {% for chat in chat_history %}
+    <div>
+        <p>{{chat}}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+{% endblock %}
