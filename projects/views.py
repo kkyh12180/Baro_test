@@ -3,6 +3,7 @@ from django.views.generic import CreateView, DetailView, RedirectView, DeleteVie
 from django.views.generic.list import MultipleObjectMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 
 from posts.models import Post
 from projects.decorators import *
@@ -16,6 +17,7 @@ import random
 
 @method_decorator(login_required,'get')
 @method_decorator(login_required,'post')
+@method_decorator(staff_member_required(login_url='admin:login'), name='dispatch')
 class ProjectCreateView(CreateView):
     model = Project
     form_class = ProjectCreationForm
@@ -66,6 +68,7 @@ class ProjectDetailView(ListView):
         context["target_project"] = project
         return context
 
+@method_decorator(staff_member_required(login_url='admin:login'), name='dispatch')
 class ProjectDeleteView(DeleteView):
     model = Project
     context_object_name = "target_project"
