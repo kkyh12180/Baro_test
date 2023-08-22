@@ -105,7 +105,7 @@ class CustomPasswordResetForm(auth_forms.PasswordResetForm) :
             raise ValidationError("사용자의 이메일 주소가 존재하지 않습니다.")
         
     def get_users(self, email=''):
-        e_mail = self.cleaned_data.get('e_mail')
+        e_mail = self.cleaned_data.get('email')
         active_users = User.objects.filter(e_mail=e_mail)
         return (
             u for u in active_users

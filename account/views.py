@@ -195,6 +195,7 @@ class ChangeLanguageView(RedirectView):
         return next_url
     
 class CustomPasswordResetView(auth_views.PasswordResetView) :
+    email_template_name = "account/password_reset_email.html"
     template_name = 'account/password_reset.html'
     success_url = reverse_lazy('account:password_reset_done')
     form_class = CustomPasswordResetForm
