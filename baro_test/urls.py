@@ -25,7 +25,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('',include('search.urls')),
-    path('account/', include('account.urls')),
+    path('account/', include('accounts.urls')),
     path('image/', include('images.urls')),
     path('comment/',include('comments.urls')),
     path('post/',include('posts.urls')),
