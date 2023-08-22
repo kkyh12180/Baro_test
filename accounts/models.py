@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     e_mail = models.EmailField(max_length=255, unique=True)
     verified = models.BooleanField(blank=True, null=True, default=False)
     birthday = models.DateField(editable=True, null=True)
-    is_adult = is_admin = models.BooleanField(default=False)
+    is_adult = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
