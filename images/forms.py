@@ -15,6 +15,16 @@ class ImagePostCreationForm(ModelForm) :
 
     images = MultiImageField()
 
+    def __init__(self, *args, **kwargs) :
+        # 성인 속성을 받아옴
+        is_adult = kwargs.pop('is_adult', False)
+
+        super().__init__(*args, **kwargs)
+
+        # 성인이 아닐 경우 form에서 보이지 않음
+        if not is_adult:
+            self.fields['adult'].widget = forms.HiddenInput()
+
 class ExifForm(forms.Form) :
     prompt = forms.CharField(widget=forms.Textarea)
     negative_prompt = forms.CharField(widget=forms.Textarea)

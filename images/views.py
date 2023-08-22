@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView, FormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -164,6 +165,12 @@ class ImagePostCreateView(CreateView) :
             new_prompt_neg.save()
 
         return super().form_valid(form)
+
+    # user의 is_adult 정보를 넘겨줌
+    def get_form_kwargs(self) :
+        kwargs = super().get_form_kwargs()
+        kwargs['is_adult'] = self.request.user.is_adult
+        return kwargs
 
     def get_success_url(self) : 
         return reverse('images:detail', kwargs={'pk': self.object.pk})
