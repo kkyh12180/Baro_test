@@ -7,7 +7,7 @@ from django.views.generic import ListView, RedirectView
 
 from follows.models import *
 
-# Create your views here.
+#유저를 구독 상태면 해제, 아니면 구독
 @method_decorator(login_required,'get')
 class SubscriptionView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
@@ -23,6 +23,7 @@ class SubscriptionView(RedirectView):
             SubscribeUploader(user=user,uploader=uploader).save()
         return super(SubscriptionView,self).get(request,*args, **kwargs)
 
+#구독한 사람의 작품을 확인
 class SubscriptionListView(ListView):
     model = ImagePost
     context_object_name = "image_post_list"
@@ -35,18 +36,23 @@ class SubscriptionListView(ListView):
             user_adult = user.is_adult
         except:
             user_adult=False
+        
+        #구독한 사람의 구독자 전용 이미지 가져오기
         writes=SubscribeUploader.objects.filter(user=user).values_list('uploader')
-        subscribed_posts = ImagePost.objects.filter(user__in=writes)
+        subscribed_posts = ImagePost.objects.filter(user__in=writes,subscribe_only=True)
+
+        #user의 성인 설정에 따라 이미지 구분
         if user_adult:
-            return subscribed_posts.filter(subscribe_only=True).order_by('-post_time')
-        return subscribed_posts.filter(subscribe_only=True, adult=False).order_by('-post_time')
+            return subscribed_posts.order_by('-post_time')
+        return subscribed_posts.filter(adult=False).order_by('-post_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         uploader_ids = SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
         context["user_list"] = User.objects.filter(pk__in=uploader_ids)
         return context
-    
+
+#유저를 팔로우 상태면 해제, 아니면 팔로우
 @method_decorator(login_required,'get')
 class FollowView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
@@ -74,11 +80,15 @@ class FollowingListView(ListView):
             user_adult = user.is_adult
         except:
             user_adult=False
+        
+        #팔로운한 사람의 구독자 전용 이미지 가져오기
         writes = FollowUploader.objects.filter(user=user).values_list('uploader')
-        subscribed_posts = ImagePost.objects.filter(user__in=writes)
+        subscribed_posts = ImagePost.objects.filter(user__in=writes,subscribe_only=False)
+        
+        #user의 성인 설정에 따라 이미지 구분
         if user_adult:
-            return subscribed_posts.filter(subscribe_only=False).order_by('-post_time')
-        return subscribed_posts.filter(subscribe_only=False, adult=False).order_by('-post_time')
+            return subscribed_posts.order_by('-post_time')
+        return subscribed_posts.filter(adult=False).order_by('-post_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -98,11 +108,12 @@ class BookmarkedListView(ListView):
             user_adult = user.is_adult
         except:
             user_adult=False
-        #imagepost table 내에 adult랑 비교
         
+        #자신이 최근에 북마크 한 데이터 가져오기
         bookmarked_posts = BookmarkImagePost.objects.filter(user=user).order_by('-bookmark_time')
         bookmarked_image_posts = [bookmark.image_post for bookmark in bookmarked_posts]
         
+        #북마크한 데이터의 성인 전용과 자신의 상태 비교 후 구분
         bookmark_list = [
             post for post in bookmarked_image_posts if post.adult == user_adult or not post.adult
         ]
