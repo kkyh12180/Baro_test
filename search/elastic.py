@@ -41,7 +41,7 @@ class QueryRank():
             "query": {
                 "match_all": {}
             },
-            "size": 3000,
+            "size": 1000,
             "sort": [
                 {"_doc": {"order": "desc"}}
             ]
@@ -93,10 +93,10 @@ class QueryRank():
         # frequency 값을 기준으로 딕셔너리를 빈도 값이 높은 순으로 정렬합니다.
         sorted_frequency = sorted(term_freq_dic.items(), key=lambda x: x[1], reverse=True)
         
-        no_dic = ['detailed','and','best','a','the','of','in','detail','masterpiece','with','at','up','by','very','perfect','to','is','on',]
+        no_dic = ['detailed','and','best','a','the','of','in','detail','masterpiece','with','at','up','by','very','perfect','to','is','on','quality','realistic',]
         data_list = []
         # 상위 100개의 아이템을 출력합니다.
-        n = 100
+        n = 20
         count = 0
         i = 0
 
@@ -109,7 +109,5 @@ class QueryRank():
             data_list.append(sf)
             count += 1
             i += 1
-
-        # print(top_100_items)
-        print(data_list)
-        return data_list[:10]
+        
+        return data_list

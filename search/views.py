@@ -9,6 +9,7 @@ from search.search_in_elastic import *
 from search.models import *
 from search.elastic import *
 from search.pocket import pocket
+from search.prompt_make import MakeImage
 from images.models import *
 
 import string
@@ -187,30 +188,28 @@ def make_tokenizer(tk):
         i=tk.find(":")
         tk=tk[:i]
     return tk.strip()
-
 '''
-def chat_view(request):
-    if request.method == "POST":
-        user_input = request.POST.get("user_input")
-        chat_history = []  # 사용자와 ChatGPT 사이의 대화 내용을 저장
-        print(openai.api_key)
-        # ChatGPT와 대화 진행
-        response = openai.Completion.create(
-            model = "gpt-3.5-turbo",
-            messages=[
-                {"role":"user","content":user_input}
-            ]
-        )
-        
-        # ChatGPT 응답을 대화 내역에 추가
-        chat_history.append(user_input)
-        chat_history.append(response.choices[0].message.content)
-        print("ChatGPT Response:",response.choices[0].message.content)
-        return render(request,"search/chat.html", {"chat_history":chat_history})
+def make_ai(request):
+    rank = QueryRank()
+    ai_image = MakeImage()
+    prompt_list = rank.index_data_to_elasticsearch("prompt")
+    negative_prompt_list = rank.index_data_to_elasticsearch("negative_prompt")
+    # 랜덤하게 5개 또는 6개의 키워드 선택
+    num_keywords = random.randint(5, 6)
+    selected_keywords = random.sample(prompt_list, num_keywords)
+    # 선택한 키워드들을 하나의 문자열로 결합
+    prompt_str = ','.join(keyword for keyword, _ in selected_keywords)+','
+    print(prompt_str)
+    
+    selected_keywords = random.sample(negative_prompt_list, num_keywords)
+    # 선택한 키워드들을 하나의 문자열로 결합
+    negative_prompt_str = ','.join(keyword for keyword, _ in selected_keywords)+','
+    print(negative_prompt_str)
 
-    return render(request, "search/chat.html")
+    ai_image.prompt_make(prompt_str,negative_prompt_str)
+
+    return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})
 '''
-
 def rank(request):
     rank = QueryRank()
     prompt_list = rank.index_data_to_elasticsearch("prompt")
