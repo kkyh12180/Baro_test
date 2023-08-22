@@ -13,9 +13,9 @@ from images.models import *
 
 import string
 import random
-import openai
+# import openai
 
-openai.api_key = pocket().chat_key
+# openai.api_key = pocket().chat_key
 
 class SearchListView(ListView):
     template_name = 'search/main.html'
@@ -188,6 +188,7 @@ def make_tokenizer(tk):
         tk=tk[:i]
     return tk.strip()
 
+'''
 def chat_view(request):
     if request.method == "POST":
         user_input = request.POST.get("user_input")
@@ -208,6 +209,7 @@ def chat_view(request):
         return render(request,"search/chat.html", {"chat_history":chat_history})
 
     return render(request, "search/chat.html")
+'''
 
 def rank(request):
     rank = QueryRank()
