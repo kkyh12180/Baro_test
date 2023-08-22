@@ -147,8 +147,8 @@ class PostLikeView(RedirectView) :
             post.save()
             like.delete()
         else :
+            PostLike(user=user, post=post).save()
             post.like_number += 1
             post.save()
-            PostLike(user=user, post=post).save()
 
         return super(PostLikeView, self).get(request, *args, **kwargs)
