@@ -1,12 +1,9 @@
-from typing import Any
-from django.http import HttpRequest, HttpResponse
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView, FormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import FormMixin
 from django.shortcuts import get_object_or_404
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
@@ -25,12 +22,14 @@ from synology_api import filestation
 import string
 import random
 import os
-# Create your views here.
+
+#synology에 연결하기 위한 준비
 IMG_URL = "https://vanecompany.synology.me/ai_image/image/"
 IMG_DICT = "/web/ai_image/image/"
 info = pocket()
 fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas_password, secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
 
+#글을 작성하기 위해서는 로그인이 필수이다.
 @method_decorator(login_required, 'get')
 @method_decorator(login_required, 'post')
 class ImagePostCreateView(CreateView) :
