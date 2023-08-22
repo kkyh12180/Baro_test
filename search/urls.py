@@ -10,6 +10,6 @@ urlpatterns = [
     path('delete/',delete_all,name='delete_all'),
     path('delete/<str:pk>',delete,name='delete'),
     path('result/',ResultView.as_view(), name="result"),
-    # path('chat/',chat_view,name="chat_view"),
+    #path('make_ai/',make_ai,name="make_ai"),
     path('rank/',rank,name="rank"),
 ]
