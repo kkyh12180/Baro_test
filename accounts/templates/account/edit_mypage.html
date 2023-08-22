@@ -5,16 +5,16 @@
 
 <div class="container col-6" style="text-align: center; margin: 2rem auto;">
     <div class="mb-4">
-        <h4>정보 변경</h4>
+        <h4>{{_('정보 변경')}}</h4>
     </div>
     <form action="{% url 'account:edit' pk=target_user.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+        <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" value={{_('Submit')}}>
     </form>
 
     <a href="{% url 'account:edit_password' pk=target_user.pk %}">
-        <btn class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';">비밀번호 변경</btn>
+        <btn class="btn btn-dark rounded-pill col-6 mt-3" style="font-family: 'GmarketSansMedium';">{{_('비밀번호 변경')}}</btn>
     </a>
 </div>
 

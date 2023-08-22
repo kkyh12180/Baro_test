@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-22 01:26+0000\n"
+"POT-Creation-Date: 2023-08-22 05:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,13 +16,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: account/templates/account/edit_password.html:14
-#: account/templates/account/mypage.html:155
-#: account/templates/account/password_reset_confirm.html:21
+#: accounts/templates/account/edit_mypage.html:8
+msgid "정보 변경"
+msgstr ""
+
+#: accounts/templates/account/edit_mypage.html:13
+#: accounts/templates/account/edit_password.html:14
+#: accounts/templates/account/mypage.html:159
+#: accounts/templates/account/password_reset_confirm.html:21
+#: accounts/templates/account/signin.html:13
+#: accounts/templates/account/signup.html:13
 #: channel/templates/channel/create.html:11
 #: channel/templates/channel/update.html:22
 #: comments/templates/comments/create.html:10
+#: images/templates/images/create.html:13
 #: images/templates/images/exif_info.html:13
+#: images/templates/images/update.html:14
 #: posts/templates/posts/announce.html:22
 #: posts/templates/posts/announce_update.html:22
 #: posts/templates/posts/create.html:22 posts/templates/posts/update.html:22
@@ -31,118 +40,124 @@ msgstr ""
 msgid "Submit"
 msgstr "등록"
 
-#: account/templates/account/mypage.html:23
-#: account/templates/account/mypage.html:34
+#: accounts/templates/account/edit_mypage.html:17
+#: accounts/templates/account/edit_password.html:8
+#: accounts/templates/account/password_reset_confirm.html:8
+msgid "비밀번호 변경"
+msgstr ""
+
+#: accounts/templates/account/edit_password.html:9
+msgid "비밀번호 변경 시 모든 기기에서 로그아웃 됩니다!"
+msgstr ""
+
+#: accounts/templates/account/mypage.html:23
+#: accounts/templates/account/mypage.html:34
 msgid "Subscriber"
 msgstr "구독자"
 
-#: account/templates/account/mypage.html:26
-#: account/templates/account/mypage.html:51
+#: accounts/templates/account/mypage.html:26
+#: accounts/templates/account/mypage.html:53
 msgid "Follower"
 msgstr "팔로워"
 
-#: account/templates/account/mypage.html:67
+#: accounts/templates/account/mypage.html:71
 msgid "Change profile"
 msgstr "개인정보 수정"
 
-#: account/templates/account/mypage.html:69
-#: account/templates/account/mypage.html:146
+#: accounts/templates/account/mypage.html:73
+#: accounts/templates/account/mypage.html:150
 msgid "Delete account"
 msgstr "탈퇴"
 
-#: account/templates/account/mypage.html:71
+#: accounts/templates/account/mypage.html:75
 msgid "New Image Post"
 msgstr "이미지 게시글 작성"
 
-#: account/templates/account/mypage.html:74
+#: accounts/templates/account/mypage.html:78
 msgid "New Channel Post"
 msgstr "채널 게시글 작성"
 
-#: account/templates/account/mypage.html:82
+#: accounts/templates/account/mypage.html:86
 #: channel/templates/channel/detail.html:32 templates/header.html:44
 msgid "Subscribe"
 msgstr "구독"
 
-#: account/templates/account/mypage.html:86
+#: accounts/templates/account/mypage.html:90
 msgid "Unsubscribe"
 msgstr "구독 해제"
 
-#: account/templates/account/mypage.html:91
+#: accounts/templates/account/mypage.html:95
 msgid "Follow"
 msgstr "팔로우"
 
-#: account/templates/account/mypage.html:95
+#: accounts/templates/account/mypage.html:99
 msgid "Unfollow"
 msgstr "팔로우 해제"
 
-#: account/templates/account/mypage.html:107 templates/header.html:23
+#: accounts/templates/account/mypage.html:111 templates/header.html:23
 msgid "Images"
 msgstr "이미지"
 
-#: account/templates/account/mypage.html:108 templates/header.html:26
+#: accounts/templates/account/mypage.html:112 templates/header.html:26
 msgid "Posts"
 msgstr "게시판"
 
-#: account/templates/account/mypage.html:117
-#: account/templates/account/mypage.html:124
+#: accounts/templates/account/mypage.html:121
+#: accounts/templates/account/mypage.html:128
 msgid "View all"
 msgstr "전체 보기"
 
-#: account/templates/account/mypage.html:150
+#: accounts/templates/account/mypage.html:154
 msgid "Are you sure you want to leave?"
 msgstr "정말 탈퇴하시겠습니까?"
 
-#: account/templates/account/password_reset.html:8
+#: accounts/templates/account/password_reset.html:8
 msgid "Write your e-mail"
 msgstr "e-mail을 입력해주세요"
 
-#: account/templates/account/password_reset.html:13
+#: accounts/templates/account/password_reset.html:13
 #: images/templates/images/detail.html:95
 msgid "Next"
 msgstr "다음"
 
-#: account/templates/account/password_reset_confirm.html:8
-msgid "비밀번호 변경"
-msgstr ""
-
-#: account/templates/account/password_reset_confirm.html:14
+#: accounts/templates/account/password_reset_confirm.html:14
 msgid "비밀번호"
 msgstr ""
 
-#: account/templates/account/password_reset_confirm.html:18
+#: accounts/templates/account/password_reset_confirm.html:18
 msgid "비밀번호 확인"
 msgstr ""
 
-#: account/templates/account/password_reset_confirm.html:24
+#: accounts/templates/account/password_reset_confirm.html:24
 msgid "링크가 유효하지 않습니다."
 msgstr ""
 
-#: account/templates/account/password_reset_done.html:7
+#: accounts/templates/account/password_reset_done.html:7
 msgid "E-mail sent."
 msgstr "e-mail 전송 완료"
 
-#: account/templates/account/password_reset_done.html:9
+#: accounts/templates/account/password_reset_done.html:9
 msgid "처음으로"
 msgstr ""
 
-#: account/templates/account/signin.html:7
+#: accounts/templates/account/signin.html:7
 #: comments/templates/comments/create.html:13 templates/header.html:31
 msgid "Sign in"
 msgstr "로그인"
 
-#: account/templates/account/signin.html:17
+#: accounts/templates/account/signin.html:17
 msgid "Forgot your password?"
 msgstr "비밀번호 찾기"
 
-#: account/templates/account/signup.html:8 templates/header.html:34
+#: accounts/templates/account/signup.html:8 templates/header.html:34
 msgid "Sign up"
 msgstr "회원가입"
 
-#: baro_test/settings.py:127
+#: baro_test/settings.py:128
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:128
+#: baro_test/settings.py:129
 msgid "English"
 msgstr ""
 
