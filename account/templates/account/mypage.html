@@ -37,8 +37,10 @@
                         <div class="modal-body">
                             {% for subscriber in subscribe_list %}
                                 <a href="{% url 'account:detail' username=subscriber.user.username %}">
-                                    <strong>{{ subscriber.user.username }}</strong>
-                                </a>
+                                    <div style="width: 100%;">
+                                        <strong>{{ subscriber.user.username }}</strong>
+                                    </div>
+                                </a>{% if not forloop.last %}<hr>{% endif %}
                             {% endfor %}
                         </div>
                     </div>
@@ -54,8 +56,10 @@
                         <div class="modal-body">
                             {% for follower in follow_list %}
                                 <a href="{% url 'account:detail' username=follower.user.username %}">
-                                    <strong>{{ follower.user.username }}</strong>
-                                </a>
+                                    <div style="width: 100%;">
+                                        <strong>{{ follower.user.username }}</strong>
+                                    </div>
+                                </a>{% if not forloop.last %}<hr>{% endif %}
                             {% endfor %}
                         </div>
                     </div>
