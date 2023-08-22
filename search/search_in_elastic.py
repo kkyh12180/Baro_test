@@ -6,6 +6,11 @@ from search.models import Prompt
 from images.models import *
 import re
 
+# 검색창에 입력한 긍,부정 프롬프트를 elasticsearch에서 검색하는 쿼리문 생성
+# bool query의 must를 통해 and 연산을 수행하였다.
+# @tokenizequery : ,를 기준으로 tokenize를 진행했고 tokenize된 것을 match_phrase 구문안에 넣어서 쿼리를 완성했다.
+
+
 class QueryMake():
     def __init__(self):
         #정보저장
@@ -25,6 +30,7 @@ class QueryMake():
 
         self.index_name = "test_image_prompt"
 
+    #검색 쿼리를 위한 match_pharse문 생성
     def match_phrase(self,positive,phrase):
         actions = {
             "match_phrase": {
@@ -53,7 +59,7 @@ class QueryMake():
                 }
             }
         }
-        #특정 구문의 검색점수를 낮추기 위해서 사용
+        #boost를 통해 특정 구문의 검색점수를 낮추기 위해서 사용
         low_boost = {
             "match":{
                 'prompt':{
@@ -114,7 +120,8 @@ class QueryMake():
         
 
         return self.make_query(phrase_list, negative_phrase_list)
-
+    
+    #query의 결과중 image_id만을 찾아서 리스트에 넣고 리턴시킨다.
     def query_to_elastic(self,prompt,negative_prompt):
         fin_query=self.tokenizequery(prompt,negative_prompt)                
         try:
@@ -125,6 +132,7 @@ class QueryMake():
             data_list = ImageTable.objects.filter(image_id="I")
         return data_list
     
+    #elastic에 올라가 있는 document 삭제
     def delete_document(self, doc_id):
         index_name = self.index_name
         try:
