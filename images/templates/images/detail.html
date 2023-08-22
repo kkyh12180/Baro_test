@@ -187,6 +187,7 @@
                                 {% endif %}
                             </a>
                         </div>
+                        {% if user.is_adult %}
                         &nbsp;&nbsp;&nbsp;
                         <div style="text-align: center">
                             <a href="{% url 'images:adult' %}?image_post_pk={{target_post.pk}}">
@@ -197,6 +198,7 @@
                                 {% endif %}
                             </a>
                         </div>
+                        {% endif %}
                     </div>
                 {% endif %}
             <div class="comment_container">
