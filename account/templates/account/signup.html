@@ -5,7 +5,7 @@
 
 <div class="container col-6" style="text-align: center; margin: 2rem auto;">
     <div class="mb-4">
-        <h4>회원가입</h4>
+        <h4>{{_('Sign up')}}</h4>
     </div>
     <form action="{% url 'account:signup' %}" method="post">
         {% csrf_token %}

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-10 06:48+0000\n"
+"POT-Creation-Date: 2023-08-22 01:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: account/templates/account/edit_password.html:14
-#: account/templates/account/mypage.html:146
+#: account/templates/account/mypage.html:155
+#: account/templates/account/password_reset_confirm.html:21
 #: channel/templates/channel/create.html:11
 #: channel/templates/channel/update.html:22
 #: comments/templates/comments/create.html:10
@@ -28,7 +29,7 @@ msgstr ""
 #: projects/templates/projects/create.html:11
 #: projects/templates/projects/delete.html:10
 msgid "Submit"
-msgstr ""
+msgstr "Submit"
 
 #: account/templates/account/mypage.html:23
 #: account/templates/account/mypage.html:34
@@ -45,7 +46,7 @@ msgid "Change profile"
 msgstr ""
 
 #: account/templates/account/mypage.html:69
-#: account/templates/account/mypage.html:137
+#: account/templates/account/mypage.html:146
 msgid "Delete account"
 msgstr ""
 
@@ -82,12 +83,59 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: account/templates/account/mypage.html:116
+#: account/templates/account/mypage.html:117
+#: account/templates/account/mypage.html:124
 msgid "View all"
 msgstr ""
 
-#: account/templates/account/mypage.html:141
+#: account/templates/account/mypage.html:150
 msgid "Are you sure you want to leave?"
+msgstr ""
+
+#: account/templates/account/password_reset.html:8
+msgid "Write your e-mail"
+msgstr ""
+
+#: account/templates/account/password_reset.html:13
+#: images/templates/images/detail.html:95
+msgid "Next"
+msgstr ""
+
+#: account/templates/account/password_reset_confirm.html:8
+msgid "비밀번호 변경"
+msgstr "Change password"
+
+#: account/templates/account/password_reset_confirm.html:14
+msgid "비밀번호"
+msgstr "password"
+
+#: account/templates/account/password_reset_confirm.html:18
+msgid "비밀번호 확인"
+msgstr "Write your password again."
+
+#: account/templates/account/password_reset_confirm.html:24
+msgid "링크가 유효하지 않습니다."
+msgstr "Invalid link."
+
+#: account/templates/account/password_reset_done.html:7
+msgid "E-mail sent."
+msgstr ""
+
+#: account/templates/account/password_reset_done.html:9
+msgid "처음으로"
+msgstr "To main"
+
+#: account/templates/account/signin.html:7
+#: comments/templates/comments/create.html:13 templates/header.html:31
+msgid "Sign in"
+msgstr ""
+
+#: account/templates/account/signin.html:17
+msgid "Forgot your password?"
+msgstr ""
+
+#: account/templates/account/signup.html:8 templates/header.html:34
+msgid "Sign up"
 msgstr ""
 
 #: baro_test/settings.py:127
@@ -99,7 +147,7 @@ msgid "English"
 msgstr ""
 
 #: channel/templates/channel/create.html:7 posts/templates/posts/create.html:17
-#: posts/templates/posts/list.html:38
+#: posts/templates/posts/list.html:39
 msgid "New Post"
 msgstr ""
 
@@ -107,17 +155,16 @@ msgstr ""
 #: channel/templates/channel/detail.html:67
 #: comments/templates/comments/detail.html:21
 #: comments/templates/comments/detail.html:55
-#: images/templates/images/detail.html:160
-#: images/templates/images/detail.html:201 posts/templates/posts/detail.html:39
+#: images/templates/images/detail.html:121
+#: images/templates/images/detail.html:162 posts/templates/posts/detail.html:39
 #: posts/templates/posts/detail.html:78
 msgid "좋아요"
 msgstr "Like"
 
 #: channel/templates/channel/detail.html:45
 #: channel/templates/channel/update.html:17
-#: images/templates/images/detail.html:62
-#: images/templates/images/detail.html:102
-#: images/templates/images/detail.html:166
+#: images/templates/images/detail.html:64
+#: images/templates/images/detail.html:127
 #: images/templates/images/update.html:9
 #: posts/templates/posts/announce_update.html:17
 #: posts/templates/posts/detail.html:49 posts/templates/posts/detail.html:57
@@ -130,9 +177,9 @@ msgstr ""
 #: comments/templates/comments/detail.html:31
 #: comments/templates/comments/detail.html:66
 #: comments/templates/comments/detail.html:75
-#: images/templates/images/detail.html:171
-#: images/templates/images/detail.html:258
-#: images/templates/images/detail.html:267 posts/templates/posts/detail.html:69
+#: images/templates/images/detail.html:132
+#: images/templates/images/detail.html:219
+#: images/templates/images/detail.html:228 posts/templates/posts/detail.html:69
 #: posts/templates/posts/detail.html:119
 #: projects/templates/projects/list.html:24
 #: projects/templates/projects/list.html:53
@@ -142,22 +189,18 @@ msgstr ""
 
 #: channel/templates/channel/detail.html:77
 #: comments/templates/comments/detail.html:44
-#: images/templates/images/detail.html:211 posts/templates/posts/detail.html:88
+#: images/templates/images/detail.html:172 posts/templates/posts/detail.html:88
 msgid "좋아요 해제"
 msgstr "Unlike"
 
 #: channel/templates/channel/detail.html:105
-#: images/templates/images/detail.html:262
+#: images/templates/images/detail.html:223
 #: posts/templates/posts/detail.html:114
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
 
-#: channel/templates/channel/list.html:23 posts/templates/posts/list.html:31
+#: channel/templates/channel/list.html:23 posts/templates/posts/list.html:32
 msgid "No Post Yet."
-msgstr ""
-
-#: comments/templates/comments/create.html:13 templates/header.html:31
-msgid "Sign in"
 msgstr ""
 
 #: comments/templates/comments/detail.html:70
@@ -169,35 +212,31 @@ msgstr "Are you sure you want to delete it?"
 msgid "Upload"
 msgstr ""
 
-#: images/templates/images/detail.html:121
+#: images/templates/images/detail.html:83
 msgid "Previous"
 msgstr ""
 
-#: images/templates/images/detail.html:133
-msgid "Next"
-msgstr ""
-
-#: images/templates/images/detail.html:180 templates/header.html:38
+#: images/templates/images/detail.html:141 templates/header.html:38
 msgid "Bookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:189
+#: images/templates/images/detail.html:150
 msgid "Unbookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:224
+#: images/templates/images/detail.html:185
 msgid "구독자 전용 해제"
 msgstr "For all memeber"
 
-#: images/templates/images/detail.html:226
+#: images/templates/images/detail.html:187
 msgid "구독자 전용 설정"
 msgstr "For subscriber"
 
-#: images/templates/images/detail.html:234
+#: images/templates/images/detail.html:195
 msgid "성인 전용 해제"
 msgstr "For all age"
 
-#: images/templates/images/detail.html:236
+#: images/templates/images/detail.html:197
 msgid "성인 전용 설정"
 msgstr "For adult"
 
@@ -231,6 +270,11 @@ msgstr ""
 msgid "삭제할 게시판을 선택해주세요."
 msgstr "Please select the bulletin board you want to delete."
 
+#: search/templates/search/chat.html:17 search/templates/search/main.html:23
+#: search/templates/search/result.html:41
+msgid "Search"
+msgstr ""
+
 #: search/templates/search/log.html:4
 msgid "Delete all"
 msgstr ""
@@ -239,11 +283,7 @@ msgstr ""
 msgid "No Search yet!"
 msgstr ""
 
-#: search/templates/search/main.html:23 search/templates/search/result.html:41
-msgid "Search"
-msgstr ""
-
-#: search/templates/search/result.html:58
+#: search/templates/search/result.html:60
 #: templates/snippets/images_fragment.html:13
 msgid "No Image Post Yet."
 msgstr ""
@@ -259,10 +299,6 @@ msgstr "Partnership"
 #: templates/footer.html:10
 msgid "서비스 소개"
 msgstr "Service"
-
-#: templates/header.html:34
-msgid "Sign up"
-msgstr ""
 
 #: templates/header.html:41
 msgid "Following"
