@@ -112,21 +112,12 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-images" role="tabpanel" aria-labelledby="nav-images-tab">
-                {% if target_user == user or user.is_adult %}
                 {% include 'snippets/images_fragment.html' with  image_post_list=object_list %}
                 <div class="view-all-button">
                     <a href="{% url 'account:image' username=target_user.username%}">
                         <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('View all')}}</btn>
                     </a>
                 </div>
-                {% else %}
-                {% include 'snippets/images_fragment.html' with  image_post_list=not_adult_list %}
-                <div class="view-all-button">
-                    <a href="{% url 'account:image' username=target_user.username%}">
-                        <btn class="btn btn-outline-dark rounded-pill col-3 mt-3" style="font-family: 'GmarketSansMedium';">{{_('View all')}}</btn>
-                    </a>
-                </div>
-                {% endif %}
             </div>
             <div class="tab-pane fade" id="nav-posts" role="tabpanel" aria-labelledby="nav-posts-tab">
                 {% if subscription or target_user == user%}

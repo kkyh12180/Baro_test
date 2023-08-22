@@ -1,20 +1,12 @@
-from typing import Any, Optional
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, RedirectView, ListView
-from django.views.generic.list import MultipleObjectMixin
 from django.views.generic.edit import FormMixin
-from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from accounts.decorators import account_ownership_required
 from django.db import connection
 from django.shortcuts import get_object_or_404
-from django.utils import translation
 from django.contrib.auth import views as auth_views
-import django.contrib.auth.forms as auth_forms
 
 import string
 import random
@@ -77,29 +69,45 @@ class AccountDetailView(DetailView, FormMixin) :
 
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
+        
+        user=self.request.user
         uploader=self.object
 
+        if user.pk == None:
+            user_adult=False
+        else :
+            user_adult=user.is_adult
+        
+        #uploader의 follow, subscribe 리스트 전송
         subscribe_list = uploader.subscriber.all()
         follow_list = uploader.follower.all()
-        user=self.request.user
+        
+        context["follow_list"]=follow_list
+        context["subscribe_list"]=subscribe_list
 
+        #user와 uploader의 구독, 팔로우 관계 전송
         if user.is_authenticated:
             subscription=subscribe_list.filter(user=user)
             following=follow_list.filter(user=user)
         else:
             subscription=None
             following=None
-        
-        context["follow_list"]=follow_list
-        context["subscribe_list"]=subscribe_list
 
         context["subscription"]=subscription
         context["following"]=following
 
-        user_image_post_list=ImagePost.objects.filter(user=uploader,subscribe_only=False).order_by('-post_time')
-        context["object_list"]=user_image_post_list[:15]
-        not_adult_list = user_image_post_list.filter(adult=False)
-        context["not_adult_list"]=not_adult_list[:15]
+        #user가 볼 이미지 데이터 전송
+        object_list=ImagePost.objects.filter(user=uploader).order_by('-post_time')
+        if user == uploader or (subscription and user_adult):
+            context["object_list"]=object_list[:15]
+        else:
+            if not subscription :
+                object_list=object_list.filter(subscribe_only=False).order_by('-post_time')
+            if not user_adult :
+                object_list=object_list.filter(adult=False).order_by('-post_time')
+            context["object_list"]=object_list[:15]
+        
+        #user가 볼 post 데이터 전송
         post_list=ChannelPost.objects.filter(user=uploader).order_by('-post_time')
         context["post_list"]=post_list
         not_subscribe_post_list = post_list.filter(subscribe_only=False)
