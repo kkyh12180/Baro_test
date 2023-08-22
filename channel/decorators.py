@@ -10,6 +10,7 @@ def channel_ownership_required(func):
         return func(request, *args, **kwargs)
     return decorated
 
+#채널을 링크로 접속시 구독자 인지 여부 확인
 def channel_get_required(func):
     def decorated(request, *args, **kwargs):
         image_post = ChannelPost.objects.get(pk=kwargs['pk'])

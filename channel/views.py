@@ -1,18 +1,19 @@
-from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView, RedirectView
+from django.urls import reverse
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, RedirectView
 from django.views.generic.edit import FormMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
-from channel.forms import *
-from channel.models import *
 from channel.decorators import *
+from channel.models import *
+from channel.forms import *
 from comments.forms import CommentCreationForm
 
 import string
 import random
 
+#채널에 글을 쓰기 위해 로그인은 필수
 @method_decorator(login_required,'get')
 @method_decorator(login_required,'post')
 class ChannelCreateView(CreateView):
@@ -24,6 +25,7 @@ class ChannelCreateView(CreateView):
         temp_post=form.save(commit=False)
         temp_post.user = self.request.user
 
+        #Channel_Post_ID 생성
         cid = ""
         while (True) :
             letters_set = string.ascii_letters
@@ -44,6 +46,7 @@ class ChannelCreateView(CreateView):
     def get_success_url(self):
         return reverse('channel:detail',kwargs={'pk':self.object.pk})
 
+#채널 detail에서 댓글 폼이 있어 댓글도 작성 가능
 @method_decorator(channel_get_required, 'get')
 class ChannelDetailView(DetailView, FormMixin):
     model = ChannelPost
@@ -59,7 +62,6 @@ class ChannelDetailView(DetailView, FormMixin):
         if user.is_authenticated :
             likes = ChannelPostLike.objects.filter(user=user, post=post)
             context['likes'] = likes
-            # print(likes)
         return context
 
 @method_decorator(channel_ownership_required,'get')
@@ -78,7 +80,6 @@ class ChannelUpdateView(UpdateView):
 class ChannelDeleteView(DeleteView):
     model = ChannelPost
     context_object_name = 'target_post'
-    # success_url = reverse_lazy('channel:list')
     template_name = 'channel/detail.html'
 
     def get_success_url(self) :
@@ -94,19 +95,14 @@ class ChannelLikeView(RedirectView) :
         user = self.request.user
         like = ChannelPostLike.objects.filter(user=user, post=post)
 
+        #좋아요가 눌러져있으면 해제 후 좋아요 수 감소, 아니면 반대로
         if like.exists() :
             post.like_number -= 1
             post.save()
             like.delete()
         else :
+            ChannelPostLike(user=user, post=post).save()
             post.like_number += 1
             post.save()
-            ChannelPostLike(user=user, post=post).save()
 
         return super(ChannelLikeView, self).get(request, *args, **kwargs)
-
-def clear(request):
-    posts=ChannelPost.objects.all()
-    for post in posts:
-        post.delete()
-    return reverse('post:list')

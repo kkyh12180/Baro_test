@@ -407,9 +407,9 @@ class ImagePostLikeView(RedirectView) :
             image_post.save()
             like.delete()
         else :
+            LikeImagePost(user=user, image_post=image_post).save()
             image_post.like_number += 1
             image_post.save()
-            LikeImagePost(user=user, image_post=image_post).save()
 
         return super(ImagePostLikeView, self).get(request, *args, **kwargs)
 

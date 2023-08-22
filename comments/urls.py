@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
 from comments.views import *
 
@@ -9,5 +8,4 @@ urlpatterns = [
     path('create/<str:pk>',CommentCreateView.as_view(),name='create'),
     path('delete/<str:pk>',CommentDeleteView.as_view(),name='delete'),
     path('image_comment_like/', CommentImagePostLikeView.as_view(), name='image_comment_like'),
-
 ]
