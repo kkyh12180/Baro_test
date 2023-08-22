@@ -431,8 +431,6 @@ class ImagePostBookmarkView(RedirectView) :
         return super(ImagePostBookmarkView, self).get(request, *args, **kwargs)
 
 #구독자 전용으로 수정
-@method_decorator(image_post_ownership_required, 'get')
-@method_decorator(image_post_ownership_required, 'post')
 class ImagePostSubscribeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
@@ -445,8 +443,6 @@ class ImagePostSubscribeView(RedirectView) :
         return super(ImagePostSubscribeView, self).get(request, *args, **kwargs)
 
 #성인 전용으로 수정
-@method_decorator(image_post_ownership_required, 'get')
-@method_decorator(image_post_ownership_required, 'post')
 class ImagePostAdultView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
