@@ -132,7 +132,7 @@ class PostDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('projects:list',kwargs={'pk':'A_Announce'})
 
-#게시글에 좋아요를 할  수 있다. 이 좋아요 상태이면 해제가 된다.
+#게시글에 좋아요를 할  수 있다. 이미 좋아요 상태이면 해제가 된다.
 class PostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('post:detail', kwargs={'pk': self.request.GET.get('post_pk')})

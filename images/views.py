@@ -168,6 +168,7 @@ class ImagePostCreateView(CreateView) :
     def get_success_url(self) : 
         return reverse('images:detail', kwargs={'pk': self.object.pk})
 
+#가장 최신에 작성된 글 중에서 구독자 전용과 성인 전용을 제외하고 시간순으로 보여준다.
 class ImagePostListView(ListView) :
     model = ImagePost
     context_object_name = 'image_post_list'
@@ -177,6 +178,7 @@ class ImagePostListView(ListView) :
     def get_queryset(self):
         return ImagePost.objects.filter(subscribe_only=False,adult=False).order_by('-post_time')
 
+#이미지를 url로 접근해도 권한을 확인
 @method_decorator(image_get_required, 'get')
 class ImagePostDetailView(DetailView, FormMixin) :
     model = ImagePost
@@ -188,7 +190,7 @@ class ImagePostDetailView(DetailView, FormMixin) :
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
 
-        # 좋아요 정보 보내기
+        # 좋아요 및 북마크 정보 보내기
         image_post = self.object
         user = self.request.user
 
@@ -200,6 +202,7 @@ class ImagePostDetailView(DetailView, FormMixin) :
 
         return context
 
+#이미지 글 작성자가 삭제 가능
 @method_decorator(image_post_ownership_required, 'get')
 @method_decorator(image_post_ownership_required, 'post')
 class ImagePostDeleteView(DeleteView) :
@@ -208,11 +211,13 @@ class ImagePostDeleteView(DeleteView) :
     template_name = 'images/detail.html'
 
     def post(self, request, *args, **kwargs):
+        qu=QueryMake()
         image_post_id = self.kwargs['pk']
         image_post = ImagePost.objects.get(pk=image_post_id)
         image_list = ImageTable.objects.filter(image_post=image_post)
-        qu=QueryMake()
+        
         for image in image_list:
+            #이미지를 서버에서 삭제
             path = image.image_file.split('/')[-1]
             path_to_delete="/web/ai_image/image/"+path
             image_id = path.split('.')[0]
@@ -221,12 +226,16 @@ class ImagePostDeleteView(DeleteView) :
                 print(f"Deleted: {path_to_delete}")
             except Exception as e:
                 print(f"An error occurred while deleting: {e}")
+
+            #이미지를 elastic 데이터에서 삭제
             qu.delete_document(image_id)
+        
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self) :
         return reverse_lazy('images:list')
 
+#수정은 삭제와 생성의 방법으로 진행
 @method_decorator(image_post_ownership_required, 'get')
 @method_decorator(image_post_ownership_required, 'post')
 class ImagePostUpdateView(UpdateView) :
@@ -237,11 +246,13 @@ class ImagePostUpdateView(UpdateView) :
 
     def form_valid(self, form) :
         temp_post = form.save(commit=False)
+        qu = QueryMake()
 
         # 기존 이미지 삭제 처리 필요
         image_list = ImageTable.objects.filter(image_post=temp_post)
-        qu = QueryMake()
+        
         for image in image_list:
+            #이미지를 서버에서 삭제
             path = image.image_file.split('/')[-1]
             path_to_delete="/web/ai_image/image/"+path
             image_id = path.split('.')[0]
@@ -250,8 +261,12 @@ class ImagePostUpdateView(UpdateView) :
                 print(f"Deleted: {path_to_delete}")
             except Exception as e:
                 print(f"An error occurred while deleting: {e}")
-            image.delete()
+            
+            #이미지를 elastic 데이터에서 삭제
             qu.delete_document(image_id)
+
+            #table 속 이미지 삭제
+            image.delete()
         
         # 이미지 처리
         uploaded_images = self.request.FILES.getlist('images')
@@ -363,7 +378,8 @@ class ImagePostUpdateView(UpdateView) :
 
     def get_success_url(self) :
         return reverse('images:detail', kwargs={'pk': self.object.pk})
-    
+
+#게시글에 좋아요를 할  수 있다. 이미 좋아요 상태이면 해제가 된다.
 class ImagePostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
@@ -384,6 +400,7 @@ class ImagePostLikeView(RedirectView) :
 
         return super(ImagePostLikeView, self).get(request, *args, **kwargs)
 
+#게시글에 북마크를 할  수 있다. 이미 북마크 상태이면 해제가 된다.
 class ImagePostBookmarkView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
@@ -400,6 +417,9 @@ class ImagePostBookmarkView(RedirectView) :
 
         return super(ImagePostBookmarkView, self).get(request, *args, **kwargs)
 
+#구독자 전용으로 수정
+@method_decorator(image_post_ownership_required, 'get')
+@method_decorator(image_post_ownership_required, 'post')
 class ImagePostSubscribeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
@@ -411,6 +431,9 @@ class ImagePostSubscribeView(RedirectView) :
 
         return super(ImagePostSubscribeView, self).get(request, *args, **kwargs)
 
+#성인 전용으로 수정
+@method_decorator(image_post_ownership_required, 'get')
+@method_decorator(image_post_ownership_required, 'post')
 class ImagePostAdultView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
@@ -422,6 +445,7 @@ class ImagePostAdultView(RedirectView) :
 
         return super(ImagePostAdultView, self).get(request, *args, **kwargs)
 
+#exif를 개인이 수정 가능
 class InputExifInfo(FormView) :
     template_name = 'images/exif_info.html'
     form_class = ExifForm
