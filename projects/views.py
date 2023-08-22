@@ -1,6 +1,5 @@
-from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, RedirectView, DeleteView, ListView
-from django.views.generic.list import MultipleObjectMixin
+from django.urls import reverse
+from django.views.generic import CreateView, DeleteView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -9,7 +8,6 @@ from posts.models import Post
 from projects.decorators import *
 from projects.forms import *
 from projects.models import *
-from follows.models import SubscribeUploader
 
 import string
 import random

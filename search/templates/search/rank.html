@@ -10,6 +10,7 @@
     <table class="table">
         <thead class="table-dark">
             <tr>
+                <th class="num">Rank</th>
                 <th class="name" scope="col">prompt</th>
                 <th class="negative" scope="col">negative</th>
                 <th class="value" scope="col">value</th>
@@ -18,6 +19,7 @@
         <tbody>
             {% for rank in prompt_list %}
             <tr>
+                <td>{{forloop.counter}}</td>
                 <td class="name">{{rank.0}}</td>
                 <td class="negative">Positive</td>
                 <td class="value">{{rank.1}}</td>
@@ -25,6 +27,7 @@
             {% endfor %}
             {% for rank in negative_list %}
             <tr>
+                <td>{{forloop.counter}}</td>
                 <td class="name">{{rank.0}}</td>
                 <td class="negative">Negative</td>
                 <td class="value">{{rank.1}}</td>

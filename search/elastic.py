@@ -1,10 +1,7 @@
 from elasticsearch import Elasticsearch
-from elasticsearch.helpers import bulk
 
 from search.pocket import pocket
-from search.models import Prompt
 from images.models import *
-import re
 
 class QueryRank():
     def __init__(self):
@@ -24,13 +21,6 @@ class QueryRank():
         )
 
         self.index_name = "test_image_prompt"
-
-    def is_float(self,str):
-        try:
-            float(str)
-            return True
-        except ValueError:
-            return False
     
     # Elasticsearch에 bulk로 데이터 색인
     def index_data_to_elasticsearch(self,prompt):
@@ -46,7 +36,7 @@ class QueryRank():
                 {"_doc": {"order": "desc"}}
             ]
         }
-
+        #최근 1000개의 query를 가져오기
         search_result = self.es.search(index=self.index_name, body=search_body)
 
         # 검색된 문서들의 _id 리스트 추출
@@ -93,18 +83,24 @@ class QueryRank():
         # frequency 값을 기준으로 딕셔너리를 빈도 값이 높은 순으로 정렬합니다.
         sorted_frequency = sorted(term_freq_dic.items(), key=lambda x: x[1], reverse=True)
         
+        #순위에서 제거하기 위한 키워드 저장
         no_dic = ['detailed','and','best','a','the','of','in','detail','masterpiece','with','at','up','by','very','perfect','to','is','on','quality','realistic',]
         data_list = []
-        # 상위 100개의 아이템을 출력합니다.
+        # 상위 20개의 아이템을 추출합니다.
         n = 20
         count = 0
         i = 0
-
         while count < n and i < len(sorted_frequency):
             sf = sorted_frequency[i]
-            if sf[0] in no_dic or self.is_float(sf[0]):
-                i += 1
+            #실수 형식이거나 키워드가 no_dic에 저장되어 있을 경우 제외
+            try:
+                float(sf[0])
+                i+=1
                 continue
+            except:
+                if sf[0] in no_dic:
+                    i += 1
+                    continue
             
             data_list.append(sf)
             count += 1
