@@ -10,7 +10,7 @@
         <form action="" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+            <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3" value={{_('Submit')}}>
         </form>
     </div>
     <a href="{% url 'account:password_reset' %}">
