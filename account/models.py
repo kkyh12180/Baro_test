@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=16, unique=True)
     password = models.CharField(max_length=200)
     profile_image = models.CharField(max_length=512, null=True)
-    e_mail = models.CharField(max_length=255, unique=True)
+    e_mail = models.EmailField(max_length=255, unique=True)
     verified = models.BooleanField(blank=True, null=True, default=False)
     birthday = models.DateField(editable=True, null=True)
     is_adult = is_admin = models.BooleanField(default=False)
@@ -68,3 +68,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 'user'
+    
+    @classmethod
+    def get_email_field_name(cls):
+        try:
+            return cls.EMAIL_FIELD
+        except AttributeError:
+            return "e_mail"
