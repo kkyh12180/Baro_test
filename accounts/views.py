@@ -9,7 +9,7 @@ from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from account.decorators import account_ownership_required
+from accounts.decorators import account_ownership_required
 from django.db import connection
 from django.shortcuts import get_object_or_404
 from django.utils import translation
@@ -21,8 +21,8 @@ import random
 
 from django.utils.translation import gettext as _
 
-from account.forms import *
-from account.models import User
+from accounts.forms import *
+from accounts.models import User
 from follows.models import *
 from comments.forms import CommentCreationForm
 from channel.models import ChannelPost
@@ -206,3 +206,4 @@ class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView) :
 class CustomPasswordResetConfirmView(auth_views.PasswordResetConfirmView) :
     template_name = 'account/password_reset_confirm.html'
     success_url = reverse_lazy('account:signin')
+

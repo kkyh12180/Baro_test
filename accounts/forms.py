@@ -1,6 +1,6 @@
 from typing import Any, Iterator
 from django import forms
-from account.models import User
+from accounts.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.files.storage import default_storage
@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 import django.contrib.auth.forms as auth_forms
 from django.core.exceptions import ValidationError
-from account.models import User
+from accounts.models import User
 
 import os
 from datetime import date

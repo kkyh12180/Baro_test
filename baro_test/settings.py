@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap5',
-    'account',
+    
+    'accounts',
     'images',
     'comments',
     'posts',
@@ -160,7 +161,7 @@ MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 LOGOUT_REDIRECT_URL= reverse_lazy('search:home')
 LOGIN_REDIRECT_URL= reverse_lazy('search:home')

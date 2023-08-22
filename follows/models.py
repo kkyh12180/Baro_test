@@ -1,5 +1,5 @@
 from django.db import models
-from account.models import User
+from accounts.models import User
 from images.models import ImagePost
 from django.utils import timezone
 
