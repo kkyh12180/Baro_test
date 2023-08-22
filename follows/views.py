@@ -30,9 +30,16 @@ class SubscriptionListView(ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        writes=SubscribeUploader.objects.filter(user=self.request.user).values_list('uploader')
+        user = self.request.user
+        try:
+            user_adult = user.is_adult
+        except:
+            user_adult=False
+        writes=SubscribeUploader.objects.filter(user=user).values_list('uploader')
         subscribed_posts = ImagePost.objects.filter(user__in=writes)
-        return subscribed_posts.filter(subscribe_only=True).order_by('-post_time')
+        if user_adult:
+            return subscribed_posts.filter(subscribe_only=True).order_by('-post_time')
+        return subscribed_posts.filter(subscribe_only=True, adult=False).order_by('-post_time')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,9 +69,17 @@ class FollowingListView(ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        writes = FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
+        user = self.request.user
+        try:
+            user_adult = user.is_adult
+        except:
+            user_adult=False
+        writes = FollowUploader.objects.filter(user=user).values_list('uploader')
         subscribed_posts = ImagePost.objects.filter(user__in=writes)
-        return subscribed_posts.filter(subscribe_only=False).order_by('-post_time')
+        if user_adult:
+            return subscribed_posts.filter(subscribe_only=False).order_by('-post_time')
+        return subscribed_posts.filter(subscribe_only=False, adult=False).order_by('-post_time')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         uploader_ids = FollowUploader.objects.filter(user=self.request.user).values_list('uploader')
@@ -78,8 +93,17 @@ class BookmarkedListView(ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        bookmarked_posts = BookmarkImagePost.objects.filter(user=self.request.user).values_list('image_post').order_by('-bookmark_time')
-        bookmark_list=[]
-        for bookmarked_post in bookmarked_posts:
-            bookmark_list.append(ImagePost.objects.get(pk=bookmarked_post[0]))
+        user = self.request.user
+        try:
+            user_adult = user.is_adult
+        except:
+            user_adult=False
+        #imagepost table 내에 adult랑 비교
+        
+        bookmarked_posts = BookmarkImagePost.objects.filter(user=user).order_by('-bookmark_time')
+        bookmarked_image_posts = [bookmark.image_post for bookmark in bookmarked_posts]
+        
+        bookmark_list = [
+            post for post in bookmarked_image_posts if post.adult == user_adult or not post.adult
+        ]
         return bookmark_list

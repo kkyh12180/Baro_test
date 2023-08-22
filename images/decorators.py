@@ -16,13 +16,20 @@ def image_post_ownership_required(func) :
 def image_get_required(func):
     def decorated(request, *args, **kwargs):
         image_post = ImagePost.objects.get(pk=kwargs['pk'])
-        user = request.user
         uploader = image_post.user
+        user = request.user
+        try:
+            user_adult=user.is_adult
+        except:
+            user_adult=False
+        
+        if user==uploader:
+            return func(request,*args, **kwargs)
         if image_post.subscribe_only :
             if not SubscribeUploader.objects.filter(user=user,uploader=uploader):
                 return HttpResponseForbidden()
         if image_post.adult:
-            if not user.is_adult :
+            if not user_adult :
                 return HttpResponseForbidden()
         return func(request,*args, **kwargs)
     
