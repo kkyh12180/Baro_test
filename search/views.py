@@ -196,6 +196,6 @@ def make_ai(request):
 #prompt 전체를 비교하여 가장 빈도수가 높은 데이터를 보여줌
 def rank(request):
     rank = QueryRank()
-    prompt_list = rank.index_data_to_elasticsearch("prompt")
-    negative_prompt_list = rank.index_data_to_elasticsearch("negative_prompt")
+    prompt_list = rank.trend_data("prompt")
+    negative_prompt_list = rank.trend_data("negative_prompt")
     return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})
