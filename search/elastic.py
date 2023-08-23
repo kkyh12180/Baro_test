@@ -261,3 +261,31 @@ class Query():
         sorted_frequency = sorted(temp_dict.items(), key=lambda x: x[1], reverse=True)
 
         return sorted_frequency
+    
+    #태그로 되어있는 프롬프트를 클릭하면 이 프롬프트를 가지는 리스트를 반환
+    def search_to_tag(self, prompt, positive):
+        search_body = {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "match_phrase":{
+                                positive : {"query": prompt}
+                            }
+                        }
+                    ]
+                }              
+            
+            },
+        
+            "size": 1000,
+
+            "sort": [
+                {"_doc": {"order": "desc"}}
+            ]
+        }
+        search_result = self.es.search(index= self.index_name, body=search_body)
+
+        result_ids = [hit["_id"] for hit in search_result["hits"]["hits"]]
+
+        return result_ids
