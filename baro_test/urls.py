@@ -34,4 +34,5 @@ urlpatterns += i18n_patterns(
     path('channel/',include('channel.urls')),
     path('follow/',include('follows.urls')),
     path('project/',include('projects.urls')),
+    path('prompt/',include('prompts.urls')),
 )

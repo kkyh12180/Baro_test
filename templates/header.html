@@ -25,7 +25,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'projects:list' pk='A_Announce' %}">{{_('Posts')}}</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'prompts:list' %}">{{_('Prompt')}}</a>
+                </li>
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account:signin' %}?next={{ request.path }}">{{_('Sign in')}}</a>
