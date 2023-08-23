@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-22 05:47+0000\n"
+"POT-Creation-Date: 2023-08-23 06:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: accounts/templates/account/edit_mypage.html:13
 #: accounts/templates/account/edit_password.html:14
-#: accounts/templates/account/mypage.html:159
+#: accounts/templates/account/mypage.html:150
 #: accounts/templates/account/password_reset_confirm.html:21
 #: accounts/templates/account/signin.html:13
 #: accounts/templates/account/signup.html:13
@@ -65,7 +65,7 @@ msgid "Change profile"
 msgstr "개인정보 수정"
 
 #: accounts/templates/account/mypage.html:73
-#: accounts/templates/account/mypage.html:150
+#: accounts/templates/account/mypage.html:141
 msgid "Delete account"
 msgstr "탈퇴"
 
@@ -78,7 +78,7 @@ msgid "New Channel Post"
 msgstr "채널 게시글 작성"
 
 #: accounts/templates/account/mypage.html:86
-#: channel/templates/channel/detail.html:32 templates/header.html:44
+#: channel/templates/channel/detail.html:32 templates/header.html:49
 msgid "Subscribe"
 msgstr "구독"
 
@@ -102,12 +102,11 @@ msgstr "이미지"
 msgid "Posts"
 msgstr "게시판"
 
-#: accounts/templates/account/mypage.html:121
-#: accounts/templates/account/mypage.html:128
+#: accounts/templates/account/mypage.html:120
 msgid "View all"
 msgstr "전체 보기"
 
-#: accounts/templates/account/mypage.html:154
+#: accounts/templates/account/mypage.html:145
 msgid "Are you sure you want to leave?"
 msgstr "정말 탈퇴하시겠습니까?"
 
@@ -141,7 +140,7 @@ msgid "처음으로"
 msgstr ""
 
 #: accounts/templates/account/signin.html:7
-#: comments/templates/comments/create.html:13 templates/header.html:31
+#: comments/templates/comments/create.html:13 templates/header.html:33
 msgid "Sign in"
 msgstr "로그인"
 
@@ -149,15 +148,15 @@ msgstr "로그인"
 msgid "Forgot your password?"
 msgstr "비밀번호 찾기"
 
-#: accounts/templates/account/signup.html:8 templates/header.html:34
+#: accounts/templates/account/signup.html:8 templates/header.html:36
 msgid "Sign up"
 msgstr "회원가입"
 
-#: baro_test/settings.py:128
+#: baro_test/settings.py:143
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:129
+#: baro_test/settings.py:144
 msgid "English"
 msgstr ""
 
@@ -193,8 +192,8 @@ msgstr "수정"
 #: comments/templates/comments/detail.html:66
 #: comments/templates/comments/detail.html:75
 #: images/templates/images/detail.html:132
-#: images/templates/images/detail.html:219
-#: images/templates/images/detail.html:228 posts/templates/posts/detail.html:69
+#: images/templates/images/detail.html:221
+#: images/templates/images/detail.html:230 posts/templates/posts/detail.html:69
 #: posts/templates/posts/detail.html:119
 #: projects/templates/projects/list.html:24
 #: projects/templates/projects/list.html:53
@@ -209,7 +208,7 @@ msgid "좋아요 해제"
 msgstr "좋아요 해제"
 
 #: channel/templates/channel/detail.html:105
-#: images/templates/images/detail.html:223
+#: images/templates/images/detail.html:225
 #: posts/templates/posts/detail.html:114
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "게시글을 삭제하시겠습니까?"
@@ -231,11 +230,15 @@ msgstr "업로드"
 msgid "Previous"
 msgstr "이전"
 
-#: images/templates/images/detail.html:141 templates/header.html:38
+#: images/templates/images/detail.html:141
+#: prompts/templates/prompts/bookmark.html:57
+#: prompts/templates/prompts/list.html:40 templates/header.html:43
 msgid "Bookmark"
 msgstr "북마크"
 
 #: images/templates/images/detail.html:150
+#: prompts/templates/prompts/bookmark.html:53
+#: prompts/templates/prompts/list.html:36
 msgid "Unbookmark"
 msgstr "북마크 해제"
 
@@ -247,11 +250,11 @@ msgstr "구독자 전용 해제"
 msgid "구독자 전용 설정"
 msgstr "구독자 전용 설정"
 
-#: images/templates/images/detail.html:195
+#: images/templates/images/detail.html:196
 msgid "성인 전용 해제"
 msgstr "성인 전용 해제"
 
-#: images/templates/images/detail.html:197
+#: images/templates/images/detail.html:198
 msgid "성인 전용 설정"
 msgstr "성인 전용 설정"
 
@@ -285,6 +288,25 @@ msgstr "새 프로젝트"
 msgid "삭제할 게시판을 선택해주세요."
 msgstr "삭제할 게시판을 선택해주세요."
 
+#: prompts/templates/prompts/bookmark.html:27
+#: prompts/templates/prompts/list.html:12
+msgid "Positive"
+msgstr "긍정"
+
+#: prompts/templates/prompts/bookmark.html:30
+#: prompts/templates/prompts/list.html:15
+msgid "Negative"
+msgstr "부정"
+
+#: prompts/templates/prompts/bookmark.html:68
+#: prompts/templates/prompts/detail.html:44
+#: prompts/templates/prompts/list.html:51
+#: search/templates/search/result.html:60
+#: templates/snippets/card_prompt.html:23
+#: templates/snippets/images_fragment.html:13
+msgid "No Image Post Yet."
+msgstr "이미지 게시글이 없습니다."
+
 #: search/templates/search/chat.html:17 search/templates/search/main.html:23
 #: search/templates/search/result.html:41
 msgid "Search"
@@ -298,11 +320,6 @@ msgstr "검색 기록 전부 삭제"
 msgid "No Search yet!"
 msgstr "검색 기록이 없습니다."
 
-#: search/templates/search/result.html:60
-#: templates/snippets/images_fragment.html:13
-msgid "No Image Post Yet."
-msgstr "이미지 게시글이 없습니다."
-
 #: templates/footer.html:5
 msgid "공지사항"
 msgstr "공지사항"
@@ -315,14 +332,22 @@ msgstr "제휴문의"
 msgid "서비스 소개"
 msgstr "서비스 소개"
 
-#: templates/header.html:41
+#: templates/header.html:29
+msgid "Prompt"
+msgstr "프롬프트"
+
+#: templates/header.html:40
+msgid "Bookmarked_Prompt"
+msgstr "북마크 프롬프트"
+
+#: templates/header.html:46
 msgid "Following"
 msgstr "팔로우"
 
-#: templates/header.html:47
+#: templates/header.html:52
 msgid "My page"
 msgstr "마이페이지"
 
-#: templates/header.html:50
+#: templates/header.html:55
 msgid "Logout"
 msgstr "로그아웃"

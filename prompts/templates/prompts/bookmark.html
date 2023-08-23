@@ -3,25 +3,41 @@
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
 {% endblock %}
+<style>
+    .container div {
+        width: 250px;
+        height: auto;
+        border-radius: 1rem;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+    }
+</style>
 {% block content %}
 <div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a href={% url 'prompts:list' positive='positive' %}>
+            <a href={% url 'prompts:bookmarked' positive='positive' %}>
                 <button class="nav-link {% if positive == 'positive' %}active{% endif %}" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="{% if positive == 'positive' %}true{% else %}false{% endif %}">{{_('Positive')}}</button>
             </a>
-            <a href={% url 'prompts:list' positive='negative' %}>
+            <a href={% url 'prompts:bookmarked' positive='negative' %}>
                 <button class="nav-link {% if positive == 'negative' %}active{% endif %}" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="{% if positive == 'negative' %}true{% else %}false{% endif %}">{{_('Negative')}}</button>
             </a>
         </div>
     </nav>
 </div>
-{% if prompt_list %}
+{% if bookmarked_prompt %}
     <div class="container">
-        {% for prompt in prompt_list %}
+        {% for prompt in bookmarked_prompt %}
         <a href = "{% url 'prompts:detail' pk=prompt.pk %}">
             <img src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
+            {% comment %} 이미지 저장되면 삭제 예정 {% endcomment %}
             {% if prompt.profile_image %}
                 <img src="{{ prompt.profile_image }}" alt="">
             {% else %}
@@ -32,11 +48,11 @@
                 {{prompt.prompt|truncatechars:8}}
                 {% if user.is_authenticated %}
                     {% if prompt in bookmarked_prompt %}
-                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
+                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
                             <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
                         </a>
                     {% else %}
-                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
+                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
                             <btn class="btn btn-outline-danger rounded-pill">{{_('Bookmark')}}</btn>
                         </a>
                     {% endif %}
