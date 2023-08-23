@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import User
 from images.models import ImagePost
 from django.utils import timezone
+from search.models import Prompt
 
 # Create your models here.
 class BookmarkImagePost(models.Model):
@@ -36,13 +37,12 @@ class SubscribeUploader(models.Model):
     class Meta:
         db_table = 'subscribe_uploader'
 
-'''
 class BookmarkPrompt(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING)
-    prompt = models.ForeignKey('Prompt', models.DO_NOTHING, db_column='prompt')
+    user = models.ForeignKey(User, models.CASCADE, related_name='bookmark_prompt')
+    prompt = models.ForeignKey(Prompt, models.CASCADE, related_name='bookmark_prompt')
     is_positive = models.IntegerField()
+    bookmark_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         managed = False
         db_table = 'bookmark_prompt'
-'''

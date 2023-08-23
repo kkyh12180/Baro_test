@@ -28,7 +28,6 @@ PROFILE_URL = "https://vanecompany.synology.me/ai_image/user/"
 info = pocket()
 fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas_password, secure=False, cert_verify=False, dsm_version=7, debug=True, otp_code=None)
 
-
 class AccountCreateView(CreateView) :
     model = User
     
@@ -214,4 +213,3 @@ class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView) :
 class CustomPasswordResetConfirmView(auth_views.PasswordResetConfirmView) :
     template_name = 'account/password_reset_confirm.html'
     success_url = reverse_lazy('account:signin')
-
