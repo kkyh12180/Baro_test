@@ -16,7 +16,7 @@ from images.decorators import *
 from comments.forms import CommentCreationForm
 from follows.models import LikeImagePost, BookmarkImagePost
 from search.pocket import pocket
-from search.search_in_elastic import QueryMake
+from search.elastic import Query
 
 from synology_api import filestation
 
@@ -218,7 +218,7 @@ class ImagePostDeleteView(DeleteView) :
     template_name = 'images/detail.html'
 
     def post(self, request, *args, **kwargs):
-        qu=QueryMake()
+        qu=Query()
         image_post_id = self.kwargs['pk']
         image_post = ImagePost.objects.get(pk=image_post_id)
         image_list = ImageTable.objects.filter(image_post=image_post)
@@ -253,7 +253,7 @@ class ImagePostUpdateView(UpdateView) :
 
     def form_valid(self, form) :
         temp_post = form.save(commit=False)
-        qu = QueryMake()
+        qu = Query()
 
         # 기존 이미지 삭제 처리 필요
         image_list = ImageTable.objects.filter(image_post=temp_post)
