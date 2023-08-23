@@ -1,26 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/project/project_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
 {% endblock %}
 
 {% block content %}
 
-{% if prompt_list %}
-<div class="container">
-    {% for prompt in prompt_list %}
-    <a href = "{% url 'prompts:detail' pk=prompt.pk %}">
-        {% include 'snippets/card_prompt.html' with prompt=prompt %}
-    </a>
-    {% endfor %}
-</div>
-{% else %}
-<div style="text-align:center;">
-    <h1> no project yet!</h1>
-</div>
-{% endif %}
+{% include 'snippets/card_prompt.html' with prompt_list=prompt_list %}
 {% include 'snippets/pagination.html' with page_obj=page_obj %}
 
 {% endblock %}
-
