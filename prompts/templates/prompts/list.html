@@ -5,8 +5,51 @@
 {% endblock %}
 
 {% block content %}
+<div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a href={% url 'prompts:list' positive='positive' %}>
+                <button class="nav-link {% if positive == 'positive' %}active{% endif %}" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="{% if positive == 'positive' %}true{% else %}false{% endif %}">{{_('Positive')}}</button>
+            </a>
+            <a href={% url 'prompts:list' positive='negative' %}>
+                <button class="nav-link {% if positive == 'negative' %}active{% endif %}" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="{% if positive == 'negative' %}true{% else %}false{% endif %}">{{_('Negative')}}</button>
+            </a>
+        </div>
+    </nav>
+</div>
+{% if prompt_list %}
+    <div class="container">
+        {% for prompt in prompt_list %}
+        <a href = "{% url 'prompts:detail' pk=prompt.pk %}">
+            <img src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}.png" alt="">
+            {% if prompt.profile_image %}
+                <img src="{{ prompt.profile_image }}" alt="">
+            {% else %}
+                <img src="{% static 'images/no_profile.png'%}" alt="" >
+            {% endif %}
 
-{% include 'snippets/card_prompt.html' with prompt_list=prompt_list %}
-{% include 'snippets/pagination.html' with page_obj=page_obj %}
+            <h5 class="mt-2">
+                {{prompt.prompt|truncatechars:8}}
+                {% if user.is_authenticated %}
+                    {% if prompt in bookmarked_prompt %}
+                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
+                            <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
+                            <btn class="btn btn-outline-danger rounded-pill">{{_('Bookmark')}}</btn>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </h5>
+        </a>
+        {% endfor %}
+    </div>
+    <script src="{% static 'js/magicgrid.js' %}"></script>
+{% else %}
+    <div style="text-align: center;">
+        <h1>{{_('No Image Post Yet.')}}</h1>
+    </div>
+{% endif %}{% include 'snippets/pagination.html' with page_obj=page_obj %}
 
 {% endblock %}
