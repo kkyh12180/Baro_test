@@ -36,27 +36,60 @@ class PromptListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        #현재의 상태 가져오기
         positive = self.kwargs['positive']
-        print(positive)
+        context['positive']=positive
+        
         #자신이 최근에 북마크 한 데이터 가져오기
         bookmark_list = BookmarkPrompt.objects.filter(user=self.request.user,is_positive=(positive=='positive'))
         bookmarked_prompt = [bookmark.prompt for bookmark in bookmark_list]
-        context['bookmark_list']=bookmark_list
         context['bookmarked_prompt']=bookmarked_prompt
+
+        return context
+
+class BookmarkedPromptListView(ListView):
+    model=Prompt
+    context_object_name = "prompt_list"
+    template_name="prompts/bookmark.html"
+    paginate_by = 20
+
+    def get_queryset(self):
+        user = self.request.user
+
+        #현재의 상태 가져오기
+        positive = self.kwargs['positive']
+
+        #자신이 최근에 북마크 한 데이터 가져오기
+        bookmarked_posts = BookmarkPrompt.objects.filter(user=user,is_positive=(positive=='positive')).order_by('-bookmark_time')
+        bookmarked_prompt = [bookmark.prompt for bookmark in bookmarked_posts]
+        
+        return bookmarked_prompt
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        #현재의 상태 가져오기
+        positive = self.kwargs['positive']
         context['positive']=positive
+
         return context
 
 #프롬프트에 북마크를 할  수 있다. 이미 북마크 상태이면 해제가 된다.
 class PromptBookmarkView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
-        return reverse('prompts:list', kwargs={'positive':self.request.GET.get('positive')})
+        try:
+            self.request.GET.get('list')
+        except:
+            return reverse('prompts:list', kwargs={'positive':self.request.GET.get('positive')})
+        return reverse('prompts:bookmarked', kwargs={'positive':self.request.GET.get('positive')})
     
     def get(self, request, *args, **kwargs) :
         prompt = get_object_or_404(Prompt, pk=self.request.GET.get('prompts_pk'))
-        print(prompt)
-        positive = ( self.request.GET.get('positive') == 'positive')
-        print(positive)
         user = self.request.user
+        
+        #현재의 상태 가져오기
+        positive = ( self.request.GET.get('positive') == 'positive')
         bookmark = BookmarkPrompt.objects.filter(user=user, prompt=prompt, is_positive=positive)
 
         if bookmark.exists() :
