@@ -9,7 +9,7 @@ import random
 class UserManager(BaseUserManager) :
     use_in_migrations = True    
     
-    def create_user(self, username, password, e_mail, **extra_fields):
+    def create_user(self, username, password, email, **extra_fields):
         cursor = connection.cursor()
         uid = ""
         while (True) :
@@ -28,15 +28,15 @@ class UserManager(BaseUserManager) :
 
         user = self.model(user_id=uid,
                           username=username, 
-                          e_mail=self.normalize_email(e_mail), 
+                          email=self.normalize_email(email), 
                           **extra_fields)
         user.set_password(password)  # 비밀번호를 해싱하여 저장
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, username, password, e_mail, **extra_fields):
+    def create_superuser(self, username, password, email, **extra_fields):
         # 슈퍼유저 생성 로직 작성
-        user = self.create_user(username, password, e_mail=self.normalize_email(e_mail), **extra_fields)
+        user = self.create_user(username, password, email=self.normalize_email(email), **extra_fields)
         user.is_admin = True    
         user.is_superuser = True
         user.is_staff = True
@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=16, unique=True)
     password = models.CharField(max_length=200)
     profile_image = models.CharField(max_length=512, null=True)
-    e_mail = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
     verified = models.BooleanField(blank=True, null=True, default=False)
     birthday = models.DateField(editable=True, null=True)
     is_adult = models.BooleanField(default=False)
@@ -63,7 +63,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
 
-    USERNAME_FIELD = 'e_mail'
+    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     class Meta:
@@ -74,4 +75,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         try:
             return cls.EMAIL_FIELD
         except AttributeError:
-            return "e_mail"
+            return "email"

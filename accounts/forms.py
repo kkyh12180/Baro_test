@@ -23,7 +23,7 @@ fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['user_id', 'e_mail','username', 'birthday', 'password1','password2']
+        fields = ['user_id', 'email','username', 'birthday', 'password1','password2']
         widgets = {'user_id': forms.HiddenInput()}
 
     birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
@@ -48,14 +48,14 @@ class RegisterForm(UserCreationForm):
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['e_mail', 'username', 'birthday', 'profile']
+        fields = ['email', 'username', 'birthday', 'profile']
 
     profile = forms.ImageField(required=False)
     birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['e_mail'].disabled = True
+        self.fields['email'].disabled = True
 
     def clean_profile(self):
         uid = self.cleaned_data.get('username')
@@ -96,17 +96,17 @@ class AccountPasswordUpdateForm(UserCreationForm) :
 class CustomPasswordResetForm(auth_forms.PasswordResetForm) :
     def clean(self) :
         cleaned_data = super().clean()
-        e_mail = cleaned_data.get("email")
+        email = cleaned_data.get("email")
 
         # 유저 존재 체크
-        user = User.objects.filter(e_mail=e_mail)
+        user = User.objects.filter(email=email)
 
         if not user :
             raise ValidationError("사용자의 이메일 주소가 존재하지 않습니다.")
         
     def get_users(self, email=''):
-        e_mail = self.cleaned_data.get('email')
-        active_users = User.objects.filter(e_mail=e_mail)
+        email = self.cleaned_data.get('email')
+        active_users = User.objects.filter(email=email)
         return (
             u for u in active_users
             if u.has_usable_password()

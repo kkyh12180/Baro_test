@@ -16,8 +16,8 @@ from accounts.models import User
 # Create your views here.
 
 state = os.environ.get("STATE")
-BASE_URL = 'https://localhost:8000/'
-GOOGLE_CALLBACK_URI = BASE_URL + 'api/user/google/login/callback/'
+BASE_URL = 'http://localhost:8000/'
+GOOGLE_CALLBACK_URI = BASE_URL + 'api/user/google/callback/'
 
 # 구글 로그인
 def google_login(request):
@@ -59,7 +59,7 @@ def google_callback(request):
     # 3. 전달받은 이메일, access_token, code를 바탕으로 회원가입/로그인
     try:
         # 전달받은 이메일로 등록된 유저가 있는지 탐색
-        user = User.objects.get(e_mail=email)
+        user = User.objects.get(email=email)
 
         # FK로 연결되어 있는 socialaccount 테이블에서 해당 이메일의 유저가 있는지 확인
         social_user = SocialAccount.objects.get(user=user)
@@ -84,6 +84,7 @@ def google_callback(request):
     except User.DoesNotExist:
         # 전달받은 이메일로 기존에 가입된 유저가 아예 없으면 => 새로 회원가입 & 해당 유저의 jwt 발급
         data = {'access_token': access_token, 'code': code}
+        print(data)
         accept = requests.post(f"{BASE_URL}api/user/google/login/finish/", data=data)
         accept_status = accept.status_code
 
