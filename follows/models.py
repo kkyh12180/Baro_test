@@ -44,5 +44,4 @@ class BookmarkPrompt(models.Model):
     bookmark_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        managed = False
         db_table = 'bookmark_prompt'

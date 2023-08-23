@@ -1,0 +1,25 @@
+{% load static %}
+
+{% if prompt_list %}
+    <div class="container">
+        {% for prompt in prompt_list %}
+        <a href = "{% url 'prompts:detail' pk=prompt.pk %}">
+            <div>
+                {% if prompt.profile_image %}
+                    <img src="{{ prompt.profile_image }}" alt="">
+                {% else %}
+                    <img src="{% static 'images/no_profile.png'%}" alt="" >
+                {% endif %}
+            </div>
+            <h5 class="mt-2">
+                {{prompt.prompt|truncatechars:8}}
+            </h5>
+        </a>
+        {% endfor %}
+    </div>
+    <script src="{% static 'js/magicgrid.js' %}"></script>
+{% else %}
+    <div style="text-align: center;">
+        <h1>{{_('No Image Post Yet.')}}</h1>
+    </div>
+{% endif %}

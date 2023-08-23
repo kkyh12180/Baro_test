@@ -1,9 +1,0 @@
-{% load static %}
-<div style="display: block; text-align: center;">
-    {% if project.profile_image %}
-        <img src="{{ project.profile_image }}" alt="">
-    {% else %}
-        <img src="{% static 'images/no_profile.png'%}" alt="" >
-    {% endif %}
-    <h5 class="mt-2" style="font-family: 'GmarketSansMedium';">{{ project.title | truncatechars:8 }}</h5>
-</div>

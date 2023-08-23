@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% include 'snippets/card_prompt.html' with prompt_list=prompt_list %}
+{% include 'snippets/pagination.html' with page_obj=page_obj %}
+
+{% endblock %}
