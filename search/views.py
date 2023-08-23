@@ -4,13 +4,13 @@ from django.views.generic import ListView
 from django.utils import timezone
 
 #from search.prompt_make import MakeImage
-from search.search_in_elastic import *
-from search.elastic import *
+from search.elastic import Query
 from search.models import *
 from images.models import *
 
 import string
 import random
+import re
 
 #유저의 검색했던 로그를 15개 보여주기
 class LogListView(ListView):
@@ -38,7 +38,7 @@ class ResultView(ListView):
         negative_prompt = search_query.get('negative_prompt', '')
 
         # Perform the search using query_maker
-        query_maker = QueryMake()
+        query_maker = Query()
         data_list = query_maker.query_to_elastic(prompt, negative_prompt)
         return data_list
     
@@ -172,7 +172,7 @@ def make_tokenizer(tk):
     return tk.strip()
 '''
 def make_ai(request):
-    rank = QueryRank()
+    rank = Query()
     ai_image = MakeImage()
     prompt_list = rank.index_data_to_elasticsearch("prompt")
     negative_prompt_list = rank.index_data_to_elasticsearch("negative_prompt")
@@ -195,7 +195,7 @@ def make_ai(request):
 
 #prompt 전체를 비교하여 가장 빈도수가 높은 데이터를 보여줌
 def rank(request):
-    rank = QueryRank()
+    rank = Query()
     prompt_list = rank.trend_data("prompt")
     negative_prompt_list = rank.trend_data("negative_prompt")
     return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})

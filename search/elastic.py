@@ -2,11 +2,14 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
 from search.pocket import pocket
-from search.models import Prompt
 from images.models import *
-import re
 
-class QueryRank():
+# 검색창에 입력한 긍,부정 프롬프트를 elasticsearch에서 검색하는 쿼리문 생성
+# bool query의 must를 통해 and 연산을 수행하였다.
+# @tokenizequery : ,를 기준으로 tokenize를 진행했고 tokenize된 것을 match_phrase 구문안에 넣어서 쿼리를 완성했다.
+
+
+class Query():
     def __init__(self):
         #정보저장
         info = pocket()
@@ -24,14 +27,122 @@ class QueryRank():
         )
 
         self.index_name = "test_image_prompt"
-        self.log_name = "test_prompt_log"
 
-    def is_float(self,str):
+    #검색 쿼리를 위한 match_pharse문 생성
+    def match_phrase(self,positive,phrase):
+        actions = {
+            "match_phrase": {
+                positive: {
+                    "query": phrase,
+                    "slop": 1
+                }
+            }
+        }
+        if phrase == "":
+           actions = {
+            "match_phrase": {
+                positive: {
+                    "query": "blank",
+                    "slop": 1
+                }
+            }
+        }
+        return actions
+    
+    #분해된 prompt를 이용하여 검색에 사용되는 query문 작성
+    def make_query(self,match_action,negative_match_action):
+        easy_negative={
+            "match":{
+                'negative_prompt':{
+                    "query":"nsfw easynegative"
+                }
+            }
+        }
+        #boost를 통해 특정 구문의 검색점수를 낮추기 위해서 사용
+        low_boost = {
+            "match":{
+                'prompt':{
+                    "query":'''
+                        detailed quality face 1.3 high eyes beautiful 1.2 hair and
+                        best skin a the masterpiece body perfect girl 1.4
+                        of ultra 1.1 1girl intricate long details light 8k
+                        full in detail on black 1.5 background old dynamic
+                        raw lighting with cinematic 1 at looking 0.8
+                        extremely beauty resolution viewer lips delicate
+                        pose ulzzang kpop shot years from pretty uhd
+                        skirt legs 0.2 6500 waist focus
+                        anatomy very cg shadow angle art woman
+                        her top pureerosface_v1 medium lens large
+                    ''',
+                    "boost": 0.8
+                }
+            }
+        }
+        
+        query = {"query": {"bool": {"must": [], "should":[]}} }
+        query["query"]["bool"]["must"].append(easy_negative)       
+        query["query"]["bool"]["should"].append(low_boost)
+        
+        ln = len(match_action)
+        for i in range(ln):
+            if match_action[i]["match_phrase"]["prompt"]["query"] == "blank":
+                continue            
+            query["query"]["bool"]["must"].append(match_action[i])
+
+        n_ln = len(negative_match_action)
+        for i in range(n_ln): 
+            if negative_match_action[i]["match_phrase"]["negative_prompt"]["query"] == "blank":
+                continue                       
+            query["query"]["bool"]["must"].append(negative_match_action[i])
+
+        return query
+
+    #prompt르ㄹ 분해하여 저장
+    def tokenizequery(self,prompt,negative_prompt):
+        phrase_list =[]
+        negative_phrase_list = []
+
+        #positive
+        tok = prompt.lower().split(',')        
+        for tk in tok:
+            if not tk:
+                continue    
+            phrase = self.match_phrase("prompt",tk)
+            phrase_list.append(phrase)                            
+
+        #negative
+        tok = negative_prompt.lower().split(',')        
+        for tk in tok:
+            if not tk:
+                continue         
+            phrase = self.match_phrase("negative_prompt",tk)
+            negative_phrase_list.append(phrase)           
+        
+
+        return self.make_query(phrase_list, negative_phrase_list)
+    
+    #query의 결과중 image_id만을 찾아서 리스트에 넣고 리턴시킨다.
+    def query_to_elastic(self,prompt,negative_prompt):
+        fin_query=self.tokenizequery(prompt,negative_prompt)                
         try:
-            float(str)
-            return True
-        except ValueError:
-            return False
+            result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
+            id_list = [hit["_id"] for hit in result["hits"]["hits"]]
+            data_list = ImageTable.objects.filter(image_id__in=id_list)
+        except:
+            data_list = ImageTable.objects.filter(image_id="I")
+        return data_list
+    
+    #elastic에 올라가 있는 document 삭제
+    def delete_document(self, doc_id):
+        index_name = self.index_name
+        try:
+            response = self.es.delete(index=index_name, id=doc_id)
+            if response['result'] == 'deleted':
+                print("delete")
+            else:
+                print("failed")
+        except Exception as e:
+            print("error")
     
     # Elasticsearch에 bulk로 데이터 색인
     def index_data_to_elasticsearch(self,prompt, index_name):
@@ -104,20 +215,23 @@ class QueryRank():
 
         while count < n and i < len(sorted_frequency):
             sf = sorted_frequency[i]
-            if sf[0] in no_dic or self.is_float(sf[0]):
+            if sf[0] in no_dic:
                 i += 1
                 continue
-            
-            data_list.append(sf)
-            count += 1
+
+            try:
+                float(sf[0])
+            except:
+                data_list.append(sf)
+                count += 1
             i += 1
         
         return data_list
     
     #트렌드 집계는 프롬프트 데이터와 로그 데이터를 들고와서 각각의 백분율 값을 계산한 후 더하는 형태로 구상하였다.
     def trend_data(self, prompt):
-        prompt_list= self.index_data_to_elasticsearch(self,prompt, "test-image-prompt")        
-        log_list= self.index_data_to_elasticsearch(self,prompt, "test-prompt-log")
+        prompt_list= self.index_data_to_elasticsearch(prompt, "test_image_prompt")        
+        log_list= self.index_data_to_elasticsearch(prompt, "test_prompt_log")
 
         temp_dict = {} 
         log_sum = 0
@@ -147,10 +261,3 @@ class QueryRank():
         sorted_frequency = sorted(temp_dict.items(), key=lambda x: x[1], reverse=True)
 
         return sorted_frequency
-               
-
-        
-        
-
-    
-        
