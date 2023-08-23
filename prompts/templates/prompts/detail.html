@@ -4,29 +4,44 @@
 <link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
 {% endblock %}
 {% block content %}
+<style>
+    .container div {
+        width: 250px;
+        height: auto;
+        border-radius: 1rem;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+    }
+</style>
+
 <div style="text-align: center;max-width: 500px; margin: 4rem auto 1.5rem auto;">
     <h2>
         {{target_prompt.prompt}}
     </h2>
 </div>
-<div class="text-center">
-    {% if user.is_authenticated %}
-        {% if not bookmark %}
-            <div style="text-align: center">
-                <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ target_prompt.pk }}">
-                    <btn class="btn btn-dark rounded-pill">{{_('Bookmark')}}</btn>
-                </a>
-            </div>
-        {% else %}
-            <div style="text-align: center">
-                <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ target_prompt.pk }}">
-                    <btn class="btn btn-outline-danger rounded-pill">{{_('Unbookmark')}}</btn>
-                </a>
-            </div>
-        {% endif %}
-    {% endif %}
-</div>
-<div>
-    {% include 'snippets/images_fragment.html' with image_post_list=object_list %}
-</div>
+
+{% if data_list %}
+    <div class="container">
+        {% for image in data_list %}
+            <a href="{% url 'images:detail' pk=image.image_post.pk %}">
+                <div>
+                    <img src="{{ image.image_file }}" alt="">
+                </div>                
+            </a>
+        {% endfor %}
+    </div>
+    {% include 'snippets/pagination.html' with page_obj=page_obj %}
+    <script src="{% static 'js/magicgrid.js' %}"></script>
+{% else %}
+    <div style="text-align: center;">
+        <h1>{{_('No Image Post Yet.')}}</h1>
+    </div>
+{% endif %}
 {% endblock  %}
