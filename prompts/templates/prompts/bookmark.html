@@ -26,11 +26,11 @@
             <a href={% url 'follows:bookmarked' %}>
                 <button class="nav-link " id="nav-image-tab" type="button" role="tab" aria-controls="nav-image" aria-selected="false">{{_('Images')}}</button>
             </a>
-            <a href={% url 'prompts:bookmarked' positive='positive' %}>
-                <button class="nav-link {% if positive == 'positive' %}active{% endif %}" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="{% if positive == 'positive' %}true{% else %}false{% endif %}">{{_('Positive')}}</button>
+            <a href={% url 'prompts:bookmarked' positive='prompt' %}>
+                <button class="nav-link {% if positive == 'prompt' %}active{% endif %}" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="{% if positive == 'prompt' %}true{% else %}false{% endif %}">{{_('Positive')}}</button>
             </a>
-            <a href={% url 'prompts:bookmarked' positive='negative' %}>
-                <button class="nav-link {% if positive == 'negative' %}active{% endif %}" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="{% if positive == 'negative' %}true{% else %}false{% endif %}">{{_('Negative')}}</button>
+            <a href={% url 'prompts:bookmarked' positive='negative_prompt' %}>
+                <button class="nav-link {% if positive == 'negative_prompt' %}active{% endif %}" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="{% if positive == 'negative_prompt' %}true{% else %}false{% endif %}">{{_('Negative')}}</button>
             </a>
         </div>
     </nav>
@@ -38,7 +38,7 @@
 {% if prompt_list %}
     <div class="container">
         {% for prompt in prompt_list %}
-        <a href = "{% url 'prompts:detail' pk=prompt.pk %}">
+        <a href = "{% url 'prompts:detail' pk=prompt.pk positive=positive%}">
             <img src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
             {% comment %} 이미지 저장되면 삭제 예정 {% endcomment %}
             {% if prompt.profile_image %}

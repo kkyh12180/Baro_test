@@ -284,8 +284,11 @@ class Query():
                 {"_doc": {"order": "desc"}}
             ]
         }
-        search_result = self.es.search(index= self.index_name, body=search_body)
-
-        result_ids = [hit["_id"] for hit in search_result["hits"]["hits"]]
-
-        return result_ids
+        try:
+            result = self.es.search(index= self.index_name, body=search_body)
+            id_list = [hit["_id"] for hit in result["hits"]["hits"]]
+            data_list = ImageTable.objects.filter(image_id__in=id_list)
+        except:
+            data_list = ImageTable.objects.filter(image_id="I")
+        
+        return data_list

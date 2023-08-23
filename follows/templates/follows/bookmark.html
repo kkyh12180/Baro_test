@@ -26,10 +26,10 @@
             <a href={% url 'follows:bookmarked' %}>
                 <button class="nav-link active" id="nav-image-tab" type="button" role="tab" aria-controls="nav-image" aria-selected="true">{{_('Images')}}</button>
             </a>
-            <a href={% url 'prompts:bookmarked' positive='positive' %}>
+            <a href={% url 'prompts:bookmarked' positive='prompt' %}>
                 <button class="nav-link" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="false">{{_('Positive')}}</button>
             </a>
-            <a href={% url 'prompts:bookmarked' positive='negative' %}>
+            <a href={% url 'prompts:bookmarked' positive='negative_prompt' %}>
                 <button class="nav-link" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="false">{{_('Negative')}}</button>
             </a>
         </div>
