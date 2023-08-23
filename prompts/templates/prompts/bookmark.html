@@ -23,6 +23,9 @@
 <div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a href={% url 'follows:bookmarked' %}>
+                <button class="nav-link " id="nav-image-tab" type="button" role="tab" aria-controls="nav-image" aria-selected="false">{{_('Images')}}</button>
+            </a>
             <a href={% url 'prompts:bookmarked' positive='positive' %}>
                 <button class="nav-link {% if positive == 'positive' %}active{% endif %}" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="{% if positive == 'positive' %}true{% else %}false{% endif %}">{{_('Positive')}}</button>
             </a>
@@ -32,9 +35,9 @@
         </div>
     </nav>
 </div>
-{% if bookmarked_prompt %}
+{% if prompt_list %}
     <div class="container">
-        {% for prompt in bookmarked_prompt %}
+        {% for prompt in prompt_list %}
         <a href = "{% url 'prompts:detail' pk=prompt.pk %}">
             <img src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
             {% comment %} 이미지 저장되면 삭제 예정 {% endcomment %}
@@ -43,20 +46,12 @@
             {% else %}
                 <img src="{% static 'images/no_profile.png'%}" alt="" >
             {% endif %}
-
+            {% comment %} 여기까지 삭제 부분 {% endcomment %}
             <h5 class="mt-2">
                 {{prompt.prompt|truncatechars:8}}
-                {% if user.is_authenticated %}
-                    {% if prompt in bookmarked_prompt %}
-                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
-                            <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
-                        </a>
-                    {% else %}
-                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
-                            <btn class="btn btn-outline-danger rounded-pill">{{_('Bookmark')}}</btn>
-                        </a>
-                    {% endif %}
-                {% endif %}
+                <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
+                    <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
+                </a>
             </h5>
         </a>
         {% endfor %}

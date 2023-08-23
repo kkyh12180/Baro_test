@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
+{% endblock %}
 <style>
     .container div {
         width: 250px;
@@ -16,8 +18,23 @@
         width: 100%;
         border-radius: 1rem;
     }
-
 </style>
+{% block content %}
+<div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a href={% url 'follows:bookmarked' %}>
+                <button class="nav-link active" id="nav-image-tab" type="button" role="tab" aria-controls="nav-image" aria-selected="true">{{_('Images')}}</button>
+            </a>
+            <a href={% url 'prompts:bookmarked' positive='positive' %}>
+                <button class="nav-link" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="false">{{_('Positive')}}</button>
+            </a>
+            <a href={% url 'prompts:bookmarked' positive='negative' %}>
+                <button class="nav-link" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="false">{{_('Negative')}}</button>
+            </a>
+        </div>
+    </nav>
+</div>
 
 {% include 'snippets/images_fragment.html' with image_post_list=bookmark_list%}
 {% include 'snippets/pagination.html' with page_obj=page_obj %}

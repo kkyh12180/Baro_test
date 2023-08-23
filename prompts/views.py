@@ -78,11 +78,10 @@ class BookmarkedPromptListView(ListView):
 #프롬프트에 북마크를 할  수 있다. 이미 북마크 상태이면 해제가 된다.
 class PromptBookmarkView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
-        try:
-            self.request.GET.get('list')
-        except:
-            return reverse('prompts:list', kwargs={'positive':self.request.GET.get('positive')})
-        return reverse('prompts:bookmarked', kwargs={'positive':self.request.GET.get('positive')})
+        check = self.request.GET.get('list')
+        if check:
+            return reverse('prompts:bookmarked', kwargs={'positive':self.request.GET.get('positive')})
+        return reverse('prompts:list', kwargs={'positive':self.request.GET.get('positive')})
     
     def get(self, request, *args, **kwargs) :
         prompt = get_object_or_404(Prompt, pk=self.request.GET.get('prompts_pk'))
