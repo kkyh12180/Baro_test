@@ -8,23 +8,26 @@ from search.models import Prompt
 from follows.models import BookmarkPrompt
 
 # Create your views here.
-class PromptDetailView(DetailView):
-    model = Prompt
-    context_object_name = 'target_prompt'
+class PromptDetailView(ListView):
+    context_object_name = 'data_list'
     template_name = 'prompts/detail.html'
     paginate_by = 25
+
+    def get_queryset(self):
+        # Perform the search using query_maker
+        query = Query()  # Create an instance of the Query class
+        prompt_id = self.kwargs['pk']
+        prompt = Prompt.objects.get(pk=prompt_id)
+        positive = self.kwargs['positive']
+
+        data_list = query.search_to_tag(prompt.prompt, positive)
+        return data_list
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        query = Query()  # Create an instance of the Query class
-        prompt = self.object
-        user = self.request.user
-        positive = self.request.GET.get('positive')
 
-        object_list = query.search_to_tag(prompt.prompt, positive)
-        
-        context['data_list'] = object_list
-        context['positive']=positive
+        context['target_prompt']=self.kwargs['pk']
+        context['positive']=self.kwargs['positive']
         
         return context
 
@@ -42,7 +45,7 @@ class PromptListView(ListView):
         context['positive']=positive
         
         #자신이 최근에 북마크 한 데이터 가져오기
-        bookmark_list = BookmarkPrompt.objects.filter(user=self.request.user,is_positive=(positive=='positive'))
+        bookmark_list = BookmarkPrompt.objects.filter(user=self.request.user,is_positive=(positive=='prompt'))
         bookmarked_prompt = [bookmark.prompt for bookmark in bookmark_list]
         context['bookmarked_prompt']=bookmarked_prompt
 
@@ -61,9 +64,10 @@ class BookmarkedPromptListView(ListView):
         positive = self.kwargs['positive']
 
         #자신이 최근에 북마크 한 데이터 가져오기
-        bookmarked_posts = BookmarkPrompt.objects.filter(user=user,is_positive=(positive=='positive')).order_by('-bookmark_time')
+        bookmarked_posts = BookmarkPrompt.objects.filter(user=user,is_positive=(positive=='prompt')).order_by('-bookmark_time')
         bookmarked_prompt = [bookmark.prompt for bookmark in bookmarked_posts]
-        
+        print(bookmarked_prompt)
+
         return bookmarked_prompt
     
     def get_context_data(self, **kwargs):
@@ -88,7 +92,7 @@ class PromptBookmarkView(RedirectView) :
         user = self.request.user
         
         #현재의 상태 가져오기
-        positive = ( self.request.GET.get('positive') == 'positive')
+        positive = ( self.request.GET.get('positive') == 'prompt')
         bookmark = BookmarkPrompt.objects.filter(user=user, prompt=prompt, is_positive=positive)
 
         if bookmark.exists() :
