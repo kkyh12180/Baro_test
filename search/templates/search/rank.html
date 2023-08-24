@@ -22,11 +22,17 @@
             {% for rank in prompt_list %}
             <tr>
                 <td>{{forloop.counter}}</td>
-                <td class="name">{{rank.0.0}}</td>
-                
-            
+                <td class="name">
+                    <a href = "{% url 'prompts:detail' pk=rank.prompt positive="prompt" %}">
+                        {{rank.prompt}}
+                    </a>
+                </td>
                 <td>{{forloop.counter}}</td>
-                <td class="name">{{rank.1.0}}</td>                
+                <td class="name">
+                    <a href = "{% url 'prompts:detail' pk=rank.prompt positive="negative_prompt" %}">
+                        {{rank.prompt}}
+                    </a>
+                </td>                
             </tr>
             {% endfor %}
         </tbody>
