@@ -17,6 +17,7 @@ from comments.forms import CommentCreationForm
 from follows.models import LikeImagePost, BookmarkImagePost
 from search.pocket import pocket
 from search.elastic import Query
+from search.views import result_page
 
 from synology_api import filestation
 
@@ -182,6 +183,9 @@ class ImagePostListView(ListView) :
     template_name = 'images/list.html'
     paginate_by = 20
     
+    def post(self, request, *args, **kwargs):
+        return result_page(request)
+
     def get_queryset(self):
         return ImagePost.objects.filter(subscribe_only=False,adult=False).order_by('-post_time')
 
