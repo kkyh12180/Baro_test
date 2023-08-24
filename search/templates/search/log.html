@@ -17,7 +17,7 @@
             <tbody>
                 {% for log in log_list %}
                 <tr id="log-tr-{{log.pk}}" class="tr-class">
-                    <td class="prompt tr-prompt">{{log.prompt|truncatechars:10}}</td>
+                    <td class="prompt tr-prompt">{{log.prompt}}</td>
                     <td class="negative tr-negative">{{log.negative_prompt}}</td>
                     <td class="time tr-time">{{log.created_at}}</td>
                     <td class="delete">
