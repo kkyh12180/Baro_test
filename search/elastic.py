@@ -88,6 +88,36 @@ class Query():
             }
 
         return actions
+    def num_query(self, property, term):   
+        if term == "":           
+            actions = {                
+                "range": {
+                    property:{
+                        "gte":0,
+                        "lte":0
+                    }
+                }                 
+            }   
+        elif term == 0:           
+            actions = {                
+                "range": {
+                    property:{
+                        "gte":0,
+                        "lte":0
+                    }
+                }                 
+            }        
+        else:
+            actions = {                
+                "range": {
+                    property:{
+                        "gte":term,
+                        "lte":term
+                    }
+                }                 
+            }        
+        return actions
+        
     #분해된 prompt를 이용하여 검색에 사용되는 query문 작성
     def make_query(self,match_action,negative_match_action, model_hash, steps, cfg_scale, denoising_strength, sampler):
         easy_negative={
@@ -138,9 +168,9 @@ class Query():
              query["query"]["bool"]["must"].append(model_hash)
         if steps["range"]["steps"]["gte"] != 0:
             query["query"]["bool"]["must"].append(steps)
-        if cfg_scale["match_phrase"]["cfg_scale"]["query"] != "blank":
+        if cfg_scale["range"]["cfg_scale"]["lte"] != 0:
              query["query"]["bool"]["must"].append(cfg_scale)
-        if denoising_strength["match_phrase"]["denoising_strength"]["query"] != "blank":
+        if denoising_strength["range"]["denoising_strength"]["lte"] != 0:
              query["query"]["bool"]["must"].append(denoising_strength)
         if sampler["match_phrase"]["sampler"]["query"] != "blank":
              query["query"]["bool"]["must"].append(sampler)
@@ -170,8 +200,8 @@ class Query():
         
         model_hash_query = self.match_phrase("model_hash",model_hash)
         steps_query = self.query_for_steps(steps)
-        cfg_scale_query = self.match_phrase("cfg_scale",cfg_scale)
-        denoising_strength_query = self.match_phrase("denoising_strength",denoising_strength)
+        cfg_scale_query = self.num_query("cfg_scale",cfg_scale)
+        denoising_strength_query = self.num_query("denoising_strength",denoising_strength)
         sampler_query = self.match_phrase("sampler",sampler)
         return self.make_query(phrase_list, negative_phrase_list, model_hash_query, steps_query, cfg_scale_query, denoising_strength_query, sampler_query)  
 
