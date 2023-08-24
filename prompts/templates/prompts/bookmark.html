@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/prompt/prompt_list.css' %}">
 {% endblock %}
+
 <style>
     .container div {
         width: 250px;
@@ -19,9 +21,10 @@
         border-radius: 1rem;
     }
 </style>
+
 {% block content %}
-<div>
-    <nav>
+<div class="container-sm">
+    <nav style="margin-bottom: 2rem;">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a href={% url 'follows:bookmarked' %}>
                 <button class="nav-link " id="nav-image-tab" type="button" role="tab" aria-controls="nav-image" aria-selected="false">{{_('Images')}}</button>
@@ -34,26 +37,26 @@
             </a>
         </div>
     </nav>
-</div>
 {% if prompt_list %}
     <div class="container">
         {% for prompt in prompt_list %}
-        <a href = "{% url 'prompts:detail' pk=prompt.pk positive=positive%}">
-            <img src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
-            {% comment %} 이미지 저장되면 삭제 예정 {% endcomment %}
-            {% if prompt.profile_image %}
-                <img src="{{ prompt.profile_image }}" alt="">
-            {% else %}
-                <img src="{% static 'images/no_profile.png'%}" alt="" >
-            {% endif %}
-            {% comment %} 여기까지 삭제 부분 {% endcomment %}
-            <h5 class="mt-2">
-                {{prompt.prompt|truncatechars:8}}
-                <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
-                    <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
-                </a>
-            </h5>
-        </a>
+        <div class="prompt-block">
+            <a href = "{% url 'prompts:detail' pk=prompt.pk positive=positive %}">
+                <div>
+                {% if prompt.profile_image %}
+                    <img class="prompt-img" src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
+                {% else %}
+                    <img class="prompt-img" src="{% static 'images/no_profile.png'%}" alt="" >
+                {% endif %}
+                </div>
+                <h5 class="mt-2">
+                    {{prompt.prompt|truncatechars:8}}
+                    <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
+                        <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
+                    </a>
+                </h5>
+            </a>
+        </div>
         {% endfor %}
     </div>
     <script src="{% static 'js/magicgrid.js' %}"></script>
@@ -62,5 +65,5 @@
         <h1>{{_('No Image Post Yet.')}}</h1>
     </div>
 {% endif %}{% include 'snippets/pagination.html' with page_obj=page_obj %}
-
+</div>
 {% endblock %}
