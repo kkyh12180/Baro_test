@@ -36,7 +36,7 @@ class PromptListView(ListView):
     model = Prompt
     context_object_name = 'prompt_list'
     template_name = 'prompts/list.html'
-    paginate_by = 25
+    paginate_by = 24
 
     def get_queryset(self):
         positive = self.kwargs['positive']

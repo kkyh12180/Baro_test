@@ -209,7 +209,7 @@ class Query():
         no_dic = ['detailed','and','best','a','the','of','in','detail','masterpiece','with','at','up','by','very','perfect','to','is','on','quality','realistic',]
         data_list = []
         # 상위 100개의 아이템을 출력합니다.
-        n = 20
+        n = 10
         count = 0
         i = 0
 
