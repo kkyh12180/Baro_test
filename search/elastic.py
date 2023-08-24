@@ -60,7 +60,7 @@ class Query():
         return actions
     
     #분해된 prompt를 이용하여 검색에 사용되는 query문 작성
-    def make_query(self,match_action,negative_match_action, model_hash, steps, cfg_scale, denoising_strength):
+    def make_query(self,match_action,negative_match_action, model_hash, steps, cfg_scale, denoising_strength, sampler):
         easy_negative={
             "match":{
                 'negative_prompt':{
@@ -113,11 +113,13 @@ class Query():
              query["query"]["bool"]["must"].append(cfg_scale)
         if denoising_strength["match_phrase"]["denoising_strength"]["query"] != "blank":
              query["query"]["bool"]["must"].append(denoising_strength)
+        if sampler["match_phrase"]["sampler"]["query"] != "blank":
+             query["query"]["bool"]["must"].append(sampler)
 
         return query
 
     #prompt를 분해하여 저장
-    def tokenizequery(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength):
+    def tokenizequery(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler):
         phrase_list =[]
         negative_phrase_list = []
 
@@ -141,6 +143,7 @@ class Query():
         steps_query = self.match_phrase("steps",steps)
         cfg_scale_query = self.match_phrase("cfg_scale",cfg_scale)
         denoising_strength_query = self.match_phrase("denoising_strength",denoising_strength)
+        sampler = self.match_phrase("sampler",sampler)
         return self.make_query(phrase_list, negative_phrase_list, model_hash_query, steps_query, cfg_scale_query, denoising_strength_query)  
 
     
