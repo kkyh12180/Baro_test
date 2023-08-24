@@ -19,11 +19,25 @@
     border-radius: 1rem ! important;
 
     font-family: 'GmarketSansMedium';
-    padding: 0 1.3rem;
+    padding: 0 1.2rem;
+}
+
+.search-btn-after {
+    border-radius: 0.5rem ! important;
+    width: 20%;
+
+    font-family: 'GmarketSansMedium';
+    margin: 1rem 0;
+    padding: 0 3rem;
 }
 
 .delete-btn {
     margin-bottom: 1rem;
+    font-family: 'GmarketSansMedium';
+}
+
+.detail-button {
+    margin-top: 1rem;
     font-family: 'GmarketSansMedium';
 }
 
