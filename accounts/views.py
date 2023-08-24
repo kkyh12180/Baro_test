@@ -31,6 +31,7 @@ fl = filestation.FileStation(info.nas_host, info.nas_port, info.nas_id, info.nas
 class AccountCreateView(CreateView) :
     model = User
     
+    # UID 생성 과정
     def get_initial(self) :
         cursor = connection.cursor()
         uid = ""
@@ -151,6 +152,7 @@ class AccountUpdateView(UpdateView) :
             username = initial_username
             check = True
         if not temp_form.profile_image or check:
+            # 업로드한 프로필 이미지가 있을 경우 synology 저장
             temp = fl.get_file_list("/web/ai_image/user")
             temp = temp["data"]["files"]
             path_to_delete="/web/ai_image/user/"+username+".png"
@@ -200,7 +202,8 @@ class ChangeLanguageView(RedirectView):
         elif next_url.startswith('/ko/'):
             next_url = '/en/' + next_url[4:]
         return next_url
-    
+
+# 비밀번호 초기화 관련 View
 class CustomPasswordResetView(auth_views.PasswordResetView) :
     email_template_name = "account/password_reset_email.html"
     template_name = 'account/password_reset.html'
