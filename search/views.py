@@ -44,12 +44,13 @@ class ResultView(ListView):
         negative_prompt = search_query.get('negative_prompt', '')
         model_hash = search_query.get('model_hash', '')
         steps = search_query.get('steps', '')
+        sampler = search_query.get('sampler', '')
         cfg_scale = search_query.get('cfg_scale', '')
         denoising_strength = search_query.get('denoising_strength', '')
 
         # Perform the search using query_maker
         query_maker = Query()
-        data_list = query_maker.query_to_elastic(prompt, negative_prompt, model_hash, steps, cfg_scale, denoising_strength)
+        data_list = query_maker.query_to_elastic(prompt, negative_prompt, model_hash, steps, cfg_scale, denoising_strength,sampler)
         return data_list
     
     #검색 결과 창에서 재검색을 실행시 코드
@@ -65,6 +66,7 @@ def result_page(request):
     steps = request.POST.get('steps','')
     cfg_scale = request.POST.get('cfg_scale','')
     denoising_strength = request.POST.get('denoising_strength','')
+    sampler = request.POST.get('sampler','')
     #검색 결과를 토큰화
     prompt, negative_prompt = tokenizer(prompt, negative_prompt)
 
@@ -99,6 +101,7 @@ def result_page(request):
         'steps': steps,
         'cfg_scale': cfg_scale,
         'denoising_strength': denoising_strength,
+        'sampler': sampler,
     }
     
     # Build the URL for redirecting with pagination
