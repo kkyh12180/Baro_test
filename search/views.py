@@ -197,5 +197,9 @@ def make_ai(request):
 def rank(request):
     rank = Query()
     prompt_list = rank.trend_data("prompt")
-    negative_prompt_list = rank.trend_data("negative_prompt")
-    return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})
+    negative_prompt_list = rank.trend_data("negative_prompt")    
+    res_prompt_list = []
+    for i in range(len(prompt_list)):
+       temp_list = [prompt_list[i],negative_prompt_list[i]]
+       res_prompt_list.append(temp_list)
+    return render(request,"search/rank.html",{"prompt_list":res_prompt_list})
