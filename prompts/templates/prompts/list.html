@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/prompt/prompt_list.css' %}">
 {% endblock %}
 
 {% block content %}
-<div>
-    <nav>
+<div class="container-sm">
+    <nav style="margin-bottom: 2rem;">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a href={% url 'prompts:list' positive='prompt' %}>
                 <button class="nav-link {% if positive == 'prompt' %}active{% endif %}" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="{% if positive == 'prompt' %}true{% else %}false{% endif %}">{{_('Positive')}}</button>
@@ -16,33 +17,35 @@
             </a>
         </div>
     </nav>
-</div>
+
 {% if prompt_list %}
     <div class="container">
         {% for prompt in prompt_list %}
-        <a href = "{% url 'prompts:detail' pk=prompt.pk positive=positive %}">
-            <img src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
-            {% if prompt.profile_image %}
-                <img src="{{ prompt.profile_image }}" alt="">
-            {% else %}
-                <img src="{% static 'images/no_profile.png'%}" alt="" >
-            {% endif %}
-
-            <h5 class="mt-2">
-                {{prompt.prompt|truncatechars:8}}
-                {% if user.is_authenticated %}
-                    {% if prompt in bookmarked_prompt %}
-                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
-                            <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
-                        </a>
-                    {% else %}
-                        <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
-                            <btn class="btn btn-outline-danger rounded-pill">{{_('Bookmark')}}</btn>
-                        </a>
-                    {% endif %}
+        <div class="prompt-block">
+            <a href = "{% url 'prompts:detail' pk=prompt.pk positive=positive %}">
+                <div>
+                {% if prompt.profile_image %}
+                    <img class="prompt-img" src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
+                {% else %}
+                    <img class="prompt-img" src="{% static 'images/no_profile.png'%}" alt="" >
                 {% endif %}
-            </h5>
-        </a>
+                </div>
+                <h5 class="mt-2">
+                    {{prompt.prompt|truncatechars:10}}
+                    {% if user.is_authenticated %}
+                        {% if prompt in bookmarked_prompt %}
+                            <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
+                                <btn class="btn btn-dark rounded-pill" style="font-family: 'GmarketSansMedium';">{{_('Unbookmark')}}</btn>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}">
+                                <btn class="btn btn-outline-danger rounded-pill" style="font-family: 'GmarketSansMedium';">{{_('Bookmark')}}</btn>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </h5>
+            </a>
+        </div>
         {% endfor %}
     </div>
     <script src="{% static 'js/magicgrid.js' %}"></script>
@@ -51,5 +54,5 @@
         <h1>{{_('No Image Post Yet.')}}</h1>
     </div>
 {% endif %}{% include 'snippets/pagination.html' with page_obj=page_obj %}
-
+</div>
 {% endblock %}

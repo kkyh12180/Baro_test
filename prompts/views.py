@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView
@@ -37,6 +38,14 @@ class PromptListView(ListView):
     template_name = 'prompts/list.html'
     paginate_by = 25
 
+    def get_queryset(self):
+        positive = self.kwargs['positive']
+        if positive=="prompt":
+            prompt_list = Prompt.objects.filter(positive_weight__gte=2)
+        else:
+            prompt_list = Prompt.objects.filter(negative_weight__gte=2)
+        return prompt_list
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
