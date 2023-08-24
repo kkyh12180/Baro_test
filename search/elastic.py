@@ -59,6 +59,35 @@ class Query():
         }
         return actions
     
+    def query_for_steps(self, steps):        
+        if steps == "":
+           actions = {                
+                "range": {
+                    "steps":{
+                        "gte": 0
+                    }
+                }                
+            }
+           
+        elif steps == 0:           
+            actions = {                
+                "range": {
+                    "steps":{
+                        "gte": 0
+                    }
+                }                
+            }
+        
+        else:
+            actions = {                
+                "range": {
+                    "steps":{
+                        "gte":steps
+                    }
+                }                
+            }
+
+        return actions
     #분해된 prompt를 이용하여 검색에 사용되는 query문 작성
     def make_query(self,match_action,negative_match_action, model_hash, steps, cfg_scale, denoising_strength, sampler):
         easy_negative={
@@ -107,7 +136,7 @@ class Query():
 
         if model_hash["match_phrase"]["model_hash"]["query"] != "blank":
              query["query"]["bool"]["must"].append(model_hash)
-        if steps["match_phrase"]["steps"]["query"] != "blank":
+        if steps["range"]["steps"]["gte"] != 0:
             query["query"]["bool"]["must"].append(steps)
         if cfg_scale["match_phrase"]["cfg_scale"]["query"] != "blank":
              query["query"]["bool"]["must"].append(cfg_scale)
@@ -140,7 +169,7 @@ class Query():
             negative_phrase_list.append(phrase)           
         
         model_hash_query = self.match_phrase("model_hash",model_hash)
-        steps_query = self.match_phrase("steps",steps)
+        steps_query = self.query_for_steps(steps)
         cfg_scale_query = self.match_phrase("cfg_scale",cfg_scale)
         denoising_strength_query = self.match_phrase("denoising_strength",denoising_strength)
         sampler_query = self.match_phrase("sampler",sampler)
