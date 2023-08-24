@@ -71,7 +71,7 @@ def result_page(request):
     prompt, negative_prompt = tokenizer(prompt, negative_prompt)
 
     #user가 존재한다면 검색로그에 추가
-    if user_pk:
+    if user_pk and (prompt or negative_prompt):
         prompt_log_check = Prompt_log.objects.filter(user_id=user_pk, prompt=prompt, negative_prompt=negative_prompt)
 
         #해당 prompt를 처음 검색하면 새로운 Promp_log를 생성
@@ -213,23 +213,27 @@ def rank(request):
         temp_rank.save()
     return redirect('search:home')
 
-def make_ai(request):
-    rank = Query()
+'''def make_ai(request):
     ai_image = MakeImage()
-    prompt_list = rank.index_data_to_elasticsearch("prompt")
-    negative_prompt_list = rank.index_data_to_elasticsearch("negative_prompt")
+    #rank = Prompt_rank.objects.all()
+    prompt_list = list(Prompt_rank.objects.filter(rank__lte=10).values_list('prompt',flat=True))
+    print(prompt_list)
+    negative_prompt_list = list(Prompt_rank.objects.filter(rank__lte=10).values_list('negative_prompt',flat=True))
+    print(negative_prompt_list)
+
     # 랜덤하게 5개 또는 6개의 키워드 선택
     num_keywords = random.randint(6, 8)
     selected_keywords = random.sample(prompt_list, num_keywords)
+    print(selected_keywords)
     # 선택한 키워드들을 하나의 문자열로 결합
-    prompt_str = ','.join(keyword for keyword, _ in selected_keywords)+','
+    prompt_str = ','.join(selected_keywords)+','
     print(prompt_str)
     
     selected_keywords = random.sample(negative_prompt_list, num_keywords)
     # 선택한 키워드들을 하나의 문자열로 결합
-    negative_prompt_str = ','.join(keyword for keyword, _ in selected_keywords)+','
+    negative_prompt_str = ','.join(selected_keywords)+','
     print(negative_prompt_str)
 
     ai_image.prompt_make(prompt_str,negative_prompt_str)
 
-    return redirect('search:home')
+    return redirect('search:home')'''

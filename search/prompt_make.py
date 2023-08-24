@@ -24,7 +24,7 @@ class MakeImage():
         driver = webdriver.Safari()  # 웹 드라이버를 설치하고 경로를 지정해야 합니다.
         driver.get(self.url)
 
-        self.login(self,driver)
+        self.login(driver)
         #wait = WebDriverWait(driver,30)
 
         for model_hash_value in self.model_hash_name_list:
