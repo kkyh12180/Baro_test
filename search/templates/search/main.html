@@ -28,7 +28,8 @@
 {% if data_list %}
     {% include 'search/result.html' %}
 {% else %}
-    {% include 'search/log.html' with log_list=log_list%}
+    {% include 'search/log.html' with log_list=log_list %}
+    {% include 'search/rank.html' with prompt_list=prompt_rank %}
 {% endif %}
 
 {% endblock  %}
