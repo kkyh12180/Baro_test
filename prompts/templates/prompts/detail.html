@@ -24,7 +24,9 @@
         {{target_prompt}}
     </h2>
     <h5>
-        {{positive}}
+        <a href={% url 'prompts:list' positive=positive %}>
+            {{positive}}
+        </a>
     </h5>
 </div>
 
