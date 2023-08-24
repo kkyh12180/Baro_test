@@ -20,8 +20,14 @@ class LogListView(ListView):
     # 유저의 검색 로그를 시간 순으로 15개 가져오기
     def get_queryset(self):
         user_pk = self.request.user.pk
-        return Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')[:15]
-
+        return Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')[:5]
+    
+    #메인에 랭크 포함
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["prompt_rank"] = Prompt_rank.objects.filter(rank__lte=10)
+        return context
+    
     def post(self, request, *args, **kwargs):
         return result_page(request)
 
@@ -170,6 +176,25 @@ def make_tokenizer(tk):
         i=tk.find(":")
         tk=tk[:i]
     return tk.strip()
+
+#prompt 전체를 비교하여 가장 빈도수가 높은 데이터를 보여줌
+def rank(request):
+    rank = Query()
+    prompt_list = rank.trend_data("prompt")
+    negative_prompt_list = rank.trend_data("negative_prompt")
+
+    #rank를 정렬하고 table에 저장
+    for i in range(len(prompt_list)):
+        try:
+            temp_rank = Prompt_rank.objects.get(rank=i+1)
+        except:
+            temp_rank = Prompt_rank()
+            temp_rank.rank = i+1
+        temp_rank.prompt = prompt_list[i][0]
+        temp_rank.negative_prompt = negative_prompt_list[i][0]
+        temp_rank.save()
+    return redirect('search:home')
+
 '''
 def make_ai(request):
     rank = Query()
@@ -192,14 +217,3 @@ def make_ai(request):
 
     return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})
 '''
-
-#prompt 전체를 비교하여 가장 빈도수가 높은 데이터를 보여줌
-def rank(request):
-    rank = Query()
-    prompt_list = rank.trend_data("prompt")
-    negative_prompt_list = rank.trend_data("negative_prompt")    
-    res_prompt_list = []
-    for i in range(len(prompt_list)):
-       temp_list = {"prompt":prompt_list[i][0],"negative":negative_prompt_list[i][0]}
-       res_prompt_list.append(temp_list)
-    return render(request,"search/rank.html",{"prompt_list":res_prompt_list})

@@ -61,6 +61,7 @@ class AccountUpdateForm(forms.ModelForm):
         uid = self.cleaned_data.get('username')
         image = self.cleaned_data.get('profile')
         if image:
+            # 프로필 이미지의 확장자 명은 png로 고정
             ext = "png"
             image.name = f"{uid}.{ext}"
             path = default_storage.save(f"tmp/{image.name}", ContentFile(image.read()))
@@ -107,6 +108,8 @@ class CustomPasswordResetForm(auth_forms.PasswordResetForm) :
     def get_users(self, email=''):
         email = self.cleaned_data.get('email')
         active_users = User.objects.filter(email=email)
+
+        # 이메일 바탕으로 유저 리스트를 보냄
         return (
             u for u in active_users
             if u.has_usable_password()

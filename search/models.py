@@ -19,3 +19,11 @@ class Prompt_log(models.Model):
 
     class Meta:
         db_table = 'prompt_log'
+
+class Prompt_rank(models.Model):
+    rank = models.IntegerField(primary_key=True)
+    prompt = models.TextField()
+    negative_prompt = models.TextField()
+
+    class Meta:
+        db_table = 'prompt_rank'
