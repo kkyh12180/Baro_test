@@ -23,12 +23,8 @@
         {% for prompt in prompt_list %}
         <div class="prompt-block">
             <a href = "{% url 'prompts:detail' pk=prompt.pk positive=positive %}">
-                <div>
-                {% if prompt.profile_image %}
+                <div class="prompt-img-container">
                     <img class="prompt-img" src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
-                {% else %}
-                    <img class="prompt-img" src="{% static 'images/no_profile.png'%}" alt="" >
-                {% endif %}
                 </div>
                 <h5 class="mt-2">
                     {{prompt.prompt|truncatechars:10}}
