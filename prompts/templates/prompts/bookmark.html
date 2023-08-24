@@ -5,23 +5,6 @@
 <link rel="stylesheet" href="{% static 'css/prompt/prompt_list.css' %}">
 {% endblock %}
 
-<style>
-    .container div {
-        width: 250px;
-        height: auto;
-        border-radius: 1rem;
-        background-color: antiquewhite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container img {
-        width: 100%;
-        border-radius: 1rem;
-    }
-</style>
-
 {% block content %}
 <div class="container-sm">
     <nav style="margin-bottom: 2rem;">
@@ -41,18 +24,14 @@
     <div class="container">
         {% for prompt in prompt_list %}
         <div class="prompt-block">
-            <a href = "{% url 'prompts:detail' pk=prompt.pk positive=positive %}">
-                <div>
-                {% if prompt.profile_image %}
+            <a class="prompt-block-href" href = "{% url 'prompts:detail' pk=prompt.pk positive=positive %}">
+                <div class="prompt-img-container">
                     <img class="prompt-img" src="https://vanecompany.synology.me/ai_image/prompt/{{prompt.prompt}}_{{positive}}.png" alt="">
-                {% else %}
-                    <img class="prompt-img" src="{% static 'images/no_profile.png'%}" alt="" >
-                {% endif %}
                 </div>
                 <h5 class="mt-2">
-                    {{prompt.prompt|truncatechars:8}}
+                    {{prompt.prompt|truncatechars:10}}
                     <a href="{% url 'prompts:bookmark' %}?prompts_pk={{ prompt.prompt }}&positive={{positive}}&list='a'">
-                        <btn class="btn btn-dark rounded-pill">{{_('Unbookmark')}}</btn>
+                        <btn class="btn btn-dark rounded-pill" style="font-family: 'GmarketSansMedium';">{{_('Unbookmark')}}</btn>
                     </a>
                 </h5>
             </a>
