@@ -59,8 +59,37 @@ class Query():
         }
         return actions
     
+    def query_for_steps(self, steps):        
+        if steps == "":
+           actions = {                
+                "range": {
+                    "steps":{
+                        "gte": 0
+                    }
+                }                
+            }
+           
+        elif steps == 0:           
+            actions = {                
+                "range": {
+                    "steps":{
+                        "gte": 0
+                    }
+                }                
+            }
+        
+        else:
+            actions = {                
+                "range": {
+                    "steps":{
+                        "gte":steps
+                    }
+                }                
+            }
+
+        return actions
     #분해된 prompt를 이용하여 검색에 사용되는 query문 작성
-    def make_query(self,match_action,negative_match_action, model_hash, steps, cfg_scale, denoising_strength):
+    def make_query(self,match_action,negative_match_action, model_hash, steps, cfg_scale, denoising_strength, sampler):
         easy_negative={
             "match":{
                 'negative_prompt':{
@@ -107,17 +136,19 @@ class Query():
 
         if model_hash["match_phrase"]["model_hash"]["query"] != "blank":
              query["query"]["bool"]["must"].append(model_hash)
-        if steps["match_phrase"]["steps"]["query"] != "blank":
+        if steps["range"]["steps"]["gte"] != 0:
             query["query"]["bool"]["must"].append(steps)
         if cfg_scale["match_phrase"]["cfg_scale"]["query"] != "blank":
              query["query"]["bool"]["must"].append(cfg_scale)
         if denoising_strength["match_phrase"]["denoising_strength"]["query"] != "blank":
              query["query"]["bool"]["must"].append(denoising_strength)
+        if sampler["match_phrase"]["sampler"]["query"] != "blank":
+             query["query"]["bool"]["must"].append(sampler)
 
         return query
 
     #prompt를 분해하여 저장
-    def tokenizequery(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength):
+    def tokenizequery(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler):
         phrase_list =[]
         negative_phrase_list = []
 
@@ -138,15 +169,16 @@ class Query():
             negative_phrase_list.append(phrase)           
         
         model_hash_query = self.match_phrase("model_hash",model_hash)
-        steps_query = self.match_phrase("steps",steps)
+        steps_query = self.query_for_steps(steps)
         cfg_scale_query = self.match_phrase("cfg_scale",cfg_scale)
         denoising_strength_query = self.match_phrase("denoising_strength",denoising_strength)
-        return self.make_query(phrase_list, negative_phrase_list, model_hash_query, steps_query, cfg_scale_query, denoising_strength_query)  
+        sampler_query = self.match_phrase("sampler",sampler)
+        return self.make_query(phrase_list, negative_phrase_list, model_hash_query, steps_query, cfg_scale_query, denoising_strength_query, sampler_query)  
 
     
     #query의 결과중 image_id만을 찾아서 리스트에 넣고 리턴시킨다.
-    def query_to_elastic(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength):
-        fin_query=self.tokenizequery(prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength)                
+    def query_to_elastic(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler):
+        fin_query=self.tokenizequery(prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler)                
         try:
             result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
