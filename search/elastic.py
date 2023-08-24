@@ -143,13 +143,13 @@ class Query():
         steps_query = self.match_phrase("steps",steps)
         cfg_scale_query = self.match_phrase("cfg_scale",cfg_scale)
         denoising_strength_query = self.match_phrase("denoising_strength",denoising_strength)
-        sampler = self.match_phrase("sampler",sampler)
-        return self.make_query(phrase_list, negative_phrase_list, model_hash_query, steps_query, cfg_scale_query, denoising_strength_query)  
+        sampler_query = self.match_phrase("sampler",sampler)
+        return self.make_query(phrase_list, negative_phrase_list, model_hash_query, steps_query, cfg_scale_query, denoising_strength_query, sampler_query)  
 
     
     #query의 결과중 image_id만을 찾아서 리스트에 넣고 리턴시킨다.
-    def query_to_elastic(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength):
-        fin_query=self.tokenizequery(prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength)                
+    def query_to_elastic(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler):
+        fin_query=self.tokenizequery(prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler)                
         try:
             result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
