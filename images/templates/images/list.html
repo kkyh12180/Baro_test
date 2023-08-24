@@ -2,6 +2,11 @@
 
 {% load static %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/search/main.css' %}">
+{% endblock %}
+
+
 {% block content %}
 
 <style>
@@ -24,7 +29,7 @@
 <div class="container-sm search-div">
     <form method="post" class="search-form">
         {% csrf_token %}
-        <div class="input-group">
+        <div class="input-group" id="form-input-div">
             <div class="form-outline">
                 <label class="form-label" for="prompt">Prompt</label>
                 <input type="text" name="prompt" class="form-control" />
@@ -38,7 +43,48 @@
             <button type="submit" class="btn btn-outline-dark search-btn">{{_('Search')}}</button>
         </div>
     </form>
+    <btn id="detail_button" onclick="showDetailSearch()" class="btn btn-outline-dark detail-button">상세 검색</btn>
 </div>
+
+<script>
+    function showDetailSearch() {
+        const detail_button = document.getElementById("detail_button");
+        const form_div_inside = document.getElementById("form-input-div");
+        let form_inside = '<div class="form-outline">' + 
+            '<label class="form-label" for="prompt">Prompt</label>' + 
+            '<input type="text" name="prompt" class="form-control" />' + 
+            '</div>' + 
+            '<div class="form-outline">' + 
+            '<label class="form-label" for="negative_prompt">Negative Prompt</label>' + 
+            '<input type="text" name="negative_prompt" class="form-control" />' + 
+            '</div>' + 
+            '<div class="form-outline">' + 
+            '<label class="form-label" for="steps">Minimum steps</label>' + 
+            '<input type="text" name="steps" class="form-control" />' + 
+            '</div>' + 
+            '<div class="form-outline">' + 
+            '<label class="form-label" for="sampler">Sampler</label>' + 
+            '<input type="text" name="sampler" class="form-control" />' + 
+            '</div>' + 
+            '<div class="form-outline">' + 
+            '<label class="form-label" for="cfg_scale">CFG Scale</label>' + 
+            '<input type="text" name="cfg_scale" class="form-control" />' + 
+            '</div>' + 
+            '<div class="form-outline">' + 
+            '<label class="form-label" for="model_hash">Model hash</label>' + 
+            '<input type="text" name="model_hash" class="form-control" />' + 
+            '</div>' + 
+            '<div class="form-outline">' + 
+            '<label class="form-label" for="denoising_strength">Denoising strength</label>' + 
+            '<input type="text" name="denoising_strength" class="form-control" />' + 
+            '</div>' + 
+            '<button type="submit" class="btn btn-outline-dark search-btn-after">{{_('Search')}}</button>';
+
+        detail_button.remove();
+        form_div_inside.innerHTML = form_inside;
+    }
+</script>
+
 {% include 'snippets/images_fragment.html' with image_post_list=image_post_list %}
 {% include 'snippets/pagination.html' with page_obj=page_obj %}
 
