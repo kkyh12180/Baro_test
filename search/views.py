@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views.generic import ListView
 from django.utils import timezone
 
-#from search.prompt_make import MakeImage
+from search.prompt_make import MakeImage
 from search.elastic import Query
 from search.models import *
 from images.models import *
@@ -42,10 +42,14 @@ class ResultView(ListView):
         search_query = self.request.session.get('search_query', {})
         prompt = search_query.get('prompt', '')
         negative_prompt = search_query.get('negative_prompt', '')
+        model_hash = search_query.get('model_hash', '')
+        steps = search_query.get('steps', '')
+        cfg_scale = search_query.get('cfg_scale', '')
+        denoising_strength = search_query.get('denoising_strength', '')
 
         # Perform the search using query_maker
         query_maker = Query()
-        data_list = query_maker.query_to_elastic(prompt, negative_prompt)
+        data_list = query_maker.query_to_elastic(prompt, negative_prompt, model_hash, steps, cfg_scale, denoising_strength)
         return data_list
     
     #검색 결과 창에서 재검색을 실행시 코드
@@ -57,6 +61,10 @@ def result_page(request):
     user_pk = request.user.pk
     prompt = request.POST.get('prompt', '')
     negative_prompt = request.POST.get('negative_prompt', '')
+    model_hash = request.POST.get('model_hash','')
+    steps = request.POST.get('steps','')
+    cfg_scale = request.POST.get('cfg_scale','')
+    denoising_strength = request.POST.get('denoising_strength','')
     #검색 결과를 토큰화
     prompt, negative_prompt = tokenizer(prompt, negative_prompt)
 
@@ -84,7 +92,14 @@ def result_page(request):
             prompt_log_check[0].save()
     
     # 검색 내용을 session에 저장
-    request.session['search_query'] = {'prompt': prompt, 'negative_prompt': negative_prompt}
+    request.session['search_query'] = {
+        'prompt': prompt,
+        'negative_prompt': negative_prompt,
+        'model_hash': model_hash,
+        'steps': steps,
+        'cfg_scale': cfg_scale,
+        'denoising_strength': denoising_strength,
+    }
     
     # Build the URL for redirecting with pagination
     redirect_url = reverse('search:result')
@@ -195,14 +210,13 @@ def rank(request):
         temp_rank.save()
     return redirect('search:home')
 
-'''
 def make_ai(request):
     rank = Query()
     ai_image = MakeImage()
     prompt_list = rank.index_data_to_elasticsearch("prompt")
     negative_prompt_list = rank.index_data_to_elasticsearch("negative_prompt")
     # 랜덤하게 5개 또는 6개의 키워드 선택
-    num_keywords = random.randint(5, 6)
+    num_keywords = random.randint(6, 8)
     selected_keywords = random.sample(prompt_list, num_keywords)
     # 선택한 키워드들을 하나의 문자열로 결합
     prompt_str = ','.join(keyword for keyword, _ in selected_keywords)+','
@@ -215,5 +229,4 @@ def make_ai(request):
 
     ai_image.prompt_make(prompt_str,negative_prompt_str)
 
-    return render(request,"search/rank.html",{"prompt_list":prompt_list,"negative_list":negative_prompt_list})
-'''
+    return redirect('search:home')

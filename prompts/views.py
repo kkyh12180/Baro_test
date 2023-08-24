@@ -41,9 +41,9 @@ class PromptListView(ListView):
     def get_queryset(self):
         positive = self.kwargs['positive']
         if positive=="prompt":
-            prompt_list = Prompt.objects.filter(positive_weight__gte=2)
+            prompt_list = Prompt.objects.filter(positive_weight__gte=10)
         else:
-            prompt_list = Prompt.objects.filter(negative_weight__gte=2)
+            prompt_list = Prompt.objects.filter(negative_weight__gte=10)
         return prompt_list
     
     def get_context_data(self, **kwargs):
