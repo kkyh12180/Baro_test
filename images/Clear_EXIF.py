@@ -59,8 +59,8 @@ def get_exif(file) :
 def tokenizer(prompt,negative_prompt):
     #positive
     #<>를 제외한 모든 괄호를 제거하고 ','를 기준으로 분리
-    prompt=re.sub(r'[-=+,#/\?:^.@*\"※~ㆍ!\'()\[\]{}]',',',prompt)
-    prompt=prompt.replace('_',' ')
+    prompt=re.sub(r'[()\[\]{}]',',',prompt)
+    prompt=re.sub(r'[_\-=+#/\?:^.@*\"※~ㆍ!\']',' ',prompt)
     tok = prompt.lower().split(',')
 
     for tk in tok:
@@ -85,8 +85,8 @@ def tokenizer(prompt,negative_prompt):
             prompt_temp.save()
 
     #negative
-    negative_prompt=re.sub(r'[-=+,#/\?:^.@*\"※~ㆍ!\'()\[\]{}]',',',negative_prompt)
-    negative_prompt=negative_prompt.replace('_',' ')
+    negative_prompt=re.sub(r'[()\[\]{}]',',',negative_prompt)
+    negative_prompt=re.sub(r'[_\-=+#/\?:^.@*\"※~ㆍ!\']',' ',negative_prompt)
     tok = negative_prompt.lower().split(',')
     for tk in tok:
         tk=make_tokenizer(tk)
