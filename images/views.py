@@ -455,7 +455,11 @@ class ImagePostAdultView(RedirectView) :
         image_post = get_object_or_404(ImagePost, pk=self.request.GET.get('image_post_pk'))
         image_post.adult = not image_post.adult
         image_post.save()
-
+        images = ImageTable.objects.filter()
+        for img in images:
+            img.adult = image_post.adult
+            img.save()
+        
         return super(ImagePostAdultView, self).get(request, *args, **kwargs)
 
 #exif를 개인이 수정 가능
