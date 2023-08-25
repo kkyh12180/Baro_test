@@ -35,6 +35,7 @@ class RegisterForm(UserCreationForm):
         birthdate = self.cleaned_data.get('birthday', '')
         today = date.today()
         age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+        instance.age = age
 
         if (age < 18) :
             instance.is_adult = False
@@ -79,6 +80,7 @@ class AccountUpdateForm(forms.ModelForm):
         birthdate = self.cleaned_data.get('birthday', '')
         today = date.today()
         age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+        instance.age = age
 
         if (age < 18) :
             instance.is_adult = False

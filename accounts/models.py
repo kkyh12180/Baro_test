@@ -55,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     verified = models.BooleanField(blank=True, null=True, default=False)
     birthday = models.DateField(editable=True, null=True)
     is_adult = models.BooleanField(default=False)
+    age = models.IntegerField(null=True)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
