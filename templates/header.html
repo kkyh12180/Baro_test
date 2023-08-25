@@ -50,17 +50,15 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account:logout' %}?next={{ request.path }}">{{_('Logout')}}</a>
-                    </li>
+                    </li>&nbsp;&nbsp;
                     {% if user.age > 18 %}
                     <li class="nav-item">
                         <a href="{% url 'account:adult' %}?next={{request.path}}">
-                            <btn class="btn btn-outline-dark" style="font-family: 'GmarketSansMedium';">
                                 {% if user.is_adult %}
-                                    {{_('Adult')}}
+                                <btn class="btn btn-outline-danger" style="font-family: 'GmarketSansMedium';">{{_('Adult')}}</btn>
                                 {% else %}
-                                    {{_('Not Adult')}}
+                                <btn class="btn btn-outline-dark" style="font-family: 'GmarketSansMedium';">{{_('Not Adult')}}</btn>
                                 {% endif %}
-                            </btn>
                         </a>
                     </li>
                     {% endif %}
