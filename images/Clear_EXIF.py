@@ -65,8 +65,9 @@ def tokenizer(prompt,negative_prompt):
 
     for tk in tok:
         tk=make_tokenizer(tk)
+        temp_tk=tk.replace(" ","")
         try:
-            float(tk)
+            float(temp_tk)
             continue
         except:
             if not tk:
@@ -90,8 +91,9 @@ def tokenizer(prompt,negative_prompt):
     tok = negative_prompt.lower().split(',')
     for tk in tok:
         tk=make_tokenizer(tk)
+        temp_tk=tk.replace(" ","")
         try:
-            float(tk)
+            float(temp_tk)
             continue
         except:
             if not tk:
