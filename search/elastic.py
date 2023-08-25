@@ -23,8 +23,7 @@ class Query():
         # Elasticsearch 클라이언트 생성
         self.es = Elasticsearch(
             [f"{es_host}:{es_port}"],
-            http_auth=(es_username, es_password),
-            timeout = 230
+            http_auth=(es_username, es_password),            
         )
 
         self.index_name = "test_image_prompt"
@@ -211,7 +210,7 @@ class Query():
     def query_to_elastic(self,prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler):
         fin_query=self.tokenizequery(prompt,negative_prompt, model_hash, steps, cfg_scale, denoising_strength, sampler)                
         try:
-            result = self.es.search(index=self.index_name, body= fin_query, size = 300, timeout = "60s")
+            result = self.es.search(index=self.index_name, body= fin_query, size = 300)
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
             data_list = ImageTable.objects.filter(image_id__in=id_list)
         except:
@@ -371,7 +370,7 @@ class Query():
             ]
         }
         try:
-            result = self.es.search(index= self.index_name, body=search_body, timeout= "60s")
+            result = self.es.search(index= self.index_name, body=search_body)
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
             data_list = ImageTable.objects.filter(image_id__in=id_list)
         except:
