@@ -1,3 +1,4 @@
+from typing import Any, Optional
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, RedirectView, ListView
 from django.views.generic.edit import FormMixin
 from django.urls import reverse, reverse_lazy
@@ -203,6 +204,19 @@ class ChangeLanguageView(RedirectView):
             next_url = '/en/' + next_url[4:]
         return next_url
 
+class ChangeAdultView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        next_url = self.request.GET.get('next','/')
+        return next_url
+    
+    def get(self,request,*args, **kwargs):
+        user = self.request.user
+        
+        user.is_adult = not user.is_adult
+        user.save()
+        print(user.is_adult)
+        return super(ChangeAdultView,self).get(request,*args, **kwargs)
+    
 # 비밀번호 초기화 관련 View
 class CustomPasswordResetView(auth_views.PasswordResetView) :
     email_template_name = "account/password_reset_email.html"
