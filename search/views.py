@@ -131,7 +131,8 @@ def tokenizer(prompt,negative_prompt):
     #positive
 
     #<>를 제외한 모든 괄호를 제거하고 ','를 기준으로 분리
-    prompt=re.sub(r'[()\[\]{}]',',',prompt)
+    prompt=re.sub(r'[-=+,#/\?:^.@*\"※~ㆍ!\'()\[\]{}]',',',prompt)
+    prompt=prompt.replace('_',' ')
     tok = prompt.lower().split(',')
 
     temp_prompt = ""
@@ -139,7 +140,7 @@ def tokenizer(prompt,negative_prompt):
         tk=make_tokenizer(tk)
         if not tk:
             continue
-        if "<" in tk or ">" in tk or tk=="lora" or tk=='.':
+        if "<" in tk or ">" in tk or tk=="lora":
             continue
         #prompt가 존재할 경우 가중치 증가, 없을 경우 생성 후 가중치 증가
         prompt = Prompt.objects.filter(prompt=tk)
@@ -161,7 +162,8 @@ def tokenizer(prompt,negative_prompt):
     #negative
 
     #<>를 제외한 모든 괄호를 제거하고 ','를 기준으로 분리
-    negative_prompt = re.sub(r'[()\[\]{}]',',',negative_prompt)
+    negative_prompt=re.sub(r'[-=+,#/\?:^.@*\"※~ㆍ!\'()\[\]{}]',',',negative_prompt)
+    negative_prompt=negative_prompt.replace('_',' ')
     tok = negative_prompt.lower().split(',')
 
     temp_negative_prompt = ""
@@ -169,7 +171,7 @@ def tokenizer(prompt,negative_prompt):
         tk=make_tokenizer(tk)
         if not tk:
             continue
-        if "<" in tk or ">" in tk :
+        if "<" in tk or ">" in tk or tk=="lora":
             continue
         #prompt가 존재할 경우 가중치 증가, 없을 경우 생성 후 가중치 증가
         prompt = Prompt.objects.filter(prompt=tk)
