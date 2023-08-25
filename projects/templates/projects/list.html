@@ -30,7 +30,7 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 {% for project in project_list %}
                 <a href={% url 'projects:list' pk=project.pk %}>
-                    <button class="nav-link {% if project == target_project %}active{% endif %}" id="nav-{{ project.project_id }}-tab" type="button" role="tab" aria-controls="nav-{{ project.project_id }}" aria-selected="{% if project == target_project %}true{% else %}false{% endif %}">{{ project.title }}</button>
+                    <button class="nav-link {% if project.pk == target_project.project_id %}active{% endif %}" id="nav-{{ project.project_id }}-tab" type="button" role="tab" aria-controls="nav-{{ project.project_id }}" aria-selected="{% if project == target_project %}true{% else %}false{% endif %}">{{ project.title }}</button>
                 </a>
                 {% endfor %}
             </div>
