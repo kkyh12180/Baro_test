@@ -24,6 +24,7 @@ class Query():
         self.es = Elasticsearch(
             [f"{es_host}:{es_port}"],
             http_auth=(es_username, es_password),
+            timeout = 230
         )
 
         self.index_name = "test_image_prompt"
@@ -370,7 +371,7 @@ class Query():
             ]
         }
         try:
-            result = self.es.search(index= self.index_name, body=search_body)
+            result = self.es.search(index= self.index_name, body=search_body, timeout= "60s")
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
             data_list = ImageTable.objects.filter(image_id__in=id_list)
         except:
