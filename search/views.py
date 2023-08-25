@@ -138,10 +138,14 @@ def tokenizer(prompt,negative_prompt):
     temp_prompt = ""
     for tk in tok:
         tk=make_tokenizer(tk)
-        if not tk:
+        try:
+            float(tk)
             continue
-        if "<" in tk or ">" in tk or tk=="lora":
-            continue
+        except:
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk or tk=="lora":
+                continue
         #prompt가 존재할 경우 가중치 증가, 없을 경우 생성 후 가중치 증가
         prompt = Prompt.objects.filter(prompt=tk)
         if not prompt:
@@ -169,10 +173,14 @@ def tokenizer(prompt,negative_prompt):
     temp_negative_prompt = ""
     for tk in tok:
         tk=make_tokenizer(tk)
-        if not tk:
+        try:
+            float(tk)
             continue
-        if "<" in tk or ">" in tk or tk=="lora":
-            continue
+        except:
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk or tk=="lora":
+                continue
         #prompt가 존재할 경우 가중치 증가, 없을 경우 생성 후 가중치 증가
         prompt = Prompt.objects.filter(prompt=tk)
         if not prompt:

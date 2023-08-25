@@ -65,10 +65,14 @@ def tokenizer(prompt,negative_prompt):
 
     for tk in tok:
         tk=make_tokenizer(tk)
-        if not tk:
+        try:
+            float(tk)
             continue
-        if "<" in tk or ">" in tk or tk=="lora":
-            continue
+        except:
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk or tk=="lora":
+                continue
         prompt = Prompt.objects.filter(prompt=tk)
         if not prompt:
             prompt=Prompt()
@@ -86,10 +90,14 @@ def tokenizer(prompt,negative_prompt):
     tok = negative_prompt.lower().split(',')
     for tk in tok:
         tk=make_tokenizer(tk)
-        if not tk:
+        try:
+            float(tk)
             continue
-        if "<" in tk or ">" in tk or tk=="lora":
-            continue
+        except:
+            if not tk:
+                continue
+            if "<" in tk or ">" in tk or tk=="lora":
+                continue
         prompt = Prompt.objects.filter(prompt=tk)
         if not prompt:
             prompt=Prompt()
