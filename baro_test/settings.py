@@ -167,7 +167,7 @@ LOGOUT_REDIRECT_URL= reverse_lazy('search:home')
 LOGIN_REDIRECT_URL= reverse_lazy('search:home')
 
 LOGIN_URL = '/account/signin/'
-CSRF_TRUSTED_ORIGINS = ['https://barotest.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ['https://baropicture.azurewebsites.net']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.naver.com'
