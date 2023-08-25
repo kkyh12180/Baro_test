@@ -212,7 +212,7 @@ class Query():
         try:
             result = self.es.search(index=self.index_name, body= fin_query, size = 300)
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
-            data_list = ImageTable.objects.filter(image_id__in=id_list)
+            data_list = ImageTable.objects.filter(image_id__in=id_list,adult=False)
         except:
             data_list = ImageTable.objects.filter(image_id="I")
         return data_list
@@ -372,7 +372,7 @@ class Query():
         try:
             result = self.es.search(index= self.index_name, body=search_body)
             id_list = [hit["_id"] for hit in result["hits"]["hits"]]
-            data_list = ImageTable.objects.filter(image_id__in=id_list)
+            data_list = ImageTable.objects.filter(image_id__in=id_list,adult=False)
         except:
             data_list = ImageTable.objects.filter(image_id="I")
         
