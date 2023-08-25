@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-25 02:33+0000\n"
+"POT-Creation-Date: 2023-08-25 07:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -312,8 +312,11 @@ msgid "삭제할 게시판을 선택해주세요."
 msgstr "삭제할 게시판을 선택해주세요."
 
 #: prompts/templates/prompts/bookmark.html:44
-#: prompts/templates/prompts/detail.html:47
 #: prompts/templates/prompts/list.html:50
+msgid "No Prompt Yet."
+msgstr "프롬프트가 아직 없습니다."
+
+#: prompts/templates/prompts/detail.html:47
 #: search/templates/search/result.html:100
 #: templates/snippets/card_prompt.html:23
 #: templates/snippets/images_fragment.html:13
