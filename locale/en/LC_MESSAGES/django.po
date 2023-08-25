@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-23 06:14+0000\n"
+"POT-Creation-Date: 2023-08-25 02:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,7 +78,7 @@ msgid "New Channel Post"
 msgstr ""
 
 #: accounts/templates/account/mypage.html:86
-#: channel/templates/channel/detail.html:32 templates/header.html:49
+#: channel/templates/channel/detail.html:32 templates/header.html:46
 msgid "Subscribe"
 msgstr ""
 
@@ -94,7 +94,9 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
-#: accounts/templates/account/mypage.html:111 templates/header.html:23
+#: accounts/templates/account/mypage.html:111
+#: follows/templates/follows/bookmark.html:30
+#: prompts/templates/prompts/bookmark.html:13 templates/header.html:23
 msgid "Images"
 msgstr ""
 
@@ -152,11 +154,11 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
-#: baro_test/settings.py:143
+#: baro_test/settings.py:128
 msgid "Korean"
 msgstr ""
 
-#: baro_test/settings.py:144
+#: baro_test/settings.py:129
 msgid "English"
 msgstr ""
 
@@ -195,7 +197,6 @@ msgstr ""
 #: images/templates/images/detail.html:221
 #: images/templates/images/detail.html:230 posts/templates/posts/detail.html:69
 #: posts/templates/posts/detail.html:119
-#: projects/templates/projects/list.html:24
 #: projects/templates/projects/list.html:53
 #: projects/templates/projects/list.html:68 search/templates/search/log.html:14
 msgid "Delete"
@@ -221,6 +222,18 @@ msgstr ""
 msgid "삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
 
+#: follows/templates/follows/bookmark.html:33
+#: prompts/templates/prompts/bookmark.html:16
+#: prompts/templates/prompts/list.html:13
+msgid "Positive"
+msgstr ""
+
+#: follows/templates/follows/bookmark.html:36
+#: prompts/templates/prompts/bookmark.html:19
+#: prompts/templates/prompts/list.html:16
+msgid "Negative"
+msgstr ""
+
 #: images/templates/images/create.html:8
 #: images/templates/images/exif_info.html:8
 msgid "Upload"
@@ -231,14 +244,13 @@ msgid "Previous"
 msgstr ""
 
 #: images/templates/images/detail.html:141
-#: prompts/templates/prompts/bookmark.html:57
-#: prompts/templates/prompts/list.html:40 templates/header.html:43
+#: prompts/templates/prompts/list.html:38 templates/header.html:40
 msgid "Bookmark"
 msgstr ""
 
 #: images/templates/images/detail.html:150
-#: prompts/templates/prompts/bookmark.html:53
-#: prompts/templates/prompts/list.html:36
+#: prompts/templates/prompts/bookmark.html:34
+#: prompts/templates/prompts/list.html:34
 msgid "Unbookmark"
 msgstr ""
 
@@ -258,7 +270,14 @@ msgstr "For all age"
 msgid "성인 전용 설정"
 msgstr "For adult"
 
-#: images/templates/images/list.html:30
+#: images/templates/images/list.html:43 images/templates/images/list.html:81
+#: search/templates/search/chat.html:17 search/templates/search/main.html:23
+#: search/templates/search/main.html:61 search/templates/search/result.html:41
+#: search/templates/search/result.html:79
+msgid "Search"
+msgstr ""
+
+#: images/templates/images/list.html:93
 msgid "이미지 게시글 작성"
 msgstr "New Image Post"
 
@@ -284,35 +303,24 @@ msgstr ""
 msgid "New Project"
 msgstr ""
 
+#: projects/templates/projects/list.html:24
+msgid "Project Delete"
+msgstr ""
+
 #: projects/templates/projects/list.html:58
 msgid "삭제할 게시판을 선택해주세요."
 msgstr "Please select the bulletin board you want to delete."
 
-#: prompts/templates/prompts/bookmark.html:27
-#: prompts/templates/prompts/list.html:12
-msgid "Positive"
-msgstr ""
-
-#: prompts/templates/prompts/bookmark.html:30
-#: prompts/templates/prompts/list.html:15
-msgid "Negative"
-msgstr ""
-
-#: prompts/templates/prompts/bookmark.html:68
-#: prompts/templates/prompts/detail.html:44
-#: prompts/templates/prompts/list.html:51
-#: search/templates/search/result.html:60
+#: prompts/templates/prompts/bookmark.html:44
+#: prompts/templates/prompts/detail.html:47
+#: prompts/templates/prompts/list.html:50
+#: search/templates/search/result.html:100
 #: templates/snippets/card_prompt.html:23
 #: templates/snippets/images_fragment.html:13
 msgid "No Image Post Yet."
 msgstr ""
 
-#: search/templates/search/chat.html:17 search/templates/search/main.html:23
-#: search/templates/search/result.html:41
-msgid "Search"
-msgstr ""
-
-#: search/templates/search/log.html:4
+#: search/templates/search/log.html:5
 msgid "Delete all"
 msgstr ""
 
@@ -336,18 +344,22 @@ msgstr "Service"
 msgid "Prompt"
 msgstr ""
 
-#: templates/header.html:40
-msgid "Bookmarked_Prompt"
-msgstr ""
-
-#: templates/header.html:46
+#: templates/header.html:43
 msgid "Following"
 msgstr ""
 
-#: templates/header.html:52
+#: templates/header.html:49
 msgid "My page"
 msgstr ""
 
-#: templates/header.html:55
+#: templates/header.html:52
 msgid "Logout"
+msgstr ""
+
+#: templates/header.html:58
+msgid "Adult"
+msgstr ""
+
+#: templates/header.html:60
+msgid "Not Adult"
 msgstr ""

@@ -139,7 +139,7 @@ def tokenizer(prompt,negative_prompt):
         tk=make_tokenizer(tk)
         if not tk:
             continue
-        if "<" in tk or ">" in tk or tk=="lora":
+        if "<" in tk or ">" in tk or tk=="lora" or tk=='.':
             continue
         #prompt가 존재할 경우 가중치 증가, 없을 경우 생성 후 가중치 증가
         prompt = Prompt.objects.filter(prompt=tk)
