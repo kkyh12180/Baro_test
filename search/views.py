@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.views.generic import ListView
 from django.utils import timezone
 
-from search.prompt_make import MakeImage
 from search.elastic import Query
 from search.models import *
 from images.models import *
