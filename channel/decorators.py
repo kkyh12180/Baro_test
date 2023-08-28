@@ -16,6 +16,8 @@ def channel_get_required(func):
         image_post = ChannelPost.objects.get(pk=kwargs['pk'])
         user = request.user
         uploader = image_post.user
+        if user==uploader:
+            return func(request,*args, **kwargs)
         if image_post.subscribe_only :
             if not SubscribeUploader.objects.filter(user=user,uploader=uploader):
                 return HttpResponseForbidden()
