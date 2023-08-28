@@ -11,17 +11,17 @@ import string
 import random
 import re
 
-#유저의 검색했던 로그를 15개 보여주기
+#유저의 검색했던 로그를 5개, 랭크 10개 보여주기
 class LogListView(ListView):
     template_name = 'search/main.html'
     context_object_name = 'log_list'
 
-    # 유저의 검색 로그를 시간 순으로 15개 가져오기
+    # 유저의 검색 로그를 시간 순으로 5개 가져오기
     def get_queryset(self):
         user_pk = self.request.user.pk
         return Prompt_log.objects.filter(user_id=user_pk).order_by('-created_at')[:5]
     
-    #메인에 랭크 포함
+    #랭크 10개 가져오기
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["prompt_rank"] = Prompt_rank.objects.filter(rank__lte=10)
