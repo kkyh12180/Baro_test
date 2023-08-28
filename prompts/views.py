@@ -18,10 +18,9 @@ class PromptDetailView(ListView):
         # Perform the search using query_maker
         query = Query()  # Create an instance of the Query class
         prompt_id = self.kwargs['pk']
-        prompt = Prompt.objects.get(pk=prompt_id)
         positive = self.kwargs['positive']
 
-        data_list = query.search_to_tag(prompt.prompt, positive)
+        data_list = query.search_to_tag(prompt_id, positive)
         return data_list
     
     def get_context_data(self, **kwargs):
