@@ -81,7 +81,7 @@ class FollowingListView(ListView):
         except:
             user_adult=False
         
-        #팔로운한 사람의 구독자 전용 이미지 가져오기
+        #팔로우한 사람의 구독자 전용 이미지 가져오기
         writes = FollowUploader.objects.filter(user=user).values_list('uploader')
         subscribed_posts = ImagePost.objects.filter(user__in=writes,subscribe_only=False)
         
