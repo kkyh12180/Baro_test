@@ -396,7 +396,7 @@ class ImagePostUpdateView(UpdateView) :
     def get_success_url(self) :
         return reverse('images:detail', kwargs={'pk': self.object.pk})
 
-#게시글에 좋아요를 할  수 있다. 이미 좋아요 상태이면 해제가 된다.
+#게시글에 좋아요를 할 수 있다. 이미 좋아요 상태이면 해제가 된다.
 class ImagePostLikeView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
@@ -417,7 +417,7 @@ class ImagePostLikeView(RedirectView) :
 
         return super(ImagePostLikeView, self).get(request, *args, **kwargs)
 
-#게시글에 북마크를 할  수 있다. 이미 북마크 상태이면 해제가 된다.
+#게시글에 북마크를 할 수 있다. 이미 북마크 상태이면 해제가 된다.
 class ImagePostBookmarkView(RedirectView) :
     def get_redirect_url(self, *args, **kwargs) :
         return reverse('images:detail', kwargs={'pk': self.request.GET.get('image_post_pk')})
