@@ -42,44 +42,44 @@
                             {% if prompt.is_positive %}
                                 <p id="prompts">
                                     prompts: {{ prompt.prompt }}
-                                    &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ prompt.prompt }}">복사</btn>
+                                    &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ prompt.prompt }}">복사</btn>
                                 </p>
 
                             {% else %}
                                 <p id="negative_prompts">
                                     negative prompts: {{ prompt.prompt }}
-                                    &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ prompt.prompt }}">복사</btn>
+                                    &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ prompt.prompt }}">복사</btn>
                                 </p>
                             {% endif %}
                             {% endfor %}
                             <p id="seed">
                                 seed: {{image.seed}}
-                                &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ image.seed }}">복사</btn>
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.seed }}">복사</btn>
                             </p>
                             <p id="steps">
                                 steps: {{image.steps}}
-                                &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ image.steps }}">복사</btn>
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.steps }}">복사</btn>
                             </p>
                             <p id="sampler">
                                 sampler: {{image.sampler}}
-                                &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ image.sampler }}">복사</btn>
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.sampler }}">복사</btn>
                             </p>
                             <p id="cfg_scale">
                                 cfg scale: {{image.cfg_scale}}
-                                &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ image.cfg_scale }}">복사</btn>
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.cfg_scale }}">복사</btn>
                             </p>
                             <p id="model_hash">
                                 model hash: {{image.model_hash}}
-                                &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ image.model_hash }}">복사</btn>
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.model_hash }}">복사</btn>
                             </p>
                             <p id="clip_skip">
                                 clip skip: {{image.clip_skip}}
-                                &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ image.clip_skip }}">복사</btn>
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.clip_skip }}">복사</btn>
                             </p>
                             <p id="denoising strength">
                                 denoising strength:
                                 {{image.denoising_strength}}
-                                &nbsp;<btn class="btn btn-outline-light" data-clipboard-text="{{ image.denoising_strength }}">복사</btn>
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.denoising_strength }}">복사</btn>
                             </p>
                             {% if target_post.user == user%}
                             <a
@@ -274,6 +274,13 @@
         for (exifDiv of exifDivs) {
             if (exifDiv.style.display === "none")
                 exifDiv.style.setProperty("display", "block", "important");
+        }
+    }
+
+    function maintain_state() {
+        const exifDivs = document.getElementsByName("exifBox");
+        for (exifDiv of exifDivs) {
+            exifDiv.style.setProperty("display", "block", "important");
         }
     }
 
