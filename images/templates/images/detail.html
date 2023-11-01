@@ -40,20 +40,46 @@
                         <div class="align-middle">
                             {% for prompt in image.prompt.all %}
                             {% if prompt.is_positive %}
-                                <p>prompts: {{ prompt.prompt }}</p>
+                                <p id="prompts">
+                                    prompts: {{ prompt.prompt }}
+                                    &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ prompt.prompt }}">복사</btn>
+                                </p>
+
                             {% else %}
-                                <p>negative prompts: {{ prompt.prompt }}</p>
+                                <p id="negative_prompts">
+                                    negative prompts: {{ prompt.prompt }}
+                                    &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ prompt.prompt }}">복사</btn>
+                                </p>
                             {% endif %}
                             {% endfor %}
-                            <p>seed: {{image.seed}}</p>
-                            <p>steps: {{image.steps}}</p>
-                            <p>sampler: {{image.sampler}}</p>
-                            <p>cfg scale: {{image.cfg_scale}}</p>
-                            <p>model hash: {{image.model_hash}}</p>
-                            <p>clip skip: {{image.clip_skip}}</p>
-                            <p>
+                            <p id="seed">
+                                seed: {{image.seed}}
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.seed }}">복사</btn>
+                            </p>
+                            <p id="steps">
+                                steps: {{image.steps}}
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.steps }}">복사</btn>
+                            </p>
+                            <p id="sampler">
+                                sampler: {{image.sampler}}
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.sampler }}">복사</btn>
+                            </p>
+                            <p id="cfg_scale">
+                                cfg scale: {{image.cfg_scale}}
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.cfg_scale }}">복사</btn>
+                            </p>
+                            <p id="model_hash">
+                                model hash: {{image.model_hash}}
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.model_hash }}">복사</btn>
+                            </p>
+                            <p id="clip_skip">
+                                clip skip: {{image.clip_skip}}
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.clip_skip }}">복사</btn>
+                            </p>
+                            <p id="denoising strength">
                                 denoising strength:
                                 {{image.denoising_strength}}
+                                &nbsp;<btn class="btn btn-outline-light" onclick="maintain_state()" data-clipboard-text="{{ image.denoising_strength }}">복사</btn>
                             </p>
                             {% if target_post.user == user%}
                             <a
@@ -250,5 +276,24 @@
                 exifDiv.style.setProperty("display", "block", "important");
         }
     }
+
+    function maintain_state() {
+        const exifDivs = document.getElementsByName("exifBox");
+        for (exifDiv of exifDivs) {
+            exifDiv.style.setProperty("display", "block", "important");
+        }
+    }
+
+    var clipboard = new ClipboardJS('.btn');
+      
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+      
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+
+    
 </script>
 {% endblock %}
