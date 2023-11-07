@@ -11,4 +11,5 @@ urlpatterns = [
     path('follow',FollowView.as_view(), name='follow'),
     path('following/',FollowingListView.as_view(), name='following'),
     path('bookmarked/',BookmarkedListView.as_view(), name='bookmarked'),
+    path('recommend/',PromptRecommendView.as_view(),name='recommend'),
 ]

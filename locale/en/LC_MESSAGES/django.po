@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-25 07:58+0000\n"
+"POT-Creation-Date: 2023-11-07 05:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,6 +96,7 @@ msgstr ""
 
 #: accounts/templates/account/mypage.html:111
 #: follows/templates/follows/bookmark.html:30
+#: follows/templates/follows/recommend.html:30
 #: prompts/templates/prompts/bookmark.html:13 templates/header.html:23
 msgid "Images"
 msgstr ""
@@ -117,7 +118,7 @@ msgid "Write your e-mail"
 msgstr ""
 
 #: accounts/templates/account/password_reset.html:13
-#: images/templates/images/detail.html:95
+#: images/templates/images/detail.html:121
 msgid "Next"
 msgstr ""
 
@@ -171,16 +172,16 @@ msgstr ""
 #: channel/templates/channel/detail.html:67
 #: comments/templates/comments/detail.html:21
 #: comments/templates/comments/detail.html:55
-#: images/templates/images/detail.html:121
-#: images/templates/images/detail.html:162 posts/templates/posts/detail.html:39
+#: images/templates/images/detail.html:147
+#: images/templates/images/detail.html:188 posts/templates/posts/detail.html:39
 #: posts/templates/posts/detail.html:78
 msgid "좋아요"
 msgstr "Like"
 
 #: channel/templates/channel/detail.html:45
 #: channel/templates/channel/update.html:17
-#: images/templates/images/detail.html:64
-#: images/templates/images/detail.html:127
+#: images/templates/images/detail.html:90
+#: images/templates/images/detail.html:153
 #: images/templates/images/update.html:9
 #: posts/templates/posts/announce_update.html:17
 #: posts/templates/posts/detail.html:49 posts/templates/posts/detail.html:57
@@ -193,9 +194,9 @@ msgstr ""
 #: comments/templates/comments/detail.html:31
 #: comments/templates/comments/detail.html:66
 #: comments/templates/comments/detail.html:75
-#: images/templates/images/detail.html:132
-#: images/templates/images/detail.html:221
-#: images/templates/images/detail.html:230 posts/templates/posts/detail.html:69
+#: images/templates/images/detail.html:158
+#: images/templates/images/detail.html:247
+#: images/templates/images/detail.html:256 posts/templates/posts/detail.html:69
 #: posts/templates/posts/detail.html:119
 #: projects/templates/projects/list.html:53
 #: projects/templates/projects/list.html:68 search/templates/search/log.html:14
@@ -204,12 +205,12 @@ msgstr ""
 
 #: channel/templates/channel/detail.html:77
 #: comments/templates/comments/detail.html:44
-#: images/templates/images/detail.html:172 posts/templates/posts/detail.html:88
+#: images/templates/images/detail.html:198 posts/templates/posts/detail.html:88
 msgid "좋아요 해제"
 msgstr "Unlike"
 
 #: channel/templates/channel/detail.html:105
-#: images/templates/images/detail.html:225
+#: images/templates/images/detail.html:251
 #: posts/templates/posts/detail.html:114
 msgid "게시글을 삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
@@ -223,15 +224,35 @@ msgid "삭제하시겠습니까?"
 msgstr "Are you sure you want to delete it?"
 
 #: follows/templates/follows/bookmark.html:33
+#: follows/templates/follows/recommend.html:33
 #: prompts/templates/prompts/bookmark.html:16
 #: prompts/templates/prompts/list.html:13
 msgid "Positive"
 msgstr ""
 
 #: follows/templates/follows/bookmark.html:36
+#: follows/templates/follows/recommend.html:36
 #: prompts/templates/prompts/bookmark.html:19
 #: prompts/templates/prompts/list.html:16
 msgid "Negative"
+msgstr ""
+
+#: follows/templates/follows/bookmark.html:39
+#: follows/templates/follows/recommend.html:39
+#: prompts/templates/prompts/bookmark.html:22
+msgid "Recommend"
+msgstr ""
+
+#: follows/templates/follows/recommend.html:48
+msgid "Similar"
+msgstr ""
+
+#: follows/templates/follows/recommend.html:49
+msgid "Conflict"
+msgstr ""
+
+#: follows/templates/follows/recommend.html:65
+msgid "No Recommend Yet."
 msgstr ""
 
 #: images/templates/images/create.html:8
@@ -239,39 +260,38 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: images/templates/images/detail.html:83
+#: images/templates/images/detail.html:109
 msgid "Previous"
 msgstr ""
 
-#: images/templates/images/detail.html:141
+#: images/templates/images/detail.html:167
 #: prompts/templates/prompts/list.html:38 templates/header.html:40
 msgid "Bookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:150
-#: prompts/templates/prompts/bookmark.html:34
+#: images/templates/images/detail.html:176
+#: prompts/templates/prompts/bookmark.html:37
 #: prompts/templates/prompts/list.html:34
 msgid "Unbookmark"
 msgstr ""
 
-#: images/templates/images/detail.html:185
+#: images/templates/images/detail.html:211
 msgid "구독자 전용 해제"
 msgstr "For all memeber"
 
-#: images/templates/images/detail.html:187
+#: images/templates/images/detail.html:213
 msgid "구독자 전용 설정"
 msgstr "For subscriber"
 
-#: images/templates/images/detail.html:196
+#: images/templates/images/detail.html:222
 msgid "성인 전용 해제"
 msgstr "For all age"
 
-#: images/templates/images/detail.html:198
+#: images/templates/images/detail.html:224
 msgid "성인 전용 설정"
 msgstr "For adult"
 
 #: images/templates/images/list.html:43 images/templates/images/list.html:81
-#: search/templates/search/chat.html:17 search/templates/search/main.html:23
 #: search/templates/search/main.html:61 search/templates/search/result.html:41
 #: search/templates/search/result.html:79
 msgid "Search"
@@ -311,7 +331,7 @@ msgstr ""
 msgid "삭제할 게시판을 선택해주세요."
 msgstr "Please select the bulletin board you want to delete."
 
-#: prompts/templates/prompts/bookmark.html:44
+#: prompts/templates/prompts/bookmark.html:47
 #: prompts/templates/prompts/list.html:50
 msgid "No Prompt Yet."
 msgstr ""

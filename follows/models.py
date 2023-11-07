@@ -45,3 +45,11 @@ class BookmarkPrompt(models.Model):
 
     class Meta:
         db_table = 'bookmark_prompt'
+
+class PromptRecommend(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='prompt_recommend')
+    similar_prompt = models.TextField(blank=True, null=True)
+    conflict_prompt = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'prompt_recommend'
