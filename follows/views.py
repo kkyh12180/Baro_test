@@ -120,13 +120,3 @@ class BookmarkedListView(ListView):
             post for post in bookmarked_image_posts if post.adult == user_adult or not post.adult
         ]
         return bookmark_list
-    
-class PromptRecommendView(ListView):
-    model = PromptRecommend
-    context_object_name = "recommend_list"
-    template_name = "follows/recommend.html"
-
-    def get_queryset(self):
-        user = self.request.user
-        recommend_list = PromptRecommend.objects.filter(user=user)
-        return recommend_list
