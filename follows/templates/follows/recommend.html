@@ -27,7 +27,7 @@
     <nav style="margin-bottom: 2rem;">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a href={% url 'follows:bookmarked' %}>
-                <button class="nav-link active" id="nav-image-tab" type="button" role="tab" aria-controls="nav-image" aria-selected="true">{{_('Images')}}</button>
+                <button class="nav-link" id="nav-image-tab" type="button" role="tab" aria-controls="nav-image" aria-selected="false">{{_('Images')}}</button>
             </a>
             <a href={% url 'prompts:bookmarked' positive='prompt' %}>
                 <button class="nav-link" id="nav-positive-tab" type="button" role="tab" aria-controls="nav-positive" aria-selected="false">{{_('Positive')}}</button>
@@ -36,11 +36,34 @@
                 <button class="nav-link" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="false">{{_('Negative')}}</button>
             </a>
             <a href={% url 'follows:recommend'%}>
-                <button class="nav-link" id="nav-recommend-tab" type="button" role="tab" aria-controls="nav-recommend" aria-selected="false">{{_('Recommend')}}</button>
+                <button class="nav-link active" id="nav-recommend-tab" type="button" role="tab" aria-controls="nav-recommend" aria-selected="true">{{_('Recommend')}}</button>
             </a>
         </div>
     </nav>
-{% include 'snippets/images_fragment.html' with image_post_list=bookmark_list%}
-{% include 'snippets/pagination.html' with page_obj=page_obj %}
+{% if recommend_list %}
+    <div class="container">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th class="prompt" scope="col">{{_('Similar')}}</th>
+                    <th class="negative" scope="col">{{_('Conflict')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recommend in recommend_list%}
+                <tr id="log-tr-{{log.pk}}" class="tr-class">
+                    <td class="prompt tr-prompt">{{recommend.similar_prompt}}</td>
+                    <td class="negative tr-negative">{{recommend.conflict_prompt}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/magicgrid.js' %}"></script>
+{% else %}
+    <div style="text-align: center;">
+        <h1>{{_('No Recommend Yet.')}}</h1>
+    </div>
+{% endif %}
 </div>
 {% endblock  %}
