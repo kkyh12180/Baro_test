@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView, RedirectView
 
 from search.elastic import Query
 from search.models import Prompt
-from follows.models import BookmarkPrompt
+from follows.models import BookmarkPrompt, PromptRecommend
 
 # Create your views here.
 class PromptDetailView(ListView):
@@ -109,3 +109,13 @@ class PromptBookmarkView(RedirectView) :
             BookmarkPrompt(user=user, prompt=prompt, is_positive=positive).save()
 
         return super(PromptBookmarkView, self).get(request, *args, **kwargs)
+    
+class PromptRecommendView(ListView):
+    model = PromptRecommend
+    context_object_name = "recommend_list"
+    template_name = "follows/recommend.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        recommend_list = PromptRecommend.objects.filter(user=user)
+        return recommend_list

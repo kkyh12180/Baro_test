@@ -9,4 +9,5 @@ urlpatterns = [
     path('detail/<str:pk>/<str:positive>',PromptDetailView.as_view(), name='detail'),
     path('bookmark/', PromptBookmarkView.as_view(), name='bookmark'),
     path('bookmarked/<str:positive>', BookmarkedPromptListView.as_view(), name='bookmarked'),
+    path('recommend/',PromptRecommendView.as_view(),name='recommend'),
 ]
