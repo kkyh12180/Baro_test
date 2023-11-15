@@ -18,7 +18,7 @@
             <a href={% url 'prompts:bookmarked' positive='negative_prompt' %}>
                 <button class="nav-link {% if positive == 'negative_prompt' %}active{% endif %}" id="nav-negative-tab" type="button" role="tab" aria-controls="nav-negative" aria-selected="{% if positive == 'negative_prompt' %}true{% else %}false{% endif %}">{{_('Negative')}}</button>
             </a>
-            <a href={% url 'prompts:recommend'%}>
+            <a href={% url 'prompts:recommend_list'%}>
                 <button class="nav-link" id="nav-recommend-tab" type="button" role="tab" aria-controls="nav-recommend" aria-selected="false">{{_('Recommend')}}</button>
             </a>
         </div>
