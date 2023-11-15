@@ -5,8 +5,12 @@ from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView
 
 from search.elastic import Query
-from search.models import Prompt
+from search.models import Prompt, Prompt_log, Prompt_rank
 from follows.models import BookmarkPrompt, PromptRecommend
+from search.pocket import pocket
+
+import openai
+import re
 
 # Create your views here.
 class PromptDetailView(ListView):
@@ -113,9 +117,80 @@ class PromptBookmarkView(RedirectView) :
 class PromptRecommendView(ListView):
     model = PromptRecommend
     context_object_name = "recommend_list"
-    template_name = "follows/recommend.html"
+    template_name = "prompts/recommend.html"
 
     def get_queryset(self):
         user = self.request.user
-        recommend_list = PromptRecommend.objects.filter(user=user)
+        recommend_list = PromptRecommend.objects.filter(user=user).order_by('-id')
         return recommend_list
+
+class RecommendView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('prompts:recommend_list')
+    
+    def get(self,request,*args,**kwargs):
+        user=self.request.user
+        try :
+            similar_prompt, conflict_prompt = make_similar_conflict_prompt(user.pk)
+            
+            PromptRecommend(user=user,similar_prompt=similar_prompt,conflict_prompt=conflict_prompt).save()
+        except :
+            print("error")
+        return super(RecommendView,self).get(request,*args, **kwargs)
+    
+def make_similar_conflict_prompt(user_pk):
+    user_log = Prompt_log.objects.filter(user_id=user_pk).order_by('?')[:8]
+
+    # 로그 문자열들을 모은 리스트
+    log_strings = [log.prompt for log in user_log]
+    # 각 로그 문자열을 단어로 분리하고 쉼표로 조인하여 하나의 문자열로 만듦
+    user_string = ','.join(' '.join(log.split()) for log in log_strings)
+
+    openai.api_key = pocket().api_key
+
+    query_set = Prompt_rank.objects.order_by('?')[:10]
+
+    # 가져온 결과에서 prompt 필드만 추출
+    prompt_list = list(query_set.values_list('prompt', flat=True))
+    prompt_string = ','.join(' '.join(log.split()) for log in prompt_list)
+
+    user_input = "("+user_string+")와 ("+prompt_string+")를 참고하여 비슷한 10개의 키워드만 한 줄로 작성해줘"
+    messages=[
+            {"role":"user","content":f"{user_input}"}
+        ]
+    response = openai.ChatCompletion.create(
+        model = "gpt-3.5-turbo",
+        messages=messages
+    )
+    # ChatGPT 응답을 대화 내역에 추가
+    similar_prompt = response.choices[0].message.content
+    similar_prompt = rewrite(similar_prompt)
+
+    user_input = "("+user_string+")와 ("+prompt_string+")를 참고하여 반대의 키워드만 한 줄로 작성해줘"
+    messages=[
+            {"role":"user","content":f"{user_input}"}
+        ]
+    response = openai.ChatCompletion.create(
+        model = "gpt-3.5-turbo",
+        messages=messages
+    )
+    # ChatGPT 응답을 대화 내역에 추가
+    conflict_prompt = response.choices[0].message.content
+    conflict_prompt = rewrite(conflict_prompt)
+    
+    return similar_prompt, conflict_prompt
+
+def rewrite(message):
+    # 콜론(:) 이전의 부분을 선택
+    keywords_part = message.split(":")[0]
+
+    # 선택한 부분을 소문자로 변환
+    lowercase_keywords_part = keywords_part.lower()
+
+    # 소문자로 변환된 부분에서 숫자를 제거하고 단어만 추출
+    words = re.findall(r'\b\w+\b', lowercase_keywords_part)
+
+    # 단어들을 쉼표로 이어진 문자열로 변환
+    result_string = ', '.join(words)
+
+    return result_string
