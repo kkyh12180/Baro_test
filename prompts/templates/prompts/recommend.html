@@ -2,25 +2,8 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/follows/follow_list.css' %}">
+
 {% endblock %}
-
-<style>
-    .container div {
-        width: 250px;
-        height: auto;
-        border-radius: 1rem;
-        background-color: antiquewhite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container img {
-        width: 100%;
-        border-radius: 1rem;
-    }
-</style>
 
 {% block content %}
 <div class="container-sm">
@@ -40,35 +23,34 @@
             </a>
         </div>
     </nav>
-    <a href="{% url 'prompts:recommend' %}">
-        <button class="btn btn-outline-dark detail-button">
-            {{_('새로 고침')}}
-        </button>
-    </a>
-{% if recommend_list %}
     <div class="container">
-        <table class="table">
-            <thead class="table-dark">
-                <tr>
-                    <th class="prompt" scope="col">{{_('Similar')}}</th>
-                    <th class="negative" scope="col">{{_('Conflict')}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for recommend in recommend_list%}
-                <tr id="log-tr-{{log.pk}}" class="tr-class">
-                    <td class="prompt tr-prompt">{{recommend.similar_prompt}}</td>
-                    <td class="negative tr-negative">{{recommend.conflict_prompt}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <a href="{% url 'prompts:recommend' %}">
+            <button class="btn btn-outline-dark detail-button">
+                {{_('새로 고침')}}
+            </button>
+        </a><br>
+        {% if recommend_list %}
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="prompt" scope="col">{{_('Similar')}}</th>
+                        <th class="negative" scope="col">{{_('Conflict')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recommend in recommend_list%}
+                    <tr id="log-tr-{{log.pk}}" class="tr-class">
+                        <td class="prompt tr-prompt">{{recommend.similar_prompt}}</td>
+                        <td class="negative tr-negative">{{recommend.conflict_prompt}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div style="text-align: center;">
+                <h1>{{_('No Recommend Yet.')}}</h1>
+            </div>
+        {% endif %}
     </div>
-    <script src="{% static 'js/magicgrid.js' %}"></script>
-{% else %}
-    <div style="text-align: center;">
-        <h1>{{_('No Recommend Yet.')}}</h1>
-    </div>
-{% endif %}
 </div>
 {% endblock  %}
