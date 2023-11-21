@@ -154,7 +154,7 @@ def make_similar_conflict_prompt(user_pk):
     prompt_list = list(query_set.values_list('prompt', flat=True))
     prompt_string = ','.join(' '.join(log.split()) for log in prompt_list)
 
-    user_input = "("+user_string+")와 ("+prompt_string+")를 참고하여 비슷한 10개의 키워드만 한 줄로 작성해줘"
+    user_input = "("+user_string+")와 ("+prompt_string+")를 참고하여 비슷한 10개의 영어 키워드만 한 줄로 작성해줘"
     messages=[
             {"role":"user","content":f"{user_input}"}
         ]
@@ -166,7 +166,7 @@ def make_similar_conflict_prompt(user_pk):
     similar_prompt = response.choices[0].message.content
     similar_prompt = rewrite(similar_prompt)
 
-    user_input = "("+user_string+")와 ("+prompt_string+")를 참고하여 반대의 키워드만 한 줄로 작성해줘"
+    user_input = "("+user_string+")와 ("+prompt_string+")를 참고하여 반대의 영어 키워드만 한 줄로 작성해줘"
     messages=[
             {"role":"user","content":f"{user_input}"}
         ]
