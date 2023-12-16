@@ -134,8 +134,9 @@ class RecommendView(RedirectView):
             similar_prompt, conflict_prompt = make_similar_conflict_prompt(user.pk)
             
             PromptRecommend(user=user,similar_prompt=similar_prompt,conflict_prompt=conflict_prompt).save()
-        except :
+        except Exception as e :
             print("error")
+            print(e)
         return super(RecommendView,self).get(request,*args, **kwargs)
     
 def make_similar_conflict_prompt(user_pk):
